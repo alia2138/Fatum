@@ -1,0 +1,45 @@
+// Colors ------------------------------------------------------------------
+$color-bg:            #F5F6FB;
+$color-surface:       #FFFFFF;
+
+$color-text:          #14141F;
+$color-text-muted:    #6C7080;
+$color-text-faint:    #9497A8;
+
+$color-primary:       #4F46E5;
+$color-primary-dark:  #3F37C9;
+$color-primary-light: #EDECFC;
+
+$color-border:        #E3E5EF;
+$color-border-hover:  #C9CCDC;
+
+$color-error:         #E1483D;
+$color-error-bg:      #FDEDEC;
+
+$color-success:       #1FAB6E;
+$color-success-bg:    #E9F9F1;
+
+$color-warning:       #E3A21A;
+
+// Typography ----------------------------------------------------------------
+$font-display: 'Sora', 'Segoe UI', sans-serif;
+$font-body:    'Inter', 'Segoe UI', sans-serif;
+
+// Radius --------------------------------------------------------------------
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 20px;
+$radius-pill: 999px;
+
+// Shadows ---------------------------------------------------------------
+$shadow-card:  0 20px 60px -15px rgba(20, 20, 31, 0.15);
+$shadow-focus: 0 0 0 4px rgba(79, 70, 229, 0.15);
+$shadow-btn:   0 8px 20px -8px rgba(79, 70, 229, 0.55);
+
+// Transitions -----------------------------------------------------------
+$transition-fast: 0.15s ease;
+$transition-base: 0.25s ease;
+
+// Breakpoints -------------------------------------------------------------
+$bp-mobile: 480px;
+$bp-tablet: 768px;

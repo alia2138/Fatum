@@ -1,0 +1,67 @@
+@use '../utils' as *;
+
+.auth-card {
+  position: relative;
+  width: 100%;
+  max-width: rem(420);
+  padding: rem(40) rem(36);
+  background-color: $color-surface;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+
+  @include breakpoint-down($bp-mobile) {
+    padding: rem(28) rem(20);
+    border-radius: $radius-md;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: rem(4);
+    background: linear-gradient(90deg, $color-primary, #8B7EF0);
+  }
+
+  &__logo {
+    @include flex-center;
+    width: rem(44);
+    height: rem(44);
+    margin-bottom: rem(20);
+    border-radius: $radius-sm;
+    background-color: $color-primary-light;
+  }
+
+  &__title {
+    margin-bottom: rem(6);
+  }
+
+  &__subtitle {
+    margin-bottom: rem(28);
+    color: $color-text-muted;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: rem(18);
+  }
+
+  &__footer {
+    margin-top: rem(24);
+    text-align: center;
+    font-size: rem(13.5);
+    color: $color-text-muted;
+  }
+
+  &__link {
+    color: $color-primary;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

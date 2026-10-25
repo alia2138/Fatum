@@ -1,0 +1,102 @@
+@use '../utils' as *;
+
+.input {
+  position: relative;
+
+  &__field {
+    @include transition(border-color, box-shadow);
+    @include focus-ring;
+
+    width: 100%;
+    height: rem(52);
+    padding: rem(20) rem(16) rem(6);
+    background-color: $color-surface;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    font-size: rem(15);
+    color: $color-text;
+
+    &::placeholder {
+      color: transparent;
+    }
+
+    &:hover {
+      border-color: $color-border-hover;
+    }
+
+    &:focus {
+      border-color: $color-primary;
+    }
+  }
+
+  &__label {
+    @include transition(top, font-size, color);
+
+    position: absolute;
+    left: rem(16);
+    top: rem(26);
+    transform: translateY(-50%);
+    font-size: rem(15);
+    color: $color-text-faint;
+    pointer-events: none;
+  }
+
+  &__field:focus + &__label,
+  &__field:not(:placeholder-shown) + &__label {
+    top: rem(14);
+    font-size: rem(12);
+    color: $color-text-muted;
+  }
+
+  &__field:focus + &__label {
+    color: $color-primary;
+  }
+
+  &__toggle {
+    @include flex-center;
+    @include transition(color);
+
+    position: absolute;
+    right: rem(14);
+    top: rem(26);
+    transform: translateY(-50%);
+    width: rem(20);
+    height: rem(20);
+    color: $color-text-faint;
+
+    &:hover {
+      color: $color-text-muted;
+    }
+  }
+
+  &__hint {
+    display: block;
+    margin-top: rem(6);
+    font-size: rem(12.5);
+    color: $color-text-muted;
+  }
+
+  &--error {
+    .input__field {
+      border-color: $color-error;
+    }
+
+    .input__label {
+      color: $color-error;
+    }
+
+    .input__hint {
+      color: $color-error;
+    }
+  }
+
+  &--success {
+    .input__field {
+      border-color: $color-success;
+    }
+  }
+
+  &--with-toggle .input__field {
+    padding-right: rem(44);
+  }
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реєстрація</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div class="auth-layout">
+    <div class="auth-layout__content">
+        <div class="auth-card">
+
+            <div class="auth-card__logo"><!-- іконка/лого --></div>
+            <h1 class="auth-card__title">Створити акаунт</h1>
+            <p class="auth-card__subtitle">Заповніть форму, щоб почати роботу</p>
+
+            <form class="form" novalidate>
+                <div class="form__group">
+                    <div class="input">
+                        <input class="input__field" type="text" id="name" placeholder=" " required>
+                        <label class="input__label" for="name">Ім'я</label>
+                    </div>
+                </div>
+
+                <div class="form__group">
+                    <div class="input">
+                        <input class="input__field" type="email" id="email" placeholder=" " required>
+                        <label class="input__label" for="email">Email</label>
+                    </div>
+                </div>
+
+                <div class="form__group">
+                    <div class="input input--with-toggle">
+                        <input class="input__field" type="password" id="password" placeholder=" " required>
+                        <label class="input__label" for="password">Пароль</label>
+                        <button type="button" class="input__toggle" aria-label="Показати пароль">
+                            <svg width="20" height="20"><!-- eye icon --></svg>
+                        </button>
+                    </div>
+
+                    <div class="password-strength">
+                        <div class="password-strength__bar">
+                            <span class="password-strength__segment"></span>
+                            <span class="password-strength__segment"></span>
+                            <span class="password-strength__segment"></span>
+                            <span class="password-strength__segment"></span>
+                        </div>
+                        <span class="password-strength__label">Введіть пароль</span>
+                    </div>
+                </div>
+
+                <div class="form__group">
+                    <div class="input">
+                        <input class="input__field" type="password" id="password-confirm" placeholder=" " required>
+                        <label class="input__label" for="password-confirm">Підтвердіть пароль</label>
+                    </div>
+                </div>
+
+                <label class="checkbox">
+                    <input class="checkbox__input" type="checkbox" required>
+                    <span class="checkbox__label">
+              Я погоджуюсь з <a href="#" class="checkbox__link">умовами використання</a>
+            </span>
+                </label>
+
+                <button type="submit" class="button button--primary">
+                    <span class="button__label">Зареєструватися</span>
+                    <span class="button__spinner loader"><span class="loader__spinner"></span></span>
+                </button>
+            </form>
+
+            <div class="divider">
+                <span class="divider__line"></span>
+                <span>або</span>
+                <span class="divider__line"></span>
+            </div>
+
+            <div class="social-buttons">
+                <div class="social-buttons__item">
+                    <button class="button button--social">
+                        <svg class="button__icon"><!-- google icon --></svg>
+                        Google
+                    </button>
+                </div>
+                <div class="social-buttons__item">
+                    <button class="button button--social">
+                        <svg class="button__icon"><!-- github icon --></svg>
+                        GitHub
+                    </button>
+                </div>
+            </div>
+
+            <p class="auth-card__footer">
+                Вже є акаунт? <a href="signin.html" class="auth-card__link">Увійти</a>
+            </p>
+
+        </div>
+    </div>
+</div>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

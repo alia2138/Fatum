@@ -1,0 +1,40 @@
+@use '../utils' as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+
+  &__row {
+    display: flex;
+    gap: rem(12);
+
+    @include breakpoint-down($bp-mobile) {
+      flex-direction: column;
+    }
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  &__meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: rem(12);
+  }
+
+  &__forgot-link {
+    flex-shrink: 0;
+    font-size: rem(13.5);
+    font-weight: 600;
+    color: $color-primary;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

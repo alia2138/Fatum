@@ -1,0 +1,28 @@
+@use '../utils' as *;
+
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: rem(10);
+  padding: rem(12) rem(14);
+  border-radius: $radius-sm;
+  font-size: rem(13.5);
+  line-height: 1.4;
+
+  &__icon {
+    flex-shrink: 0;
+    width: rem(18);
+    height: rem(18);
+    margin-top: rem(1);
+  }
+
+  &--error {
+    background-color: $color-error-bg;
+    color: $color-error;
+  }
+
+  &--success {
+    background-color: $color-success-bg;
+    color: $color-success;
+  }
+}
