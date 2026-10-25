@@ -81,6 +81,10 @@ public class TarotService : ITarotService
         return Result.Success(ToDetail(reading));
     }
 
+    /// <summary>
+    /// Додаткове питання: витягуємо 1–3 нові карти (без повторів). Модель отримує передісторію,
+    /// головне питання, усю попередню розмову і нові карти.
+    /// </summary>
     public async Task<Result<ReadingDetailDto>> AskAsync(string userId, string readingId, AskRequest request, CancellationToken cancellationToken = default)
     {
         var reading = await _readings.GetOwnedAsync(readingId, userId, cancellationToken);
@@ -93,8 +97,10 @@ public class TarotService : ITarotService
             return Result.Failure<ReadingDetailDto>(error);
 
         var spread = TopicCatalog.Get(reading.Topic);
+        var round = reading.Cards.Max(c => c.Round) + 1;
+        var newCards = _draw.DrawFollowUp(reading.Cards.Select(c => c.CardId), round);
 
-        // Уся попередня розмова передається моделі, щоб відповідь була зв'язаною
+        // Уся попередня розмова: головне питання, відповіді, попередні уточнення з відповідями
         var history = reading.Messages
             .Select(m => new ChatTurn(m.Role == MessageRole.User ? "user" : "assistant", m.Text))
             .ToList();
@@ -104,12 +110,12 @@ public class TarotService : ITarotService
                 spread.Title,
                 reading.Background,
                 reading.Question,
-                ToInterpreted(reading.Cards),
+                ToInterpreted(newCards),
                 FollowUp: text,
                 History: history),
             cancellationToken);
 
-        // Карти не перетасовуються: додаткове питання продовжує той самий розклад
+        reading.Cards.AddRange(newCards);
         reading.AddMessage(MessageRole.User, text);
         reading.AddMessage(MessageRole.Assistant, result.Text, result.Provider);
 
@@ -186,7 +192,8 @@ public class TarotService : ITarotService
                     card.Name,
                     card.ArcanaType,
                     c.IsReversed,
-                    card.GetMeaning(c.IsReversed));
+                    card.GetMeaning(c.IsReversed),
+                    c.Round);
             })
             .ToList();
 

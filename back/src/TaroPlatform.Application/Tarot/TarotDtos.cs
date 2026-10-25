@@ -17,13 +17,15 @@ public record ReadingSummaryDto(
     DateTime CreatedAt,
     int CardsCount);
 
+/// <summary>Round: 0 — карта першого розкладу, 1+ — карта додаткового питання.</summary>
 public record DrawnCardDto(
     int Position,
     string PositionName,
     string CardName,
     string ArcanaType,
     bool IsReversed,
-    string Meaning);
+    string Meaning,
+    int Round);
 
 public record MessageDto(string Role, string Text, string Provider, DateTime CreatedAt);
 

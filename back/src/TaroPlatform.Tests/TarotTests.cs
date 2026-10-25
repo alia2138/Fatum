@@ -81,7 +81,8 @@ public class TarotTests
 
         Assert.True(asked.IsSuccess);
         Assert.Equal(4, asked.Value.Messages.Count);
-        Assert.Equal(3, asked.Value.Cards.Count);
+        Assert.InRange(asked.Value.Cards.Count, 4, 6);
+        Assert.Contains(asked.Value.Cards, c => c.Round == 1);
         Assert.True(stranger.IsFailure);
     }
 
@@ -125,6 +126,19 @@ public class TarotTests
         Assert.Equal("user", messages[^1].Role);
         Assert.Equal("Коли це станеться?", messages[^1].Text);
         Assert.Contains(messages, m => m.Text == "Відповідь першого кола.");
+    }
+
+    [Fact]
+    public void FollowUp_DrawsOneToThreeCards_NotUsedBefore()
+    {
+        var draw = new CardDrawService(new SeededRandom());
+        var used = Enumerable.Range(0, 10).ToList();
+
+        var cards = draw.DrawFollowUp(used, 1);
+
+        Assert.InRange(cards.Count, 1, 3);
+        Assert.All(cards, c => Assert.Equal(1, c.Round));
+        Assert.DoesNotContain(cards, c => used.Contains(c.CardId));
     }
 
     private static TarotService CreateService(FakeTarotRepository repo) =>
