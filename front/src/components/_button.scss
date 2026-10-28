@@ -1,0 +1,40 @@
+@use "../utils/variables" as *;
+
+button.primary {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 3px;
+  padding: 10px 14px;
+
+  color: #fff;
+  background: linear-gradient(
+          120deg,
+          #65caff,
+          #398de0
+  );
+
+  border-radius: $radius-sm;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  box-shadow: 0 4px 12px rgba(65, 166, 220, 0.18);
+
+  transition:
+          transform $transition,
+          box-shadow $transition;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(65, 166, 220, 0.28);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Головна | TaroPlatform</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div id="app">
+    <aside id="sidebar">
+        <button type="button" id="new-chat">+ Новий чат</button>
+
+        <div class="sidebar-section" id="pinned-section" hidden>
+            <h4>Закріплено</h4>
+            <div id="pinned-list"></div>
+        </div>
+
+        <div class="sidebar-section">
+            <h4>Чати</h4>
+            <div id="recent-list"></div>
+        </div>
+    </aside>
+
+    <main id="content">
+        <section id="view-tarot">
+            <div id="tarot-root"></div>
+        </section>
+    </main>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/home.js"></script>
+<script src="../js/tarot.js"></script>
+</body>
+</html>

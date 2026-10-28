@@ -3,105 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Реєстрація</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Реєстрація | TaroPlatform</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+<main class="card">
+    <h1>Реєстрація</h1>
+    <p class="subtitle">Створіть акаунт, щоб почати</p>
 
-<div class="auth-layout">
-    <div class="auth-layout__content">
-        <div class="auth-card">
+    <form id="register-form">
+            Email
+            <input type="email" name="email" required autocomplete="email">
+        </label>
 
-            <div class="auth-card__logo"><!-- іконка/лого --></div>
-            <h1 class="auth-card__title">Створити акаунт</h1>
-            <p class="auth-card__subtitle">Заповніть форму, щоб почати роботу</p>
+        <div class="form-row">
+            <label>
+                Я хочу бути
+                <select name="role" id="role">
+                    <option value="Client">Клієнтом</option>
+                    <option value="Consultant">Тарологом</option>
+                </select>
+            </label>
 
-            <form class="form" novalidate>
-                <div class="form__group">
-                    <div class="input">
-                        <input class="input__field" type="text" id="name" placeholder=" " required>
-                        <label class="input__label" for="name">Ім'я</label>
-                    </div>
-                </div>
-
-                <div class="form__group">
-                    <div class="input">
-                        <input class="input__field" type="email" id="email" placeholder=" " required>
-                        <label class="input__label" for="email">Email</label>
-                    </div>
-                </div>
-
-                <div class="form__group">
-                    <div class="input input--with-toggle">
-                        <input class="input__field" type="password" id="password" placeholder=" " required>
-                        <label class="input__label" for="password">Пароль</label>
-                        <button type="button" class="input__toggle" aria-label="Показати пароль">
-                            <svg width="20" height="20"><!-- eye icon --></svg>
-                        </button>
-                    </div>
-
-                    <div class="password-strength">
-                        <div class="password-strength__bar">
-                            <span class="password-strength__segment"></span>
-                            <span class="password-strength__segment"></span>
-                            <span class="password-strength__segment"></span>
-                            <span class="password-strength__segment"></span>
-                        </div>
-                        <span class="password-strength__label">Введіть пароль</span>
-                    </div>
-                </div>
-
-                <div class="form__group">
-                    <div class="input">
-                        <input class="input__field" type="password" id="password-confirm" placeholder=" " required>
-                        <label class="input__label" for="password-confirm">Підтвердіть пароль</label>
-                    </div>
-                </div>
-
-                <label class="checkbox">
-                    <input class="checkbox__input" type="checkbox" required>
-                    <span class="checkbox__label">
-              Я погоджуюсь з <a href="#" class="checkbox__link">умовами використання</a>
-            </span>
-                </label>
-
-                <button type="submit" class="button button--primary">
-                    <span class="button__label">Зареєструватися</span>
-                    <span class="button__spinner loader"><span class="loader__spinner"></span></span>
-                </button>
-            </form>
-
-            <div class="divider">
-                <span class="divider__line"></span>
-                <span>або</span>
-                <span class="divider__line"></span>
-            </div>
-
-            <div class="social-buttons">
-                <div class="social-buttons__item">
-                    <button class="button button--social">
-                        <svg class="button__icon"><!-- google icon --></svg>
-                        Google
-                    </button>
-                </div>
-                <div class="social-buttons__item">
-                    <button class="button button--social">
-                        <svg class="button__icon"><!-- github icon --></svg>
-                        GitHub
-                    </button>
-                </div>
-            </div>
-
-            <p class="auth-card__footer">
-                Вже є акаунт? <a href="signin.html" class="auth-card__link">Увійти</a>
-            </p>
-
+            <label id="birth-date-field">
+                Дата народження
+                <input type="date" name="birthDate" autocomplete="bday">
+            </label>
         </div>
-    </div>
-</div>
 
-<script src="../js/main.js"></script>
+        <label>
+            Пароль
+            <input type="password" name="password" required minlength="6" autocomplete="new-password">
+        </label>
+
+        <label>
+            Повторіть пароль
+            <input type="password" name="confirmPassword" required minlength="6" autocomplete="new-password">
+        </label>
+
+        <p id="error" class="error"></p>
+
+        <button type="submit" id="submit" class="primary">Зареєструватися</button>
+    </form>
+
+    <div class="divider"><span>або</span></div>
+    <div id="social-buttons" class="social"></div>
+
+    <p class="switch">
+        Вже є акаунт? <a href="login.html">Увійти</a>
+    </p>
+</main>
+<script>
+    window.socialConfig = {
+        successType: "register",
+        getRole: () => document.getElementById("role").value,
+        getBirthDate: () => {
+            if (document.getElementById("role").value !== "Client") return null;
+            return document.querySelector('input[name="birthDate"]').value || null;
+        },
+        botName: "YOUR_BOT_USERNAME"
+    };
+</script>
+<script src="../js/social.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/register.js"></script>
 </body>
 </html>

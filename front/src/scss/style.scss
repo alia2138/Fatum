@@ -1,27 +1,28 @@
 @use "../utils/variables";
-@use "../utils/mixins";
 @use "../utils/functions";
+@use "../utils/mixins";
 @use "../utils/animations";
 
 @use "../base/reset";
-@use "../base/base";
 @use "../base/typography";
-@use "../layout/auth";
-@use "../layout/header";
-@use "../layout/footer";
+@use "../base/base";
 
+@use "../components/alert";
 @use "../components/button";
-@use "../components/input";
+@use "../components/card";
 @use "../components/checkbox";
 @use "../components/form";
-@use "../components/card";
-@use "../components/alert";
-@use "../components/modal";
+@use "../components/input";
 @use "../components/loader";
+@use "../components/modal";
 
-@use "../pages/signin";
-@use "../pages/register";
+@use "../layout/auth";
+@use "../layout/footer";
+@use "../layout/header";
+
 @use "../pages/forgot-password";
-@use "../pages/reset-password";
-@use "../pages/verify";
 @use "../pages/home";
+@use "../pages/register";
+@use "../pages/reset-password";
+@use "../pages/signin";
+@use "../pages/verify";

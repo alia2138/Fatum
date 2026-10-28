@@ -104,6 +104,12 @@ if (!string.IsNullOrWhiteSpace(githubId))
 
 builder.Services.AddAuthorization();
 
+// CORS: дозволяємо фронту (окремий origin) викликати API
+var allowedOrigins = builder.Configuration.GetSection("Frontend:AllowedOrigins").Get<string[]>()
+    ?? new[] { "http://localhost:63342" };
+builder.Services.AddCors(o => o.AddPolicy("Frontend", p =>
+    p.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod()));
+
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -115,6 +121,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();   // тестова сторінка для Telegram: wwwroot/telegram-login.html
+app.UseCors("Frontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

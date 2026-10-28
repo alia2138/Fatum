@@ -1,80 +1,30 @@
-@use '../utils' as *;
+@use "../utils/variables" as *;
 
-.password-strength {
-  display: flex;
-  flex-direction: column;
-  gap: rem(6);
-  margin-top: rem(2);
-
-  &__bar {
-    display: flex;
-    gap: rem(4);
-    height: rem(4);
+@media (max-width: 520px) {
+  body {
+    padding: 20px 14px;
   }
 
-  &__segment {
-    flex: 1;
-    border-radius: $radius-pill;
-    background-color: $color-border;
-    transition: background-color $transition-base;
-  }
+  .card {
+    padding: 28px 22px;
+    border-radius: 20px;
 
-  &__label {
-    font-size: rem(12.5);
-    color: $color-text-faint;
-  }
-
-  &--weak {
-    .password-strength__segment.is-active {
-      background-color: $color-error;
+    h1 {
+      font-size: 26px;
     }
 
-    .password-strength__label {
-      color: $color-error;
+    .subtitle {
+      margin-bottom: 24px;
     }
   }
 
-  &--medium {
-    .password-strength__segment.is-active {
-      background-color: $color-warning;
-    }
-
-    .password-strength__label {
-      color: $color-warning;
-    }
-  }
-
-  &--strong,
-  &--very-strong {
-    .password-strength__segment.is-active {
-      background-color: $color-success;
-    }
-
-    .password-strength__label {
-      color: $color-success;
-    }
+  form {
+    gap: 16px;
   }
 }
 
-.divider {
-  display: flex;
-  align-items: center;
-  gap: rem(12);
-  color: $color-text-faint;
-  font-size: rem(12.5);
-
-  &__line {
-    flex: 1;
-    height: 1px;
-    background-color: $color-border;
-  }
-}
-
-.social-buttons {
-  display: flex;
-  gap: rem(12);
-
-  &__item {
-    flex: 1;
+@media (max-width: 360px) {
+  .card {
+    padding: 24px 16px;
   }
 }

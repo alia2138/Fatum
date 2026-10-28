@@ -1,42 +1,18 @@
-@use '../utils' as *;
+@use "../utils/variables" as *;
 
-.auth-layout {
-  @include flex-center;
+.switch {
+  margin-top: 19px;
+  color: $color-text-muted;
+  font-size: 12px;
+  text-align: center;
 
-  position: relative;
-  min-height: 100vh;
-  padding: rem(24);
-  overflow: hidden;
-  background-color: $color-bg;
+  a {
+    color: #278fce;
+    font-weight: 700;
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    width: rem(420);
-    height: rem(420);
-    border-radius: 50%;
-    filter: blur(90px);
-    opacity: 0.35;
-    z-index: 0;
-  }
-
-  &::before {
-    top: rem(-120);
-    left: rem(-100);
-    background: $color-primary;
-  }
-
-  &::after {
-    bottom: rem(-140);
-    right: rem(-100);
-    background: #8B7EF0;
-  }
-
-  &__content {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    @include flex-center;
+    &:hover {
+      color: $color-secondary;
+      text-decoration: underline;
+    }
   }
 }

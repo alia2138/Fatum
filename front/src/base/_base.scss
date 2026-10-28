@@ -1,0 +1,39 @@
+@use "../utils/variables" as *;
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+
+  color: $color-text;
+
+  background:
+          radial-gradient(
+                  circle at 15% 15%,
+                  rgba(101, 202, 255, 0.4),
+                  transparent 38%
+          ),
+          radial-gradient(
+                  circle at 85% 85%,
+                  rgba(57, 141, 224, 0.18),
+                  transparent 35%
+          ),
+          linear-gradient(135deg, #f4fbff, #dff4ff);
+
+  font-family: "Segoe UI", Arial, sans-serif;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+::selection {
+  color: #fff;
+  background: $color-secondary;
+}
+
+:focus-visible {
+  outline: 2px solid $color-primary-hover;
+  outline-offset: 3px;
+}

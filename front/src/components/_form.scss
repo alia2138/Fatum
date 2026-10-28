@@ -1,40 +1,99 @@
-@use '../utils' as *;
+@use "../utils/variables" as *;
 
-.form {
+form {
   display: flex;
   flex-direction: column;
-  gap: rem(16);
+  gap: 12px;
 
-  &__row {
-    display: flex;
-    gap: rem(12);
-
-    @include breakpoint-down($bp-mobile) {
-      flex-direction: column;
-    }
-  }
-
-  &__group {
+  label {
     display: flex;
     flex-direction: column;
+    gap: 5px;
+
+    color: $color-text;
+    font-size: 12px;
+    font-weight: 600;
+  }
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin: 17px 0;
+
+  color: $color-text-muted;
+  font-size: 12px;
+
+  &::before,
+  &::after {
+    content: "";
     flex: 1;
+    height: 1px;
+    background: rgba(70, 155, 205, 0.2);
   }
 
-  &__meta-row {
+  span {
+    flex-shrink: 0;
+  }
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+
+  &:empty {
+    display: none;
+  }
+
+  a,
+  button {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: rem(12);
-  }
+    justify-content: center;
 
-  &__forgot-link {
-    flex-shrink: 0;
-    font-size: rem(13.5);
-    font-weight: 600;
-    color: $color-primary;
+    width: 44px;
+    height: 44px;
+    padding: 9px;
+
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(101, 202, 255, 0.25);
+    border-radius: 13px;
+
+    transition:
+            transform $transition,
+            background $transition,
+            box-shadow $transition;
 
     &:hover {
-      text-decoration: underline;
+      transform: translateY(-3px);
+      background: #fff;
+      box-shadow: 0 5px 15px rgba(65, 166, 220, 0.15);
     }
+
+    img {
+      display: block;
+      width: 25px;
+      height: 25px;
+      object-fit: contain;
+    }
+  }
+}
+
+// Роль і дата народження в один рядок
+#register-form {
+  #role,
+  label:has(input[name="birthDate"]) {
+    min-width: 0;
+  }
+
+  // Контейнер для двох полів
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 }

@@ -4,7 +4,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5d899522-33d1-447d-a753-dc1c8e7f6f8e" name="Changes" comment="" />
+    <list default="true" id="5d899522-33d1-447d-a753-dc1c8e7f6f8e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/dist/js/register.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/js/success.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/TaroPlatform.Api/Controllers/ExternalAuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/TaroPlatform.Api/Controllers/ExternalAuthController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/TaroPlatform.Api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/TaroPlatform.Api/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/TaroPlatform.Api/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/TaroPlatform.Api/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/TaroPlatform.Api/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/TaroPlatform.Api/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/dist/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/css/style.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/css/style.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/html/forgot-password.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/html/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/html/reset-password.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/html/signin.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/html/verify.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/base/_base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/base/_base.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/base/_reset.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/base/_reset.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/base/_typography.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/base/_typography.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_alert.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_alert.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_button.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_button.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_card.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_card.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_checkbox.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_checkbox.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_form.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_form.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_input.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_input.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_loader.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_loader.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/_auth.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/_auth.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/_home.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_home.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/_register.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_register.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scss/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/scss/style.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/_functions.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/_functions.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/_mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/_mixins.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/_variables.scss" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,43 +47,63 @@
       <executable />
     </execution>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
   </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="$USER_HOME$/scoop/shims/php.exe" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5,
   &quot;fromUser&quot;: false
 }</component>
   <component name="ProjectId" id="3HPA0xQEQWchvKLUyz73bb3Jz3z" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gulp.js.default.executor&quot;: &quot;Run&quot;,
-    &quot;JavaScript Debug.register.html.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;js.buildTools.gulp.gulp_package_dir&quot;: &quot;C:/Users/oleks/OneDrive/Desktop/COURSACH/front/node_modules/gulp&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.jshint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.jshint&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gulp.js.default.executor": "Run",
+    "JavaScript Debug.login.html.executor": "Run",
+    "JavaScript Debug.register.html.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Node.js.api.js.executor": "Run",
+    "Node.js.home.js.executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "js.buildTools.gulp.gulp_package_dir": "C:/Users/oleks/OneDrive/Desktop/COURSACH/front/node_modules/gulp",
+    "junie.onboarding.icon.badge.shown": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.jshint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.jshint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "to.speed.mode.migration.done": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\oleks\OneDrive\Desktop\COURSACH\front\dist" />
       <recent name="C:\Users\oleks\OneDrive\Desktop\COURSACH\front\src\scss" />
     </key>
   </component>
@@ -77,6 +129,10 @@
       <workItem from="1785934257177" duration="2557000" />
       <workItem from="1787760551004" duration="2000" />
       <workItem from="1788160626822" duration="60000" />
+      <workItem from="1793105852052" duration="113000" />
+      <workItem from="1793105974862" duration="8376000" />
+      <workItem from="1793171424966" duration="1204000" />
+      <workItem from="1793172696563" duration="7430000" />
     </task>
     <servers />
   </component>

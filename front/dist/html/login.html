@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вхід | TaroPlatform</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<main class="card">
+    <h1>Вхід</h1>
+    <p class="subtitle">Раді бачити вас знову</p>
+
+    <form id="login-form">
+        <label>
+            Email
+            <input type="email" name="email" required autocomplete="email">
+        </label>
+
+        <label>
+            Пароль
+            <input type="password" name="password" required autocomplete="current-password">
+        </label>
+
+        <p id="error" class="error"></p>
+
+        <button type="submit" id="submit" class="primary">Увійти</button>
+    </form>
+
+    <div class="divider"><span>або</span></div>
+    <div id="social-buttons" class="social"></div>
+
+    <p class="switch">
+        Немає акаунта? <a href="register.html">Зареєструватися</a>
+    </p>
+</main>
+
+<script>
+    window.socialConfig = {
+        successType: "login",
+        getRole: () => "Client",
+        getBirthDate: () => null,
+        botName: "YOUR_BOT_USERNAME"
+    };
+</script>
+
+<script src="../js/social.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/login.js"></script>
+</body>
+</html>
