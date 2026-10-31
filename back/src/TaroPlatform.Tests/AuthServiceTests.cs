@@ -1,3 +1,4 @@
+using TaroPlatform.Application.Catalog;
 using TaroPlatform.Application.Auth;
 using TaroPlatform.Application.Common.Interfaces;
 using TaroPlatform.Domain.Enums;
@@ -104,6 +105,12 @@ internal class FakeUserRepository : IUserRepository
 
     public Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default) =>
         Task.FromResult(_users.FirstOrDefault(u => u.Email == email));
+
+    public Task<(IReadOnlyList<Consultant> Items, long Total)> SearchConsultantsAsync(ConsultantSearch search, CancellationToken cancellationToken = default)
+    {
+        IReadOnlyList<Consultant> items = _users.OfType<Consultant>().Where(c => c.IsAcceptingClients).ToList();
+        return Task.FromResult((items, (long)items.Count));
+    }
 
     public Task<User?> GetByExternalLoginAsync(string provider, string providerUserId, CancellationToken cancellationToken = default) =>
         Task.FromResult(_users.FirstOrDefault(u => u.HasExternalLogin(provider, providerUserId)));

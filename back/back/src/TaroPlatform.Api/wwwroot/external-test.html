@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <title>Тест входу через соцмережу</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 640px; margin: 40px auto; }
+    pre { background: #f3f3f3; padding: 12px; white-space: pre-wrap; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <h2>Результат входу</h2>
+  <pre id="out">Очікую відповідь...</pre>
+  <script>
+    // Бекенд передає дані у фрагменті (#token=...&userId=...), сервер їх не бачить
+    const params = new URLSearchParams(window.location.hash.substring(1));
+    const error = params.get('error');
+    if (error) {
+      document.getElementById('out').textContent = 'Помилка: ' + error;
+    } else {
+      const token = params.get('token');
+      localStorage.setItem('taroToken', token);
+      document.getElementById('out').textContent =
+        'userId: ' + params.get('userId') + '\n' +
+        'email: ' + params.get('email') + '\n' +
+        'role: ' + params.get('role') + '\n\n' +
+        'token збережено в localStorage (ключ taroToken)';
+    }
+    // Прибираємо токен з адресного рядка
+    history.replaceState(null, '', window.location.pathname);
+  </script>
+</body>
+</html>

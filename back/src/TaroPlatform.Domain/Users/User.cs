@@ -4,8 +4,8 @@ using TaroPlatform.Domain.Enums;
 namespace TaroPlatform.Domain.Users;
 
 /// <summary>
-/// Базовий клас користувача. Email і пароль можуть бути порожніми,
-/// якщо користувач зайшов лише через соцмережу (наприклад, Telegram не передає email).
+/// Базовий клас користувача: вхід і спільні поля профілю.
+/// Кожен тип користувача сам визначає, які поля профілю обов'язкові (поліморфізм).
 /// </summary>
 public abstract class User : Entity
 {
@@ -24,6 +24,10 @@ public abstract class User : Entity
 
     public List<ExternalLogin> ExternalLogins { get; private set; } = new();
 
+    public string DisplayName { get; private set; } = string.Empty;
+    public string? PhotoUrl { get; private set; }
+    public string? Bio { get; private set; }
+
     public bool HasExternalLogin(string provider, string providerUserId) =>
         ExternalLogins.Any(e => e.Provider == provider && e.ProviderUserId == providerUserId);
 
@@ -32,4 +36,21 @@ public abstract class User : Entity
         if (!HasExternalLogin(provider, providerUserId))
             ExternalLogins.Add(new ExternalLogin(provider, providerUserId));
     }
+
+    public void SetDisplayName(string name) => DisplayName = name;
+
+    public void SetBio(string? bio) => Bio = string.IsNullOrWhiteSpace(bio) ? null : bio;
+
+    public void SetPhotoUrl(string? url) => PhotoUrl = url;
+
+    /// <summary>Список незаповнених обов'язкових полів. Підкласи додають свої.</summary>
+    public virtual IReadOnlyList<string> GetMissingProfileFields()
+    {
+        var missing = new List<string>();
+        if (string.IsNullOrWhiteSpace(DisplayName))
+            missing.Add("Ім'я");
+        return missing;
+    }
+
+    public bool IsProfileComplete() => GetMissingProfileFields().Count == 0;
 }

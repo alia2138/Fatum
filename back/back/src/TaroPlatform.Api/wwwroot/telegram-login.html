@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <title>Тест входу через Telegram</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 640px; margin: 40px auto; }
+    pre { background: #f3f3f3; padding: 12px; white-space: pre-wrap; word-break: break-all; }
+    label { display: block; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <h2>Вхід через Telegram (тест)</h2>
+
+  <label>Роль:
+    <select id="role">
+      <option value="Client">Клієнт</option>
+      <option value="Consultant">Таролог</option>
+    </select>
+  </label>
+
+  <label>Дата народження (тільки для клієнта):
+    <input id="birth" type="date" value="1995-05-20">
+  </label>
+
+  <p>Натисни кнопку Telegram нижче:</p>
+
+  <!-- Замініть YOUR_BOT_USERNAME на юзернейм бота без @ -->
+  <script async src="https://telegram.org/js/telegram-widget.js?22"
+          data-telegram-login="YOUR_BOT_USERNAME"
+          data-size="large"
+          data-userpic="false"
+          data-request-access="write"
+          data-onauth="onTelegramAuth(user)"></script>
+
+  <h3>Відповідь сервера:</h3>
+  <pre id="out">—</pre>
+
+  <script>
+    async function onTelegramAuth(user) {
+      const body = {
+        ...user,
+        role: document.getElementById('role').value,
+        birthDate: document.getElementById('birth').value || null
+      };
+
+      const response = await fetch('/api/auth/telegram', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      document.getElementById('out').textContent = response.status + '\n' + await response.text();
+    }
+  </script>
+</body>
+</html>
