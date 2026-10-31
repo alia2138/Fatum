@@ -3,34 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Головна | TaroPlatform</title>
+    <title>TaroPlatform</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 <div id="app">
-    <aside id="sidebar">
-        <button type="button" id="new-chat">+ Новий чат</button>
+    <header id="topbar">
+        <div class="brand">TaroPlatform</div>
+        <div id="top-actions"></div>
+    </header>
 
-        <div class="sidebar-section" id="pinned-section" hidden>
-            <h4>Закріплено</h4>
-            <div id="pinned-list"></div>
-        </div>
+    <div id="workspace">
+        <aside id="sidebar">
+            <button type="button" id="new-chat">+ Новий чат</button>
 
-        <div class="sidebar-section">
-            <h4>Чати</h4>
-            <div id="recent-list"></div>
-        </div>
-    </aside>
+            <div id="history-section" class="sidebar-section">
+                <div id="pinned-section" hidden>
+                    <h4>Закріплено</h4>
+                    <div id="pinned-list"></div>
+                </div>
+                <h4>Історія гадань</h4>
+                <div id="recent-list"></div>
+            </div>
+        </aside>
 
-    <main id="content">
-        <section id="view-tarot">
-            <div id="tarot-root"></div>
-        </section>
-    </main>
+        <main id="content">
+            <div id="view"></div>
+        </main>
+    </div>
+
+    <nav id="dock"></nav>
 </div>
 
 <script src="../js/api.js"></script>
-<script src="../js/home.js"></script>
-<script src="../js/tarot.js"></script>
+<script src="../js/views/tarot.js"></script>
+<script src="../js/views/matrix.js"></script>
+<script src="../js/views/catalog.js"></script>
+<script src="../js/views/consultations.js"></script>
+<script src="../js/views/chats.js"></script>
+<script src="../js/views/favorites.js"></script>
+<script src="../js/views/profile.js"></script>
+<script src="../js/views/notifications.js"></script>
+<script src="../js/views/schedule.js"></script>
+<script src="../js/views/reviews.js"></script>
+<script src="../js/app.js"></script>
 </body>
 </html>

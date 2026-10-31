@@ -5,11 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5d899522-33d1-447d-a753-dc1c8e7f6f8e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../back/src/TaroPlatform.Api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/TaroPlatform.Api/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../back/src/TaroPlatform.Domain/Users/Client.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/TaroPlatform.Domain/Users/Client.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../back/src/TaroPlatform.Domain/Users/Consultant.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/TaroPlatform.Domain/Users/Consultant.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../back/src/TaroPlatform.Domain/Users/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/TaroPlatform.Domain/Users/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/TaroPlatform.Application/Common/Results/Result.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/TaroPlatform.Application/Common/Results/Result.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/dist/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/css/style.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/css/style.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/html/external.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/external.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/html/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/js/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/js/external.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/external.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/_home.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_home.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scss/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/scss/style.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +39,65 @@
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.6070974421975235" />
+      <entry key="MS500" value="1.9050067625782483" />
+      <entry key="S2" value="1.9987529907569719" />
+      <entry key="S5" value="2.2127415537984474" />
+      <entry key="S10" value="2.466904412122836" />
+      <entry key="S30" value="2.776872575710005" />
+      <entry key="S60" value="2.8815147291789787" />
+      <entry key="M2" value="2.9389170252067616" />
+      <entry key="M5" value="2.9751102489927126" />
+      <entry key="M10" value="2.9874777558062586" />
+      <entry key="M15" value="2.991634548419391" />
+      <entry key="M30" value="2.995808605756654" />
+      <entry key="H1" value="2.9979021312419203" />
+      <entry key="H2" value="2.9989505221454325" />
+      <entry key="H4" value="2.9994751251329665" />
+      <entry key="D1" value="2.9999125019689554" />
+      <entry key="W1" value="2.9999874998186735" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.7981087836062036" />
+      <entry key="MS500" value="1.5713681415160068" />
+      <entry key="S2" value="1.8913685122951582" />
+      <entry key="S5" value="2.132096573922031" />
+      <entry key="S10" value="2.40187527456778" />
+      <entry key="S30" value="2.744699731453291" />
+      <entry key="S60" value="2.8636190095428056" />
+      <entry key="M2" value="2.9294696311597352" />
+      <entry key="M5" value="2.971204859523414" />
+      <entry key="M10" value="2.98550342157126" />
+      <entry key="M15" value="2.9903134739617094" />
+      <entry key="M30" value="2.995145631916666" />
+      <entry key="H1" value="2.9975700331377375" />
+      <entry key="H2" value="2.998784320042708" />
+      <entry key="H4" value="2.9993919857870814" />
+      <entry key="D1" value="2.9998986400899175" />
+      <entry key="W1" value="2.999985519419884" />
+    </decayedShown>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="$USER_HOME$/scoop/shims/php.exe" />
   <component name="ProjectColorInfo">{
@@ -109,6 +173,9 @@
       <workItem from="1793172696563" duration="7744000" />
       <workItem from="1793188470271" duration="1201000" />
       <workItem from="1793265552323" duration="507000" />
+      <workItem from="1793452501385" duration="15000" />
+      <workItem from="1793452523311" duration="1872000" />
+      <workItem from="1793460450499" duration="791000" />
     </task>
     <servers />
   </component>
