@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5d899522-33d1-447d-a753-dc1c8e7f6f8e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../back/src/TaroPlatform.Application/Common/Results/Result.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/TaroPlatform.Application/Common/Results/Result.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/dist/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/css/style.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/css/style.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/html/external.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/external.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/html/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/js/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/js/external.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/external.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/_home.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_home.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scss/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/scss/style.scss" afterDir="false" />
-    </list>
+    <list default="true" id="5d899522-33d1-447d-a753-dc1c8e7f6f8e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -175,7 +164,7 @@
       <workItem from="1793265552323" duration="507000" />
       <workItem from="1793452501385" duration="15000" />
       <workItem from="1793452523311" duration="1872000" />
-      <workItem from="1793460450499" duration="791000" />
+      <workItem from="1793460450499" duration="1509000" />
     </task>
     <servers />
   </component>
