@@ -15,7 +15,7 @@ public static class DestinyMatrixCalculator
     /// <summary>Вікові точки кожні 10 років: 0, 10, ..., 80 (80 років повертає до точки А).</summary>
     private static readonly string[] AnchorKeys = { "A", "Zh", "B", "Z", "V", "I", "G", "K", "A" };
 
-    /// <summary>Усі точки матриці з назвою і групою для відображення.</summary>
+    /// <summary>Усі точки матриці з назвою і групою. Точки каналу відео є лише в режимі Video.</summary>
     public static readonly (string Key, string Title, string Group)[] PointDefinitions =
     {
         ("A", "Візитна картка (день народження)", "Основні"),
@@ -29,17 +29,19 @@ public static class DestinyMatrixCalculator
         ("K", "Родова карма батька", "Родові"),
         ("Heaven", "Небо (Б+Г)", "Призначення"),
         ("Earth", "Земля (А+В)", "Призначення"),
-        ("Personal", "Особисте призначення (20–40 років)", "Призначення"),
-        ("Male", "Чоловіче призначення (Ж+И)", "Призначення"),
-        ("Female", "Жіноче призначення (З+К)", "Призначення"),
+        ("Personal", "Особисте призначення (до 40 років)", "Призначення"),
+        ("Male", "Чоловіча лінія (Ж+И)", "Призначення"),
+        ("Female", "Жіноча лінія (З+К)", "Призначення"),
         ("Social", "Соціальне призначення (40–60 років)", "Призначення"),
         ("Spiritual", "Духовне призначення (після 60 років)", "Призначення"),
         ("E", "Вхід у канал стосунків і грошей", "Канал"),
-        ("Rel", "Точка стосунків", "Канал"),
-        ("Money", "Точка грошей", "Канал")
+        ("Rel", "Точка стосунків / кохання", "Канал"),
+        ("Money", "Точка грошей (перша)", "Канал"),
+        ("MoneyMid", "Грошовий канал: друга точка", "Канал (відео)"),
+        ("MoneyEnd", "Грошовий канал: третя точка", "Канал (відео)")
     };
 
-    public static DestinyMatrix Calculate(DateOnly birthDate)
+    public static DestinyMatrix Calculate(DateOnly birthDate, ChannelMethod method = ChannelMethod.Video)
     {
         var a = Reduce(birthDate.Day);
         var b = birthDate.Month;
@@ -54,8 +56,6 @@ public static class DestinyMatrixCalculator
         var k = Reduce(g + a);
 
         var e = Reduce(d + g);
-        var rel = Reduce(e + v);
-        var money = Reduce(e + d);
 
         var heaven = Reduce(b + g);
         var earth = Reduce(a + v);
@@ -69,10 +69,29 @@ public static class DestinyMatrixCalculator
         {
             ["A"] = a, ["B"] = b, ["V"] = v, ["G"] = g, ["D"] = d,
             ["Zh"] = zh, ["Z"] = z, ["I"] = i, ["K"] = k,
-            ["E"] = e, ["Rel"] = rel, ["Money"] = money,
+            ["E"] = e,
             ["Heaven"] = heaven, ["Earth"] = earth, ["Personal"] = personal,
             ["Male"] = male, ["Female"] = female, ["Social"] = social, ["Spiritual"] = spiritual
         };
+
+        if (method == ChannelMethod.Document)
+        {
+            // Документ: стосунки = E+V, гроші = E+D
+            points["Rel"] = Reduce(e + v);
+            points["Money"] = Reduce(e + d);
+        }
+        else
+        {
+            // Відео: центр+нижнє число (12), точка кохання = центр + 12,
+            // грошовий канал = B+V, далі додаємо 12 і нижнє число.
+            var center12 = Reduce(d + g);
+            var money1 = Reduce(b + v);
+
+            points["Rel"] = Reduce(d + center12);
+            points["Money"] = money1;
+            points["MoneyMid"] = Reduce(center12 + money1);
+            points["MoneyEnd"] = Reduce(Reduce(money1 + g) + g);
+        }
 
         return new DestinyMatrix(birthDate, points);
     }

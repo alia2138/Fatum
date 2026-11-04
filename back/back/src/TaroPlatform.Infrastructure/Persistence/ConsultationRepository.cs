@@ -10,14 +10,12 @@ public class ConsultationRepository : MongoRepository<Consultation>, IConsultati
     {
     }
 
-    /// <summary>Усі заявки, де користувач є клієнтом або таро-консультантом.</summary>
     public async Task<IReadOnlyList<Consultation>> GetByParticipantAsync(string userId, CancellationToken cancellationToken = default) =>
         await Collection
             .Find(c => c.ClientId == userId || c.ConsultantId == userId)
             .SortByDescending(c => c.StartUtc)
             .ToListAsync(cancellationToken);
 
-    /// <summary>Чи є в таролога активна заявка на цей час (щоб не записати двох клієнтів).</summary>
     public async Task<bool> HasActiveAtAsync(string consultantId, DateTime startUtc, CancellationToken cancellationToken = default)
     {
         var f = Builders<Consultation>.Filter;
@@ -28,5 +26,17 @@ public class ConsultationRepository : MongoRepository<Consultation>, IConsultati
 
         var count = await Collection.CountDocumentsAsync(filter, cancellationToken: cancellationToken);
         return count > 0;
+    }
+
+    public async Task<IReadOnlyList<Consultation>> GetDueRemindersAsync(DateTime fromUtc, DateTime toUtc, CancellationToken cancellationToken = default)
+    {
+        var f = Builders<Consultation>.Filter;
+        var filter = f.And(
+            f.Eq(c => c.Status, ConsultationStatus.Confirmed),
+            f.Gte(c => c.StartUtc, fromUtc),
+            f.Lte(c => c.StartUtc, toUtc),
+            f.Ne(c => c.ReminderSent, true));
+
+        return await Collection.Find(filter).ToListAsync(cancellationToken);
     }
 }

@@ -85,6 +85,11 @@ public class Consultation : Entity
         StatusChangedAt = now;
     }
 
+    /// <summary>Чи вже надіслано нагадування за годину до консультації.</summary>
+    public bool ReminderSent { get; private set; }
+
+    public void MarkReminderSent() => ReminderSent = true;
+
     public void AttachConversation(string conversationId) => ConversationId = conversationId;
 
     private void Require(ConsultationStatus expected)

@@ -8,9 +8,9 @@ namespace TaroPlatform.Application.Matrix;
 
 public interface IMatrixService
 {
-    Task<Result<MatrixResultDto>> CalculateAsync(DateOnly birthDate, CancellationToken cancellationToken = default);
+    Task<Result<MatrixResultDto>> CalculateAsync(DateOnly birthDate, ChannelMethod method = ChannelMethod.Video, CancellationToken cancellationToken = default);
     Task<Result<MatrixResultDto>> GetMineAsync(string userId, CancellationToken cancellationToken = default);
-    Task<Result<CompatibilityResultDto>> CompatibilityAsync(DateOnly first, DateOnly second, CancellationToken cancellationToken = default);
+    Task<Result<CompatibilityResultDto>> CompatibilityAsync(DateOnly first, DateOnly second, ChannelMethod method = ChannelMethod.Video, CancellationToken cancellationToken = default);
 }
 
 public class MatrixService : IMatrixService
@@ -19,6 +19,10 @@ public class MatrixService : IMatrixService
 
     /// <summary>Точки, які беруть участь у сумісності двох людей.</summary>
     private static readonly string[] CompatibilityKeys = { "A", "B", "V", "G", "D", "Rel", "Money" };
+
+    /// <summary>Точки, які передаються у трактування особистої матриці.</summary>
+    private static readonly string[] PersonalKeys =
+        { "A", "B", "V", "G", "D", "Zh", "Z", "I", "K", "Rel", "Money", "MoneyMid", "MoneyEnd" };
 
     private readonly ITarotInterpreter _interpreter;
     private readonly IUserRepository _users;
@@ -31,17 +35,14 @@ public class MatrixService : IMatrixService
         _clock = clock;
     }
 
-    public async Task<Result<MatrixResultDto>> CalculateAsync(DateOnly birthDate, CancellationToken cancellationToken = default)
+    public async Task<Result<MatrixResultDto>> CalculateAsync(DateOnly birthDate, ChannelMethod method = ChannelMethod.Video, CancellationToken cancellationToken = default)
     {
         var today = DateOnly.FromDateTime(_clock.UtcNow);
         if (birthDate < EarliestBirthDate || birthDate > today)
             return Result.Failure<MatrixResultDto>("Некоректна дата народження.");
 
-        var matrix = DestinyMatrixCalculator.Calculate(birthDate);
-
-        var cards = matrix.Points.Count > 0
-            ? DescribePoints(matrix, PersonalKeys)
-            : new List<InterpretedCard>();
+        var matrix = DestinyMatrixCalculator.Calculate(birthDate, method);
+        var cards = DescribePoints(matrix, PersonalKeys);
 
         var interpretation = await _interpreter.InterpretAsync(
             new InterpretationContext(
@@ -50,13 +51,16 @@ public class MatrixService : IMatrixService
                 "Персональний опис матриці долі: характер, призначення і поточний період життя",
                 cards,
                 FollowUp: null,
-                History: Array.Empty<ChatTurn>()),
+                History: Array.Empty<ChatTurn>(),
+                SystemPrompt: MatrixPrompts.System,
+                CardsLabel: MatrixPrompts.CardsLabel),
             cancellationToken);
 
         var result = new MatrixResultDto(
             birthDate,
+            MethodName(method),
             DescribeAll(matrix),
-            DestinyMatrixCalculator.Timeline(matrix).Select(p => ToTimelineDto(p)).ToList(),
+            DestinyMatrixCalculator.Timeline(matrix).Select(ToTimelineDto).ToList(),
             BuildCurrent(matrix, birthDate, today),
             interpretation.Text,
             interpretation.Provider);
@@ -72,24 +76,24 @@ public class MatrixService : IMatrixService
         if (user is not Client client)
             return Result.Failure<MatrixResultDto>("Матриця долі будується за датою народження клієнта.");
 
-        return await CalculateAsync(DateOnly.FromDateTime(client.BirthDate), cancellationToken);
+        return await CalculateAsync(DateOnly.FromDateTime(client.BirthDate), ChannelMethod.Video, cancellationToken);
     }
 
-    public async Task<Result<CompatibilityResultDto>> CompatibilityAsync(DateOnly first, DateOnly second, CancellationToken cancellationToken = default)
+    public async Task<Result<CompatibilityResultDto>> CompatibilityAsync(DateOnly first, DateOnly second, ChannelMethod method = ChannelMethod.Video, CancellationToken cancellationToken = default)
     {
         var today = DateOnly.FromDateTime(_clock.UtcNow);
         if (first < EarliestBirthDate || first > today || second < EarliestBirthDate || second > today)
             return Result.Failure<CompatibilityResultDto>("Некоректна дата народження.");
 
-        var m1 = DestinyMatrixCalculator.Calculate(first);
-        var m2 = DestinyMatrixCalculator.Calculate(second);
+        var m1 = DestinyMatrixCalculator.Calculate(first, method);
+        var m2 = DestinyMatrixCalculator.Calculate(second, method);
 
         var points = new List<CompatibilityPointDto>();
         var cards = new List<InterpretedCard>();
 
         foreach (var key in CompatibilityKeys)
         {
-            // Сумісність у точці: сума значень двох людей у цій точці
+            // Сумісність у точці: сума значень двох людей у цій точці, зведена за правилом 22
             var value = DestinyMatrixCalculator.Reduce(m1[key] + m2[key]);
             var arcana = DestinyMatrixCalculator.ArcanaFor(value);
             var title = DestinyMatrixCalculator.PointDefinitions.First(p => p.Key == key).Title;
@@ -105,12 +109,15 @@ public class MatrixService : IMatrixService
                 "Опиши сумісність цих двох людей: сильні сторони, можливі виклики і поради",
                 cards,
                 FollowUp: null,
-                History: Array.Empty<ChatTurn>()),
+                History: Array.Empty<ChatTurn>(),
+                SystemPrompt: MatrixPrompts.System,
+                CardsLabel: MatrixPrompts.CardsLabel),
             cancellationToken);
 
         return Result.Success(new CompatibilityResultDto(
             first,
             second,
+            MethodName(method),
             points,
             interpretation.Text,
             interpretation.Provider));
@@ -118,10 +125,13 @@ public class MatrixService : IMatrixService
 
     // ---------- Допоміжні ----------
 
-    private static readonly string[] PersonalKeys = { "A", "B", "V", "G", "D", "Zh", "Z", "I", "K", "Rel", "Money" };
+    private static string MethodName(ChannelMethod method) =>
+        method == ChannelMethod.Document ? "Document" : "Video";
 
+    /// <summary>Пропускає точки, яких немає в обраному способі розрахунку.</summary>
     private static IReadOnlyList<MatrixPointDto> DescribeAll(DestinyMatrix matrix) =>
         DestinyMatrixCalculator.PointDefinitions
+            .Where(def => matrix.Points.ContainsKey(def.Key))
             .Select(def =>
             {
                 var value = matrix[def.Key];
@@ -133,7 +143,7 @@ public class MatrixService : IMatrixService
     private static List<InterpretedCard> DescribePoints(DestinyMatrix matrix, IEnumerable<string> keys)
     {
         var cards = new List<InterpretedCard>();
-        foreach (var key in keys)
+        foreach (var key in keys.Where(k => matrix.Points.ContainsKey(k)))
         {
             var title = DestinyMatrixCalculator.PointDefinitions.First(p => p.Key == key).Title;
             var arcana = DestinyMatrixCalculator.ArcanaFor(matrix[key]);

@@ -1,3 +1,4 @@
+using TaroPlatform.Application.Catalog;
 using TaroPlatform.Application.Common.Interfaces;
 using TaroPlatform.Application.Common.Results;
 using TaroPlatform.Application.Notifications;

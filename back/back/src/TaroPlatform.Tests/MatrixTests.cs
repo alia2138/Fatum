@@ -9,6 +9,7 @@ namespace TaroPlatform.Tests;
 public class MatrixTests
 {
     private static readonly DateOnly Sample = new(1993, 8, 25);
+    private static readonly DateOnly Kuzma = new(1968, 8, 17);
 
     [Fact]
     public void Reduce_FollowsRuleOf22()
@@ -20,45 +21,75 @@ public class MatrixTests
     }
 
     [Fact]
-    public void Calculate_MatchesManualExample_ForBirthDate()
+    public void DocumentMethod_MatchesDocumentExample()
     {
-        var m = DestinyMatrixCalculator.Calculate(Sample);
+        var m = DestinyMatrixCalculator.Calculate(Sample, ChannelMethod.Document);
 
-        Assert.Equal(7, m["A"]);       // День 25 → 7
-        Assert.Equal(8, m["B"]);       // Серпень
-        Assert.Equal(22, m["V"]);      // 1+9+9+3 = 22
-        Assert.Equal(10, m["G"]);      // 7+8+22 = 37 → 10
-        Assert.Equal(11, m["D"]);      // 7+8+22+10 = 47 → 11
-        Assert.Equal(21, m["E"]);      // 11+10
-        Assert.Equal(7, m["Rel"]);     // 21+22 = 43 → 7
-        Assert.Equal(5, m["Money"]);   // 21+11 = 32 → 5
+        Assert.Equal(7, m["A"]);
+        Assert.Equal(8, m["B"]);
+        Assert.Equal(22, m["V"]);
+        Assert.Equal(10, m["G"]);
+        Assert.Equal(11, m["D"]);
+        Assert.Equal(21, m["E"]);
+        Assert.Equal(7, m["Rel"]);
+        Assert.Equal(5, m["Money"]);
         Assert.Equal(11, m["Personal"]);
         Assert.Equal(4, m["Social"]);
         Assert.Equal(15, m["Spiritual"]);
     }
 
     [Fact]
+    public void VideoMethod_MatchesKuzmaExample()
+    {
+        // Значення з відеоуроку для 17.08.1968
+        var m = DestinyMatrixCalculator.Calculate(Kuzma, ChannelMethod.Video);
+
+        Assert.Equal(17, m["A"]);        // День
+        Assert.Equal(8, m["B"]);         // Місяць
+        Assert.Equal(6, m["V"]);         // Рік 1968 → 24 → 6
+        Assert.Equal(4, m["G"]);         // Нижнє число
+        Assert.Equal(8, m["D"]);         // Центр
+        Assert.Equal(7, m["Zh"]);        // Вища суть
+        Assert.Equal(12, m["Heaven"]);   // Небо
+        Assert.Equal(5, m["Earth"]);     // Земля
+        Assert.Equal(17, m["Personal"]); // Особисте призначення
+        Assert.Equal(17, m["Male"]);     // Чоловіча лінія
+        Assert.Equal(8, m["Female"]);    // Жіноча лінія
+        Assert.Equal(7, m["Social"]);    // Соціальне призначення
+        Assert.Equal(6, m["Spiritual"]); // Духовне призначення
+        Assert.Equal(20, m["Rel"]);      // Точка кохання
+        Assert.Equal(14, m["Money"]);    // Грошовий канал: перша точка
+        Assert.Equal(8, m["MoneyMid"]);  // Грошовий канал: друга точка
+        Assert.Equal(22, m["MoneyEnd"]); // Грошовий канал: третя точка
+    }
+
+    [Fact]
+    public void PointCount_DependsOnMethod()
+    {
+        Assert.Equal(19, DestinyMatrixCalculator.Calculate(Sample, ChannelMethod.Document).Points.Count);
+        Assert.Equal(21, DestinyMatrixCalculator.Calculate(Sample, ChannelMethod.Video).Points.Count);
+    }
+
+    [Fact]
     public void AgeValues_MatchDiagramAndRules()
     {
-        var m = DestinyMatrixCalculator.Calculate(Sample);
+        var m = DestinyMatrixCalculator.Calculate(Sample, ChannelMethod.Document);
 
-        Assert.Equal(22, DestinyMatrixCalculator.ValueAt(m, 5));   // 7 + 15
-        Assert.Equal(5, DestinyMatrixCalculator.ValueAt(m, 15));   // 15 + 8 = 23 → 5
-        Assert.Equal(11, DestinyMatrixCalculator.ValueAt(m, 25));  // 8 + 3
-        Assert.Equal(7, DestinyMatrixCalculator.ValueAt(m, 35));   // 3 + 22 = 25 → 7
-        Assert.Equal(9, DestinyMatrixCalculator.ValueAt(m, 45));   // 22 + 5 = 27 → 9
-        Assert.Equal(15, DestinyMatrixCalculator.ValueAt(m, 55));  // 5 + 10
-        Assert.Equal(9, DestinyMatrixCalculator.ValueAt(m, 65));   // 10 + 17 = 27 → 9
-        Assert.Equal(6, DestinyMatrixCalculator.ValueAt(m, 75));   // 17 + 7 = 24 → 6
-        Assert.Equal(19, DestinyMatrixCalculator.ValueAt(m, 22.5)); // 8 + 11
+        Assert.Equal(22, DestinyMatrixCalculator.ValueAt(m, 5));
+        Assert.Equal(5, DestinyMatrixCalculator.ValueAt(m, 15));
+        Assert.Equal(11, DestinyMatrixCalculator.ValueAt(m, 25));
+        Assert.Equal(7, DestinyMatrixCalculator.ValueAt(m, 35));
+        Assert.Equal(9, DestinyMatrixCalculator.ValueAt(m, 45));
+        Assert.Equal(15, DestinyMatrixCalculator.ValueAt(m, 55));
+        Assert.Equal(9, DestinyMatrixCalculator.ValueAt(m, 65));
+        Assert.Equal(6, DestinyMatrixCalculator.ValueAt(m, 75));
+        Assert.Equal(19, DestinyMatrixCalculator.ValueAt(m, 22.5));
     }
 
     [Fact]
     public void Timeline_Has32PeriodsOf2_5Years()
     {
-        var m = DestinyMatrixCalculator.Calculate(Sample);
-
-        var timeline = DestinyMatrixCalculator.Timeline(m);
+        var timeline = DestinyMatrixCalculator.Timeline(DestinyMatrixCalculator.Calculate(Sample));
 
         Assert.Equal(32, timeline.Count);
         Assert.Equal(0, timeline[0].From);
@@ -68,7 +99,7 @@ public class MatrixTests
     [Fact]
     public async Task Calculate_RejectsFutureBirthDate()
     {
-        var service = new MatrixService(new FakeInterpreter(), new FakeUsers(), new FixedClock(new DateTime(2026, 10, 30, 0, 0, 0, DateTimeKind.Utc)));
+        var service = CreateService();
 
         var result = await service.CalculateAsync(new DateOnly(2027, 1, 1));
 
@@ -78,12 +109,13 @@ public class MatrixTests
     [Fact]
     public async Task Calculate_ReturnsPointsTimelineAndInterpretation()
     {
-        var service = new MatrixService(new FakeInterpreter(), new FakeUsers(), new FixedClock(new DateTime(2026, 10, 30, 0, 0, 0, DateTimeKind.Utc)));
+        var service = CreateService();
 
-        var result = await service.CalculateAsync(Sample);
+        var result = await service.CalculateAsync(Kuzma);
 
         Assert.True(result.IsSuccess);
-        Assert.Equal(19, result.Value.Points.Count);
+        Assert.Equal("Video", result.Value.Method);
+        Assert.Equal(21, result.Value.Points.Count);
         Assert.Equal(32, result.Value.Timeline.Count);
         Assert.Equal("тест", result.Value.Interpretation);
     }
@@ -91,7 +123,7 @@ public class MatrixTests
     [Fact]
     public async Task Compatibility_IsSymmetric()
     {
-        var service = new MatrixService(new FakeInterpreter(), new FakeUsers(), new FixedClock(new DateTime(2026, 10, 30, 0, 0, 0, DateTimeKind.Utc)));
+        var service = CreateService();
         var other = new DateOnly(1990, 3, 14);
 
         var ab = await service.CompatibilityAsync(Sample, other);
@@ -102,6 +134,9 @@ public class MatrixTests
             ba.Value.Points.Select(p => p.Value));
     }
 
+    private static MatrixService CreateService() =>
+        new(new FakeInterpreter(), new FakeUsers(), new FixedClock(new DateTime(2026, 10, 30, 0, 0, 0, DateTimeKind.Utc)));
+
     private sealed class FixedClock : IDateTimeProvider
     {
         public FixedClock(DateTime now) => UtcNow = now;
@@ -110,11 +145,11 @@ public class MatrixTests
 
     private sealed class FakeInterpreter : ITarotInterpreter
     {
-        public Task<TaroPlatform.Application.Tarot.InterpretationResult> InterpretAsync(InterpretationContext context, CancellationToken cancellationToken = default) =>
-            Task.FromResult(new TaroPlatform.Application.Tarot.InterpretationResult("тест", "fake"));
+        public Task<InterpretationResult> InterpretAsync(InterpretationContext context, CancellationToken cancellationToken = default) =>
+            Task.FromResult(new InterpretationResult("тест", "fake"));
     }
 
-    /// <summary>Порожній репозиторій: сервіс матриці користувачів не потребує для розрахунку за датою.</summary>
+    /// <summary>Порожній репозиторій: розрахунок за датою не потребує користувачів.</summary>
     private sealed class FakeUsers : IUserRepository
     {
         public Task<TaroPlatform.Domain.Users.User?> GetByIdAsync(string id, CancellationToken cancellationToken = default) =>

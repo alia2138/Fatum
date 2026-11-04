@@ -2,11 +2,13 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaroPlatform.Application.Matrix;
+using TaroPlatform.Domain.Matrix;
 
 namespace TaroPlatform.Api.Controllers;
 
 /// <summary>
 /// Матриця долі: розрахунок, трактування і сумісність. Дати у форматі yyyy-MM-dd.
+/// Method: Video (за відеоурок, за замовчуванням) або Document (за документ).
 /// </summary>
 [ApiController]
 [Route("api/matrix")]
@@ -38,7 +40,7 @@ public class MatrixController : ControllerBase
     [HttpPost("calculate")]
     public async Task<IActionResult> Calculate([FromBody] CalculateMatrixRequest request, CancellationToken cancellationToken)
     {
-        var result = await _matrix.CalculateAsync(request.BirthDate, cancellationToken);
+        var result = await _matrix.CalculateAsync(request.BirthDate, request.Method ?? ChannelMethod.Video, cancellationToken);
         if (result.IsFailure)
             return BadRequest(new { error = result.Error });
 
@@ -49,7 +51,11 @@ public class MatrixController : ControllerBase
     [HttpPost("compatibility")]
     public async Task<IActionResult> Compatibility([FromBody] CompatibilityRequest request, CancellationToken cancellationToken)
     {
-        var result = await _matrix.CompatibilityAsync(request.FirstBirthDate, request.SecondBirthDate, cancellationToken);
+        var result = await _matrix.CompatibilityAsync(
+            request.FirstBirthDate,
+            request.SecondBirthDate,
+            request.Method ?? ChannelMethod.Video,
+            cancellationToken);
         if (result.IsFailure)
             return BadRequest(new { error = result.Error });
 

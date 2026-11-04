@@ -58,7 +58,8 @@ public class ProfileController : ControllerBase
 
     [HttpPost("photo")]
     [Consumes("multipart/form-data")]
-    [RequestSizeLimit(3 * 1024 * 1024)]
+    [RequestSizeLimit(10 * 1024 * 1024)]
+    [RequestFormLimits(MultipartBodyLengthLimit = 10 * 1024 * 1024)]
     public async Task<IActionResult> UploadPhoto(IFormFile file, CancellationToken cancellationToken)
     {
         if (file is null || file.Length == 0)

@@ -1,3 +1,4 @@
+using TaroPlatform.Infrastructure.Notifications;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -23,6 +24,7 @@ public static class DependencyInjection
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
         services.Configure<TelegramSettings>(configuration.GetSection(TelegramSettings.SectionName));
         services.Configure<AiSettings>(configuration.GetSection(AiSettings.SectionName));
+        services.Configure<NotificationSettings>(configuration.GetSection(NotificationSettings.SectionName));
 
         services.AddSingleton<MongoContext>();
         services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
@@ -32,6 +34,11 @@ services.AddScoped<IConsultationRepository, ConsultationRepository>();
         services.AddScoped<IConversationRepository, ConversationRepository>();
         services.AddScoped<INotificationRepository, NotificationRepository>();
         services.AddScoped<IReviewRepository, ReviewRepository>();
+        services.AddScoped<IFavoriteRepository, FavoriteRepository>();
+        services.AddScoped<ISavedMatrixRepository, SavedMatrixRepository>();
+        services.AddHttpClient<TelegramBotNotifier>();
+        services.AddSingleton<EmailNotifier>();
+        services.AddScoped<IExternalNotifier, ExternalNotifier>();
         services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
         services.AddSingleton<IPasswordHasher, Pbkdf2PasswordHasher>();
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();

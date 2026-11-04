@@ -124,7 +124,7 @@ public class BookingTests
         {
             var clock = new FixedClock(Now);
             Chat = new ChatService(Conversations, Users);
-            Notifications = new NotificationService(NotificationRepo);
+            Notifications = new NotificationService(NotificationRepo, Users, new NoopExternal());
             Service = new ConsultationService(Consultations, Users, Chat, Notifications, clock);
 
             Consultant = new Consultant("tarot@test.com", "hash");
@@ -140,6 +140,12 @@ public class BookingTests
             Users.AddAsync(Consultant).GetAwaiter().GetResult();
             Users.AddAsync(Client).GetAwaiter().GetResult();
         }
+    }
+
+    private sealed class NoopExternal : IExternalNotifier
+    {
+        public Task SendAsync(TaroPlatform.Domain.Users.User user, string title, string body, string? link, CancellationToken cancellationToken = default) =>
+            Task.CompletedTask;
     }
 
     private sealed class FixedClock : IDateTimeProvider
@@ -175,6 +181,9 @@ public class BookingTests
         public Task<IReadOnlyList<Consultation>> GetByParticipantAsync(string userId, CancellationToken cancellationToken = default) =>
             Task.FromResult<IReadOnlyList<Consultation>>(
                 _items.Where(c => c.ClientId == userId || c.ConsultantId == userId).ToList());
+
+        public Task<IReadOnlyList<Consultation>> GetDueRemindersAsync(DateTime fromUtc, DateTime toUtc, CancellationToken cancellationToken = default) =>
+            Task.FromResult<IReadOnlyList<Consultation>>(_items.Where(c => c.Status == ConsultationStatus.Confirmed && c.StartUtc >= fromUtc && c.StartUtc <= toUtc && !c.ReminderSent).ToList());
 
         public Task<bool> HasActiveAtAsync(string consultantId, DateTime startUtc, CancellationToken cancellationToken = default) =>
             Task.FromResult(_items.Any(c => c.ConsultantId == consultantId && c.StartUtc == startUtc && c.IsActive()));

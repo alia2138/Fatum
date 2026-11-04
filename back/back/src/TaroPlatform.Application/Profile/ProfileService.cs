@@ -16,7 +16,7 @@ public interface IProfileService
 
 public class ProfileService : IProfileService
 {
-    private const int MaxPhotoBytes = 2 * 1024 * 1024;
+    private const int MaxPhotoBytes = 5 * 1024 * 1024;
     private const int MaxTopics = 10;
     private const int MaxLanguages = 5;
     private const int MaxExperienceYears = 80;
@@ -134,7 +134,7 @@ public class ProfileService : IProfileService
             return Result.Failure<ProfileDto>("Дозволені формати фото: JPG, PNG, WEBP.");
 
         if (length <= 0 || length > MaxPhotoBytes)
-            return Result.Failure<ProfileDto>("Фото має бути не більшим за 2 МБ.");
+            return Result.Failure<ProfileDto>("Фото має бути не більшим за 5 МБ.");
 
         var previous = user.PhotoUrl;
         var url = await _photos.SaveAsync(userId, content, extension, cancellationToken);

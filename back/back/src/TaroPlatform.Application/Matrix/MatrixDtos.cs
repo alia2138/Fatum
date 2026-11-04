@@ -1,8 +1,11 @@
+using TaroPlatform.Domain.Matrix;
+
 namespace TaroPlatform.Application.Matrix;
 
-public record CalculateMatrixRequest(DateOnly BirthDate);
+/// <summary>Method не обов'язковий: за замовчуванням використовується спосіб із відео.</summary>
+public record CalculateMatrixRequest(DateOnly BirthDate, ChannelMethod? Method);
 
-public record CompatibilityRequest(DateOnly FirstBirthDate, DateOnly SecondBirthDate);
+public record CompatibilityRequest(DateOnly FirstBirthDate, DateOnly SecondBirthDate, ChannelMethod? Method);
 
 public record MatrixPointDto(
     string Key,
@@ -30,6 +33,7 @@ public record CurrentPeriodDto(
 
 public record MatrixResultDto(
     DateOnly BirthDate,
+    string Method,
     IReadOnlyList<MatrixPointDto> Points,
     IReadOnlyList<TimelinePeriodDto> Timeline,
     CurrentPeriodDto Current,
@@ -46,6 +50,7 @@ public record CompatibilityPointDto(
 public record CompatibilityResultDto(
     DateOnly FirstBirthDate,
     DateOnly SecondBirthDate,
+    string Method,
     IReadOnlyList<CompatibilityPointDto> Points,
     string Interpretation,
     string InterpretationSource);

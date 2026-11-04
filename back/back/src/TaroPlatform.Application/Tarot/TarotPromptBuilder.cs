@@ -3,12 +3,12 @@ using System.Text;
 namespace TaroPlatform.Application.Tarot;
 
 /// <summary>
-/// Формує повідомлення для мовної моделі. Для уточнень модель бачить передісторію,
-/// головне питання, усю попередню розмову і нові карти.
+/// Формує повідомлення для мовної моделі. Режим Таро — за замовчуванням.
+/// Якщо задано CardsLabel (режим матриці), картки подаються як точки без напрямку.
 /// </summary>
 public static class TarotPromptBuilder
 {
-    private const string SystemPrompt =
+    private const string TarotSystemPrompt =
         "Ти досвідчений тлумач Таро. Говориш українською теплим і спокійним тоном. " +
         "Трактуєш карти з урахуванням теми, передісторії користувача, позицій карт і їхнього положення (пряме або перевернуте). " +
         "Не вигадуй карт, яких немає у вказаних картах. " +
@@ -25,7 +25,7 @@ public static class TarotPromptBuilder
     {
         var messages = new List<ChatTurn>
         {
-            new("system", SystemPrompt),
+            new("system", context.SystemPrompt ?? TarotSystemPrompt),
             new("user", BuildCardBlock(context))
         };
 
@@ -40,6 +40,7 @@ public static class TarotPromptBuilder
     private static string BuildCardBlock(InterpretationContext context)
     {
         var isFollowUp = context.FollowUp is not null;
+        var isPointsMode = context.CardsLabel is not null;
         var sb = new StringBuilder();
 
         sb.AppendLine($"Тема: {context.TopicTitle}");
@@ -48,6 +49,16 @@ public static class TarotPromptBuilder
             sb.AppendLine($"Передісторія користувача: {context.Background}");
 
         sb.AppendLine($"{(isFollowUp ? "Головне питання" : "Питання")}: {context.Question}");
+
+        if (isPointsMode)
+        {
+            sb.AppendLine($"{context.CardsLabel}:");
+            foreach (var point in context.Cards)
+                sb.AppendLine($"- {point.PositionName}: {point.CardName}. Значення: {point.Meaning}");
+
+            return sb.ToString().TrimEnd();
+        }
+
         sb.AppendLine(isFollowUp ? "Нові карти для поточного питання:" : "Карти:");
 
         foreach (var card in context.Cards)

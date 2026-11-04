@@ -224,6 +224,9 @@ public class ReviewTests
         public Task<IReadOnlyList<Consultation>> GetByParticipantAsync(string userId, CancellationToken cancellationToken = default) =>
             Task.FromResult<IReadOnlyList<Consultation>>(_items.Where(c => c.ClientId == userId || c.ConsultantId == userId).ToList());
 
+        public Task<IReadOnlyList<Consultation>> GetDueRemindersAsync(DateTime fromUtc, DateTime toUtc, CancellationToken cancellationToken = default) =>
+            Task.FromResult<IReadOnlyList<Consultation>>(_items.Where(c => c.Status == ConsultationStatus.Confirmed && c.StartUtc >= fromUtc && c.StartUtc <= toUtc && !c.ReminderSent).ToList());
+
         public Task<bool> HasActiveAtAsync(string consultantId, DateTime startUtc, CancellationToken cancellationToken = default) =>
             Task.FromResult(_items.Any(c => c.ConsultantId == consultantId && c.StartUtc == startUtc && c.IsActive()));
     }

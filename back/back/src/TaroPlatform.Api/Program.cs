@@ -1,3 +1,6 @@
+using TaroPlatform.Application.Favorites;
+using TaroPlatform.Application.Reminders;
+using TaroPlatform.Api.Workers;
 using TaroPlatform.Application.Matrix;
 using TaroPlatform.Application.Reviews;
 using TaroPlatform.Application.Chat;
@@ -64,6 +67,10 @@ builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IConsultationService, ConsultationService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IMatrixService, MatrixService>();
+builder.Services.AddScoped<ISavedMatrixService, SavedMatrixService>();
+builder.Services.AddScoped<IFavoriteService, FavoriteService>();
+builder.Services.AddScoped<IReminderService, ReminderService>();
+builder.Services.AddHostedService<ReminderWorker>();
 builder.Services.AddSingleton<IPhotoStorage>(new LocalPhotoStorage(
     Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "uploads", "avatars")));
 
