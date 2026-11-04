@@ -296,6 +296,46 @@ function showSingle(page) {
         out);
 }
 
+// Питання до матриці сумісності (без збереження, відповідь від трактувальника)
+function compatQuestionSection(getDates) {
+    const log = el("div", { class: "chat-messages mx-log" });
+    const input = el("textarea", { rows: "3", maxlength: "500", placeholder: "Поставте питання про стосунки двох людей..." });
+    const errorEl = el("p", { class: "error" });
+    const send = el("button", { type: "submit", class: "primary" }, "Запитати");
+
+    const form = el("form", { class: "mx-question", onsubmit: async (e) => {
+        e.preventDefault();
+        const question = input.value.trim();
+        if (question.length < 3) {
+            errorEl.textContent = "Питання має бути щонайменше 3 символи.";
+            return;
+        }
+        errorEl.textContent = "";
+        send.disabled = true;
+        send.textContent = "Думаємо...";
+        try {
+            const dates = getDates();
+            const res = await api("/matrix/compatibility/questions", {
+                method: "POST",
+                body: { firstBirthDate: dates.first, secondBirthDate: dates.second, method: dates.method, question: question }
+            });
+            log.append(messageBubble("user", "Ви", question), messageBubble("assistant", "Аналітик", res.text));
+            log.scrollTop = log.scrollHeight;
+            input.value = "";
+        } catch (err) {
+            errorEl.textContent = err.message;
+        } finally {
+            send.disabled = false;
+            send.textContent = "Запитати";
+        }
+    } }, input, errorEl, send);
+
+    return el("section", { class: "mx-card" },
+        el("h3", {}, "Поставити питання"),
+        log,
+        form);
+}
+
 function showCompat(page) {
     const first = el("input", { type: "date", required: true });
     const second = el("input", { type: "date", required: true });
@@ -317,7 +357,8 @@ function showCompat(page) {
                 out.replaceChildren(
                     matrixCard(d.points, "Матриця сумісності"),
                     interpretationCard(d.interpretation),
-                    arcanaSection(d.points));
+                    arcanaSection(d.points),
+                    compatQuestionSection(() => ({ first: first.value, second: second.value, method: method.value })));
             } catch (err) {
                 out.replaceChildren();
                 errorEl.textContent = err.message;

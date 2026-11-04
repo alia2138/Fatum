@@ -189,7 +189,7 @@ async function renderConsultantCabinet(container) {
         cabHead("Кабінет консультанта",
             `Вітаємо, ${firstName(profile.displayName) || "колего"}`,
             "Ваш графік, запити та відгуки у спокійному робочому ритмі.",
-            [cabButton("Редагувати профіль", () => { profileEditing = true; go("profile"); }, "cab-btn-ghost")]),
+            [cabButton("Редагувати профіль", () => { profileEditing = true; go("profile"); }, "cab-btn-ghost"), cabButton("Змінити акаунт", () => logout(), "cab-btn-ghost")]),
         statRow,
         el("div", { class: "cab-grid" },
             el("div", { class: "cab-col" }, scheduleCard, pendingCard, nearestCard, completedCard),
@@ -289,7 +289,8 @@ async function renderClientCabinet(container) {
             [
                 cabButton("Нове гадання", () => go("tarot"), "cab-btn-dark"),
                 cabButton("Розрахувати матрицю", () => go("matrix"), "cab-btn-ghost"),
-                cabButton("Консультанти", () => go("catalog"), "cab-btn-ghost")
+                cabButton("Консультанти", () => go("catalog"), "cab-btn-ghost"),
+                cabButton("Змінити акаунт", () => logout(), "cab-btn-ghost")
             ]),
         statRow,
         el("div", { class: "cab-grid" },

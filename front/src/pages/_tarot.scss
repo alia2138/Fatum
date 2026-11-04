@@ -110,8 +110,8 @@
   gap: 10px;
   width: 170px;
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.4s, transform 0.4s;
+  transform: translate(0, -170px) scale(0.45) rotate(-8deg);
+  transition: opacity 0.6s, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
 
   &.in {
     opacity: 1;

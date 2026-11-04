@@ -6,6 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="5d899522-33d1-447d-a753-dc1c8e7f6f8e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/dist/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/css/style.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/css/style.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/js/views/cabinet.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/views/cabinet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/js/views/matrix.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/views/matrix.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/js/views/tarot.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/views/tarot.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/_tarot.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_tarot.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +177,7 @@
       <workItem from="1793694214061" duration="1936000" />
       <workItem from="1793700288204" duration="174000" />
       <workItem from="1793700527759" duration="5226000" />
-      <workItem from="1793723981417" duration="4022000" />
+      <workItem from="1793723981417" duration="5759000" />
     </task>
     <servers />
   </component>
