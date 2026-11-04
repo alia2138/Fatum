@@ -51,6 +51,10 @@ public class SavedMatrix : Entity
     public string? Label { get; private set; }
     public List<MatrixMessage> Messages { get; private set; } = new();
 
+    public void SetLabel(string? label) => Label = label;
+
+    public void ClearMessages() => Messages.Clear();
+
     public void AddMessage(MatrixMessageRole role, string text, string? zone = null, string provider = "") =>
         Messages.Add(new MatrixMessage(role, text, zone, provider));
 }

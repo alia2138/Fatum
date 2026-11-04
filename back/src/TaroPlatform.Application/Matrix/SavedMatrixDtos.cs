@@ -35,3 +35,5 @@ public record ZoneAnswerDto(
     string Description,
     IReadOnlyList<MatrixPointDto> Points,
     string Text);
+
+public record RenameMatrixRequest(string? Label);

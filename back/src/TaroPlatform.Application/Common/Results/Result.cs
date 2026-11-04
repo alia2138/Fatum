@@ -1,5 +1,4 @@
 namespace TaroPlatform.Application.Common.Results;
-using TaroPlatform.Application.Catalog;
 
 /// <summary>
 /// Result-патерн: повертає успіх або помилку замість винятків для очікуваних ситуацій.

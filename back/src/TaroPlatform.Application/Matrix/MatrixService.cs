@@ -51,7 +51,9 @@ public class MatrixService : IMatrixService
                 "Персональний опис матриці долі: характер, призначення і поточний період життя",
                 cards,
                 FollowUp: null,
-                History: Array.Empty<ChatTurn>()),
+                History: Array.Empty<ChatTurn>(),
+                SystemPrompt: MatrixPrompts.System,
+                CardsLabel: MatrixPrompts.CardsLabel),
             cancellationToken);
 
         var result = new MatrixResultDto(
@@ -107,7 +109,9 @@ public class MatrixService : IMatrixService
                 "Опиши сумісність цих двох людей: сильні сторони, можливі виклики і поради",
                 cards,
                 FollowUp: null,
-                History: Array.Empty<ChatTurn>()),
+                History: Array.Empty<ChatTurn>(),
+                SystemPrompt: MatrixPrompts.System,
+                CardsLabel: MatrixPrompts.CardsLabel),
             cancellationToken);
 
         return Result.Success(new CompatibilityResultDto(

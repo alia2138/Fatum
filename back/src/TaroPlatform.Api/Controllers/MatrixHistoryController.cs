@@ -72,6 +72,28 @@ public class MatrixHistoryController : ControllerBase
         return Ok(result.Value);
     }
 
+    /// <summary>Перейменувати матрицю. Порожня назва прибирає її.</summary>
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> Rename(string id, [FromBody] RenameMatrixRequest request, CancellationToken cancellationToken)
+    {
+        var result = await _saved.RenameAsync(UserId, id, request.Label, cancellationToken);
+        if (result.IsFailure)
+            return BadRequest(new { error = result.Error });
+
+        return Ok(result.Value);
+    }
+
+    /// <summary>Очистити всі питання до AI по цій матриці (саму матрицю залишити).</summary>
+    [HttpDelete("{id}/messages")]
+    public async Task<IActionResult> ClearQuestions(string id, CancellationToken cancellationToken)
+    {
+        var result = await _saved.ClearConversationAsync(UserId, id, cancellationToken);
+        if (result.IsFailure)
+            return NotFound(new { error = result.Error });
+
+        return NoContent();
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(string id, CancellationToken cancellationToken)
     {

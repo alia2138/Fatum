@@ -13,6 +13,8 @@ public interface ISavedMatrixService
     Task<Result<IReadOnlyList<ZoneAnswerDto>>> GetZonesAsync(string userId, string id, CancellationToken cancellationToken = default);
     Task<Result<SavedMatrixDetailDto>> AskAsync(string userId, string id, MatrixQuestionRequest request, CancellationToken cancellationToken = default);
     Task<Result> DeleteAsync(string userId, string id, CancellationToken cancellationToken = default);
+    Task<Result<SavedMatrixSummaryDto>> RenameAsync(string userId, string id, string? label, CancellationToken cancellationToken = default);
+    Task<Result> ClearConversationAsync(string userId, string id, CancellationToken cancellationToken = default);
 }
 
 /// <summary>
@@ -117,9 +119,13 @@ public class SavedMatrixService : ISavedMatrixService
                 "Матриця долі",
                 $"Дата народження: {birth:dd.MM.yyyy}; спосіб розрахунку: {saved.Method}",
                 question,
-                BuildCards(matrix, zone),
+                IsTemporalQuestion(text)
+                    ? BuildTimelineCards(matrix, birth, DateOnly.FromDateTime(_clock.UtcNow), zone)
+                    : BuildCards(matrix, zone),
                 FollowUp: null,
-                History: history),
+                History: history,
+                SystemPrompt: IsTemporalQuestion(text) ? MatrixPrompts.TimelineSystem : MatrixPrompts.System,
+                CardsLabel: IsTemporalQuestion(text) ? MatrixPrompts.TimelineLabel : MatrixPrompts.CardsLabel),
             cancellationToken);
 
         saved.AddMessage(MatrixMessageRole.User, text, zone?.Key);
@@ -137,6 +143,74 @@ public class SavedMatrixService : ISavedMatrixService
 
         await _saved.DeleteAsync(saved.Id, cancellationToken);
         return Result.Success();
+    }
+
+    public async Task<Result<SavedMatrixSummaryDto>> RenameAsync(string userId, string id, string? label, CancellationToken cancellationToken = default)
+    {
+        var saved = await _saved.GetOwnedAsync(id, userId, cancellationToken);
+        if (saved is null)
+            return Result.Failure<SavedMatrixSummaryDto>("Матрицю не знайдено.");
+
+        var value = string.IsNullOrWhiteSpace(label) ? null : label.Trim();
+        if (value is not null && value.Length > MaxLabelLength)
+            return Result.Failure<SavedMatrixSummaryDto>($"Назва не може бути довшою за {MaxLabelLength} символів.");
+
+        saved.SetLabel(value);
+        await _saved.UpdateAsync(saved, cancellationToken);
+        return Result.Success(ToSummary(saved));
+    }
+
+    /// <summary>Очищає розмову з AI, але не видаляє саму матрицю.</summary>
+    public async Task<Result> ClearConversationAsync(string userId, string id, CancellationToken cancellationToken = default)
+    {
+        var saved = await _saved.GetOwnedAsync(id, userId, cancellationToken);
+        if (saved is null)
+            return Result.Failure("Матрицю не знайдено.");
+
+        saved.ClearMessages();
+        await _saved.UpdateAsync(saved, cancellationToken);
+        return Result.Success();
+    }
+
+    private static readonly System.Text.RegularExpressions.Regex TemporalPattern = new(
+        @"\b(коли|в якому (році|віці)|у якому (році|віці)|через скільки|який рік|скільки років|який період)\b",
+        System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+
+    private const int TimelineWindowPeriods = 8;
+
+    public static bool IsTemporalQuestion(string text) => TemporalPattern.IsMatch(text);
+
+    /// <summary>
+    /// Аркани періодів віку: поточний період і ще 7 (близько 20 років вперед).
+    /// Для кожного періоду вказано вік і приблизні календарні роки.
+    /// </summary>
+    private static List<InterpretedCard> BuildTimelineCards(DestinyMatrix matrix, DateOnly birth, DateOnly today, MatrixZones.Zone? zone)
+    {
+        var ageYears = (today.DayNumber - birth.DayNumber) / 365.25;
+        var startFrom = Math.Floor(ageYears / 2.5) * 2.5;
+        var cards = new List<InterpretedCard>();
+
+        for (var i = 0; i < TimelineWindowPeriods; i++)
+        {
+            var from = startFrom + i * 2.5;
+            var period = DestinyMatrixCalculator.PeriodAt(matrix, from);
+            var arcana = DestinyMatrixCalculator.ArcanaFor(period.Value);
+            var calendarFrom = birth.Year + (int)Math.Floor(from);
+            var calendarTo = birth.Year + (int)Math.Floor(from + 2.5);
+            var marker = i == 0 ? " (поточний період)" : string.Empty;
+
+            cards.Add(new InterpretedCard(
+                $"Вік {from:0.#}–{from + 2.5:0.#} років (приблизно {calendarFrom}–{calendarTo}){marker}, " +
+                $"{DestinyMatrixCalculator.LineFor(from)}",
+                arcana.Name,
+                false,
+                arcana.UprightMeaning));
+        }
+
+        if (zone is not null)
+            cards.AddRange(BuildCards(matrix, zone).Where(c => c.PositionName.Contains("фокус")));
+
+        return cards;
     }
 
     // ---------- Допоміжні ----------

@@ -5,7 +5,6 @@ using TaroPlatform.Application.Notifications;
 using TaroPlatform.Domain.Consultations;
 using TaroPlatform.Domain.Reviews;
 using TaroPlatform.Domain.Users;
-using TaroPlatform.Application.Catalog;
 
 namespace TaroPlatform.Application.Reviews;
 
