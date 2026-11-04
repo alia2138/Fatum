@@ -1,19 +1,9 @@
 // Профіль: спочатку перегляд (як у соцмережах), редагування — окремою кнопкою
 let profileEditing = false;
 
-async function renderProfile(container) {
-    const p = await api("/profile/me");
-
-    if (profileEditing) {
-        container.replaceChildren(profileEditView(p, container));
-        return;
-    }
-
-    let stats = null;
-    if (p.role === "Consultant") {
-        try { stats = await api(`/consultants/${p.id}`); } catch (err) { stats = null; }
-    }
-    container.replaceChildren(profileInfoView(p, stats, container));
+// Профіль і акаунт — одна сторінка (кабінет)
+function renderProfile(container) {
+    return renderCabinet(container);
 }
 
 function chips(items, labelOf) {

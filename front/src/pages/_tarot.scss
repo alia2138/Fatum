@@ -1,0 +1,188 @@
+@use "../utils/variables" as *;
+
+/* Гадання як чат */
+.tarot-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 28px 16px;
+}
+
+.tarot-log {
+  padding: 4px 6px;
+}
+
+.tarot-bar {
+  flex-shrink: 0;
+
+  .chat-input {
+    align-items: flex-end;
+    gap: 10px;
+    width: 100%;
+    margin: 0;
+  }
+
+  textarea {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    min-height: 48px;
+    max-height: 140px;
+    padding: 12px 14px;
+    resize: none;
+    font-family: inherit;
+  }
+
+  button {
+    flex-shrink: 0;
+    width: auto;
+    height: 48px;
+    padding: 0 22px;
+  }
+
+  .error {
+    margin: 6px 0 0;
+  }
+}
+
+.typing .dots i {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 0 2px;
+  border-radius: 50%;
+  background: $color-text-muted;
+  animation: tarot-dot 1s infinite ease-in-out;
+
+  &:nth-child(2) { animation-delay: 0.15s; }
+  &:nth-child(3) { animation-delay: 0.3s; }
+}
+
+@keyframes tarot-dot {
+  0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-3px); }
+}
+
+/* Тасування */
+.tarot-deck {
+  position: relative;
+  width: 120px;
+  height: 170px;
+  margin: 10px auto;
+}
+
+.tarot-deck-card {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: 100px;
+  height: 150px;
+  border: 2px solid #fff;
+  border-radius: 12px;
+  background: linear-gradient(135deg, $color-primary, $color-secondary);
+  box-shadow: 0 6px 18px rgba(57, 141, 224, 0.3);
+  animation: tarot-shuffle 1.2s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.07s);
+}
+
+@keyframes tarot-shuffle {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-40px, -18px) rotate(-12deg); }
+  50% { transform: translate(34px, 6px) rotate(10deg); }
+  75% { transform: translate(-16px, -8px) rotate(-5deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/* Розклад */
+.tarot-spread {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+}
+
+.tarot-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 170px;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.4s, transform 0.4s;
+
+  &.in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.tarot-flip {
+  position: relative;
+  width: 120px;
+  height: 180px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+
+  &.flipped {
+    transform: rotateY(180deg);
+  }
+}
+
+.tarot-back,
+.tarot-front {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  backface-visibility: hidden;
+}
+
+.tarot-back {
+  border: 2px solid #fff;
+  background: linear-gradient(135deg, $color-primary, $color-secondary);
+  box-shadow: 0 6px 18px rgba(57, 141, 224, 0.3);
+}
+
+.tarot-front {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid $color-primary;
+  background: linear-gradient(160deg, #ffffff, #d8f0ff);
+  transform: rotateY(180deg);
+
+  &.reversed {
+    transform: rotateY(180deg) rotate(180deg);
+  }
+}
+
+.tarot-sym {
+  color: $color-secondary;
+  font-size: 42px;
+}
+
+.tarot-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+
+  strong {
+    color: $color-text;
+    font-size: 14px;
+  }
+
+  p {
+    margin: 0;
+    color: $color-text;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  span {
+    font-size: 11px;
+  }
+}

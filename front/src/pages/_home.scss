@@ -227,3 +227,75 @@
     height: 42px;
   }
 }
+
+/* Сторінка застосунку не прокручується цілим документом */
+body.app-page {
+  display: block;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#view {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+
+  > .page {
+    flex-shrink: 0;
+  }
+
+  > .chat-page {
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+    padding-bottom: 16px;
+  }
+}
+
+#view > .chat-page .chat-messages {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+}
+
+.chat-title-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: 9px 10px;
+  border: none;
+  border-radius: 10px;
+  background: none;
+  color: $color-text-muted;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+
+  strong {
+    overflow: hidden;
+    color: $color-text;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  span {
+    font-size: 12px;
+  }
+
+  &:hover,
+  &.active {
+    background: rgba(101, 202, 255, 0.14);
+  }
+}

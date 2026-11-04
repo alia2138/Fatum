@@ -1,0 +1,458 @@
+@use "../utils/variables" as *;
+
+/* Кабінети: layout як на макеті, стиль застосунку (блакитне скло) */
+.cabinet {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100%;
+  padding: 32px 36px 56px;
+  color: $color-text;
+
+  .cab-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 22px;
+
+    h1 {
+      margin: 6px 0 4px;
+      color: $color-text;
+      font-size: 32px;
+      font-weight: 700;
+    }
+  }
+
+  .cab-eyebrow {
+    display: block;
+    color: $color-text-muted;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .cab-sub,
+  .cab-muted {
+    margin: 0;
+    color: $color-text-muted;
+    font-size: 13px;
+  }
+
+  .cab-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .cab-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .cab-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 18px 20px;
+    background: $glass-bg;
+    border: 1px solid $glass-border;
+    border-radius: $radius-lg;
+    box-shadow: 0 8px 30px rgba(57, 141, 224, 0.08);
+    backdrop-filter: blur($glass-blur);
+
+    strong {
+      color: $color-text;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    small {
+      color: $color-text-muted;
+      font-size: 12px;
+    }
+  }
+
+  .cab-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 16px;
+  }
+
+  .cab-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .cab-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 22px;
+    background: $glass-bg;
+    border: 1px solid $glass-border;
+    border-radius: $radius-lg;
+    box-shadow: 0 8px 30px rgba(57, 141, 224, 0.08);
+    backdrop-filter: blur($glass-blur);
+  }
+
+  .cab-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    h3 {
+      margin: 0;
+      color: $color-text;
+      font-size: 17px;
+      font-weight: 700;
+    }
+  }
+
+  .cab-btn {
+    padding: 9px 14px;
+    border: 1px solid $input-border;
+    border-radius: $radius-sm;
+    background: rgba(255, 255, 255, 0.7);
+    color: $color-text;
+    font-size: 13px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover {
+      background: #fff;
+      border-color: $color-primary;
+    }
+  }
+
+  .cab-btn-dark {
+    border-color: transparent;
+    background: linear-gradient(120deg, $color-primary, $color-secondary);
+    color: #fff;
+
+    &:hover {
+      background: linear-gradient(120deg, $color-primary-hover, $color-secondary);
+    }
+  }
+
+  .cab-btn-ghost {
+    background: transparent;
+  }
+
+  .cab-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+
+  .cab-day {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 0;
+    border: 1px solid $input-border;
+    border-radius: $radius-md;
+    background: rgba(255, 255, 255, 0.6);
+    color: $color-text;
+    cursor: pointer;
+    transition: $transition;
+
+    .dow {
+      color: $color-text-muted;
+      font-size: 12px;
+    }
+
+    .num {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: $color-secondary;
+    }
+
+    &.selected {
+      border-color: transparent;
+      background: linear-gradient(120deg, $color-primary, $color-secondary);
+      color: #fff;
+
+      .dow {
+        color: #e6f6ff;
+      }
+
+      .dot {
+        background: #fff;
+      }
+    }
+  }
+
+  .cab-day-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .cab-slot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border: 1px solid $glass-border;
+    border-radius: $radius-md;
+    background: rgba(101, 202, 255, 0.14);
+    color: $color-text;
+
+    strong {
+      font-weight: 700;
+    }
+
+    span {
+      color: $color-text-muted;
+      font-size: 12px;
+    }
+  }
+
+  .cab-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cab-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 14px 0;
+    border-top: 1px solid rgba(101, 202, 255, 0.2);
+
+    &:first-child {
+      padding-top: 0;
+      border-top: none;
+    }
+
+    &.clickable {
+      cursor: pointer;
+
+      &:hover strong {
+        color: $color-secondary;
+      }
+    }
+  }
+
+  .cab-row-main {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+
+    strong {
+      color: $color-text;
+      font-weight: 700;
+    }
+
+    span {
+      color: $color-text-muted;
+      font-size: 13px;
+    }
+  }
+
+  .cab-row-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    input {
+      width: 180px;
+    }
+  }
+
+  .cab-price {
+    color: $color-secondary;
+    font-weight: 700;
+  }
+
+  .cab-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: $color-secondary;
+  }
+
+  .cab-profile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    strong {
+      color: $color-text;
+      font-size: 17px;
+    }
+
+    span {
+      display: block;
+      color: $color-text-muted;
+      font-size: 13px;
+    }
+  }
+
+  .cab-avatar {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: linear-gradient(120deg, $color-primary, $color-secondary);
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .cab-kv {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-top: 1px solid rgba(101, 202, 255, 0.2);
+    color: $color-text-muted;
+    font-size: 14px;
+
+    strong {
+      color: $color-text;
+      font-weight: 700;
+    }
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .chip {
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: rgba(101, 202, 255, 0.18);
+    color: #278fce;
+    font-size: 12px;
+  }
+
+  .cab-rating {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .cab-rating-big {
+    color: $color-text;
+    font-size: 44px;
+    font-weight: 700;
+  }
+
+  .cab-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .cab-bar {
+    display: grid;
+    grid-template-columns: 12px 1fr 24px;
+    align-items: center;
+    gap: 8px;
+    color: $color-text-muted;
+    font-size: 12px;
+  }
+
+  .cab-track {
+    height: 6px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: rgba(101, 202, 255, 0.2);
+
+    i {
+      display: block;
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(120deg, $color-primary, $color-secondary);
+    }
+  }
+
+  .cab-review {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px;
+    border: 1px solid $glass-border;
+    border-radius: $radius-md;
+    background: rgba(255, 255, 255, 0.6);
+
+    p {
+      margin: 0;
+      color: $color-text;
+      font-size: 14px;
+    }
+
+    strong {
+      color: $color-text;
+      font-size: 13px;
+    }
+  }
+
+  .cab-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .cabinet {
+    .cab-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cab-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .cabinet {
+    padding: 22px 16px 40px;
+
+    .cab-week {
+      gap: 4px;
+    }
+
+    .cab-row-actions input {
+      width: 100%;
+    }
+  }
+}

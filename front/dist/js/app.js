@@ -1,7 +1,8 @@
 // Оболонка застосунку: верхня панель, нижня панель з іконками, сайдбар з історією, роутер
 const ROUTES = {
-    tarot:         { roles: ["Client"], render: renderTarot },
-    matrix:        { roles: ["Client"], render: renderMatrix },
+    cabinet:       { roles: ["Client", "Consultant"], render: renderCabinet },
+    tarot:         { roles: ["Client", "Consultant"], render: renderTarot },
+    matrix:        { roles: ["Client", "Consultant"], render: renderMatrix },
     catalog:       { roles: ["Client"], render: renderCatalog },
     consultations: { roles: ["Client", "Consultant"], render: renderConsultations },
     chats:         { roles: ["Client", "Consultant"], render: renderChats },
@@ -23,6 +24,8 @@ const DOCK = {
     ],
     Consultant: [
         ["consultations", "calendar", "Заявки"],
+        ["tarot", "tarot", "Гадання"],
+        ["matrix", "matrix", "Матриця"],
         ["chats", "chat", "Чати"],
         ["schedule", "clock", "Графік"],
         ["reviews", "star", "Відгуки"]
@@ -34,15 +37,15 @@ const TOP = {
     Client: [
         ["notifications", "bell", "Сповіщення"],
         ["favorites", "heart", "Обране"],
-        ["profile", "user", "Профіль"]
+        ["cabinet", "user", "Акаунт"]
     ],
     Consultant: [
         ["notifications", "bell", "Сповіщення"],
-        ["profile", "user", "Профіль"]
+        ["cabinet", "user", "Акаунт"]
     ]
 };
 
-const HOME = { Client: "tarot", Consultant: "consultations" };
+const HOME = { Client: "cabinet", Consultant: "cabinet" };
 
 function go(key, param) {
     location.hash = param ? `${key}/${param}` : key;
@@ -103,8 +106,9 @@ async function route() {
         return;
     }
 
+    if (target !== "profile") profileEditing = false;
     highlight(target);
-    if (role === "Client") refreshHistory();
+    updateSidebar(target);
 
     const container = document.getElementById("view");
     container.replaceChildren(muted("Завантаження..."));
@@ -119,14 +123,29 @@ async function route() {
     document.getElementById("content").scrollTop = 0;
 }
 
-function init() {
-    const role = currentRole();
-    const isClient = role === "Client";
+// Сайдбар показуємо лише для гадань і матриць, з відповідною історією
+const SIDEBAR = {
+    tarot: { title: "Історія гадань", newLabel: "+ Новий чат", newRoute: "tarot", refresh: () => refreshHistory() },
+    matrix: { title: "Збережені матриці", newLabel: "+ Нова матриця", newRoute: "matrix", refresh: () => refreshMatrixSidebar() }
+};
 
-    document.getElementById("sidebar").hidden = !isClient;
-    document.getElementById("new-chat").addEventListener("click", () => {
-        if (location.hash === "#tarot") route();
-        else go("tarot");
+function updateSidebar(key) {
+    const sidebar = document.getElementById("sidebar");
+    const config = SIDEBAR[key];
+    sidebar.hidden = !config;
+    if (!config) return;
+    document.getElementById("new-chat").textContent = config.newLabel;
+    document.getElementById("history-title").textContent = config.title;
+    document.getElementById("history-section").hidden = false;
+    config.refresh();
+}
+
+function init() {
+    const newChat = document.getElementById("new-chat");
+    newChat.addEventListener("click", () => {
+        const target = SIDEBAR[parseHash().key] ? SIDEBAR[parseHash().key].newRoute : "tarot";
+        if (location.hash === "#" + target) route();
+        else go(target);
     });
 
     buildNav();

@@ -6,7 +6,7 @@
     <title>TaroPlatform</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
+<body class="app-page">
 <div id="app">
     <header id="topbar">
         <div class="brand">TaroPlatform</div>
@@ -22,7 +22,7 @@
                     <h4>Закріплено</h4>
                     <div id="pinned-list"></div>
                 </div>
-                <h4>Історія гадань</h4>
+                <h4 id="history-title">Історія гадань</h4>
                 <div id="recent-list"></div>
             </div>
         </aside>
@@ -36,6 +36,7 @@
 </div>
 
 <script src="../js/api.js"></script>
+<script src="../js/views/cabinet.js"></script>
 <script src="../js/views/tarot.js"></script>
 <script src="../js/views/matrix.js"></script>
 <script src="../js/views/catalog.js"></script>

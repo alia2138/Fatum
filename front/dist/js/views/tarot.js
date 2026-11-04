@@ -94,77 +94,13 @@ async function renderTopics(container) {
                 title: `${topic.story}\n\nПозиції: ${topic.positions.join(", ")}`,
                 onclick: () => {
                     selectedTopic = topic;
-                    renderBackground(container);
+                    startTarotChat(container, topic);
                 }
             }, topic.title));
         });
     } catch (err) {
         grid.replaceChildren(notice(err.message));
     }
-}
-
-// Крок 2: передісторія
-function renderBackground(container) {
-    const input = el("textarea", { rows: "6", maxlength: "1500", placeholder: "Коротко опишіть свою ситуацію..." });
-    input.value = savedBackground;
-    const errorEl = el("p", { class: "error" });
-
-    container.replaceChildren(el("div", { class: "page" },
-        el("h2", {}, selectedTopic.title),
-        el("p", { class: "hint" }, "Розкажіть коротко вашу ситуацію (від 10 до 1500 символів)."),
-        el("form", { onsubmit: (e) => {
-            e.preventDefault();
-            const text = input.value.trim();
-            if (text.length < 10) {
-                errorEl.textContent = "Напишіть трохи більше, щонайменше 10 символів.";
-                return;
-            }
-            savedBackground = text;
-            renderQuestion(container);
-        } },
-            input,
-            errorEl,
-            el("div", { class: "form-actions" },
-                el("button", { type: "button", class: "ghost", onclick: () => renderTopics(container) }, "Назад"),
-                el("button", { type: "submit", class: "primary" }, "Далі")))));
-}
-
-// Крок 3: питання, після чого створюється гадання
-function renderQuestion(container) {
-    const input = el("input", { type: "text", maxlength: "500", placeholder: "Ваше питання" });
-    const errorEl = el("p", { class: "error" });
-    const submit = el("button", { type: "submit", class: "primary" }, "Почати гадання");
-
-    container.replaceChildren(el("div", { class: "page" },
-        el("h2", {}, "Ваше питання"),
-        el("form", { onsubmit: async (e) => {
-            e.preventDefault();
-            const question = input.value.trim();
-            if (question.length < 3) {
-                errorEl.textContent = "Питання має бути щонайменше 3 символи.";
-                return;
-            }
-            submit.disabled = true;
-            submit.textContent = "Тасуємо карти...";
-            try {
-                const detail = await api("/tarot/readings", {
-                    method: "POST",
-                    body: { topic: selectedTopic.key, background: savedBackground, question: question }
-                });
-                history.replaceState(null, "", `#tarot/${detail.id}`);
-                refreshHistory();
-                showReading(container, detail);
-            } catch (err) {
-                errorEl.textContent = err.message;
-                submit.disabled = false;
-                submit.textContent = "Почати гадання";
-            }
-        } },
-            input,
-            errorEl,
-            el("div", { class: "form-actions" },
-                el("button", { type: "button", class: "ghost", onclick: () => renderBackground(container) }, "Назад"),
-                submit))));
 }
 
 // Розклад і чат з таро-аналітиком
@@ -209,4 +145,157 @@ function showReading(container, detail) {
         } }, input, send)));
 
     log.scrollTop = log.scrollHeight;
+}
+
+
+// ===== Гадання як чат: ситуація, питання, тасування, розклад, трактування =====
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function scrollDown(log) {
+    log.scrollTop = log.scrollHeight;
+}
+
+function botTyping(log) {
+    const node = el("div", { class: "msg assistant typing" },
+        el("span", { class: "dots" }, el("i"), el("i"), el("i")));
+    log.append(node);
+    scrollDown(log);
+    return node;
+}
+
+async function say(log, text) {
+    const typing = botTyping(log);
+    await sleep(Math.min(1000, 350 + text.length * 10));
+    typing.replaceWith(messageBubble("assistant", "Таролог", text));
+    scrollDown(log);
+}
+
+// Питання в чаті: повертає текст, коли він пройшов перевірку довжини
+function ask(log, bar, placeholder, min, max) {
+    return new Promise((resolve) => {
+        const input = el("textarea", { rows: "2", maxlength: String(max), placeholder: placeholder });
+        const errorEl = el("p", { class: "error" });
+        const send = el("button", { type: "submit", class: "primary" }, "Надіслати");
+        const form = el("form", { class: "chat-input", onsubmit: (e) => {
+            e.preventDefault();
+            const text = input.value.trim();
+            if (text.length < min) {
+                errorEl.textContent = `Напишіть щонайменше ${min} символів.`;
+                return;
+            }
+            bar.replaceChildren();
+            log.append(messageBubble("user", "Ви", text));
+            scrollDown(log);
+            resolve(text);
+        } }, input, send);
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                form.requestSubmit();
+            }
+        });
+        bar.replaceChildren(form, errorEl);
+        input.focus();
+    });
+}
+
+function shuffleStage() {
+    return el("div", { class: "tarot-deck" },
+        ...[0, 1, 2, 3, 4, 5].map((i) => el("div", { class: "tarot-deck-card", style: `--i:${i}` })));
+}
+
+// Карти лежать рубашкою, потім перевертаються, під кожною — назва і значення
+async function revealCards(log, cards) {
+    const row = el("div", { class: "tarot-spread" });
+    log.append(row);
+    scrollDown(log);
+
+    const slots = cards.map((c) => {
+        const flip = el("div", { class: "tarot-flip" },
+            el("div", { class: "tarot-back" }),
+            el("div", { class: "tarot-front" + (c.isReversed ? " reversed" : "") },
+                el("span", { class: "tarot-sym" }, "✦")));
+        const slot = el("div", { class: "tarot-slot" }, flip);
+        row.append(slot);
+        return { slot, flip, c };
+    });
+
+    for (const item of slots) {
+        await sleep(260);
+        item.slot.classList.add("in");
+        scrollDown(log);
+    }
+
+    for (const item of slots) {
+        await sleep(450);
+        item.flip.classList.add("flipped");
+        await sleep(350);
+        item.slot.append(el("div", { class: "tarot-caption" },
+            el("span", { class: "muted" }, item.c.positionName),
+            el("strong", {}, item.c.cardName + (item.c.isReversed ? " (перевернута)" : "")),
+            el("p", {}, item.c.meaning)));
+        scrollDown(log);
+    }
+}
+
+async function startTarotChat(container, topic) {
+    const log = el("div", { class: "chat-messages tarot-log" });
+    const bar = el("div", { class: "tarot-bar" });
+    container.replaceChildren(el("div", { class: "chat-page tarot-chat" },
+        log,
+        bar));
+
+    await say(log, "Розкажіть, будь ласка, що зараз відбувається у вашому житті. Чим більше деталей, тим точніше буде розклад.");
+    const background = await ask(log, bar, "Коротко опишіть ситуацію...", 10, 1500);
+
+    await say(log, "Агаа, зрозуміло. Яке конкретне питання вас найбільше хвилює?");
+    const question = await ask(log, bar, "Ваше питання...", 3, 500);
+
+    await say(log, "Дякую. Тасую карти...");
+    const deck = shuffleStage();
+    log.append(deck);
+    scrollDown(log);
+
+    const request = api("/tarot/readings", {
+        method: "POST",
+        body: { topic: topic.key, background: background, question: question }
+    }).then((detail) => ({ ok: true, detail }), (err) => ({ ok: false, err }));
+
+    await sleep(2600);
+    const result = await request;
+    deck.remove();
+
+    if (!result.ok) {
+        await say(log, "Не вдалося розкласти карти: " + result.err.message);
+        return;
+    }
+
+    const detail = result.detail;
+    history.replaceState(null, "", `#tarot/${detail.id}`);
+    refreshHistory();
+
+    await say(log, "Ось ваш розклад.");
+    await revealCards(log, detail.cards);
+
+    const reply = [...detail.messages].reverse().find((m) => m.role === "Assistant");
+    await say(log, reply ? reply.text : "Трактування поки недоступне.");
+
+    followUpLoop(log, bar, detail.id);
+}
+
+async function followUpLoop(log, bar, readingId) {
+    while (true) {
+        const text = await ask(log, bar, "Уточнювальне питання...", 3, 500);
+        const typing = botTyping(log);
+        try {
+            const detail = await api(`/tarot/readings/${readingId}/messages`, { method: "POST", body: { question: text } });
+            typing.remove();
+            const last = [...detail.messages].reverse().find((m) => m.role === "Assistant");
+            log.append(messageBubble("assistant", "Таролог", last ? last.text : ""));
+            scrollDown(log);
+        } catch (err) {
+            typing.remove();
+            log.append(notice(err.message));
+        }
+    }
 }

@@ -1,0 +1,363 @@
+@use "../utils/variables" as *;
+
+/* Сторінка матриці: розміщення як на макеті, стиль застосунку */
+.mx-page {
+  max-width: 1040px;
+}
+
+.mx-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+
+  h2 {
+    margin: 4px 0 6px;
+    font-size: 30px;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.mx-eyebrow {
+  display: block;
+  color: $color-text-muted;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mx-tabs {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid rgba(101, 202, 255, 0.25);
+
+  button {
+    padding: 8px 0 10px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: none;
+    color: $color-text-muted;
+    font-size: 14px;
+    cursor: pointer;
+
+    &.active {
+      border-bottom-color: $color-secondary;
+      color: $color-text;
+      font-weight: 700;
+    }
+  }
+}
+
+.mx-calc {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 18px;
+
+  label {
+    min-width: 200px;
+  }
+
+  button {
+    width: auto;
+    padding: 11px 18px;
+  }
+}
+
+.mx-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.mx-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.mx-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 22px;
+  background: $glass-bg;
+  border: 1px solid $glass-border;
+  border-radius: $radius-lg;
+  box-shadow: 0 8px 30px rgba(57, 141, 224, 0.08);
+  backdrop-filter: blur($glass-blur);
+
+  h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+  }
+}
+
+.mx-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.mx-pill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(101, 202, 255, 0.18);
+  color: #278fce;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.mx-tag {
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(101, 202, 255, 0.18);
+  color: #278fce;
+  font-size: 12px;
+}
+
+.mx-title {
+  font-size: 22px !important;
+  line-height: 1.25;
+}
+
+.mx-text {
+  margin: 0;
+  color: $color-text;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.mx-muted {
+  display: block;
+  color: $color-text-muted;
+  font-size: 13px;
+}
+
+.mx-diagram {
+  display: block;
+  width: 100%;
+  max-width: 440px;
+  height: auto;
+  margin: 0 auto;
+
+  .mx-ring {
+    fill: none;
+    stroke: rgba(101, 202, 255, 0.7);
+    stroke-width: 1.5;
+  }
+
+  .mx-frame {
+    fill: none;
+    stroke: rgba(57, 141, 224, 0.55);
+    stroke-width: 1.5;
+  }
+
+  .mx-spoke {
+    stroke: rgba(101, 202, 255, 0.45);
+    stroke-width: 1;
+  }
+
+  .mx-channel {
+    stroke: #398de0;
+    stroke-width: 1.5;
+    stroke-dasharray: 5 4;
+  }
+
+  .mx-line {
+    stroke: rgba(101, 202, 255, 0.5);
+    stroke-width: 1.5;
+  }
+
+  .mx-node {
+    circle {
+      fill: rgba(255, 255, 255, 0.92);
+      stroke: $color-primary;
+      stroke-width: 1.5;
+    }
+
+    text {
+      fill: $color-text;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    &.empty circle {
+      fill: rgba(255, 255, 255, 0.5);
+      stroke: rgba(101, 202, 255, 0.7);
+      stroke-dasharray: 3 3;
+    }
+
+    &.center circle {
+      fill: $color-secondary;
+      stroke: $color-secondary;
+    }
+
+    &.center text {
+      fill: #fff;
+      font-size: 22px;
+    }
+  }
+}
+
+.mx-support {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  strong {
+    display: block;
+    color: $color-text;
+    font-size: 14px;
+  }
+}
+
+.mx-num {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(120deg, $color-primary, $color-secondary);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.mx-note {
+  margin: 0;
+  color: $color-text-muted;
+  font-size: 12px;
+}
+
+.mx-compat {
+  margin-top: 16px;
+}
+
+.mx-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mx-chip {
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(101, 202, 255, 0.18);
+  color: #278fce;
+  font-size: 12px;
+}
+
+.mx-choice {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.mx-choice-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 26px 24px;
+  border: 1px solid $glass-border;
+  border-radius: $radius-lg;
+  background: $glass-bg;
+  box-shadow: 0 8px 30px rgba(57, 141, 224, 0.08);
+  backdrop-filter: blur($glass-blur);
+  color: $color-text;
+  text-align: left;
+  cursor: pointer;
+  transition: $transition;
+
+  strong {
+    font-size: 20px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: rgba(101, 202, 255, 0.6);
+  }
+}
+
+.mx-out {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.mx-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  h4 {
+    margin: 4px 0 0;
+    color: $color-secondary;
+    font-size: 14px;
+    font-weight: 700;
+  }
+}
+
+.mx-arcana-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  strong {
+    color: $color-text;
+    font-size: 14px;
+  }
+
+  p {
+    margin: 2px 0 0;
+  }
+}
+
+.mx-question {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  button {
+    align-self: flex-start;
+    width: auto;
+    padding: 11px 18px;
+  }
+}
+
+.mx-log {
+  max-height: 360px;
+}
+
+@media (max-width: 900px) {
+  .mx-choice {
+    grid-template-columns: 1fr;
+  }
+
+  .mx-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mx-calc label {
+    min-width: 0;
+    flex: 1;
+  }
+}
