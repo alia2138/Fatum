@@ -153,7 +153,9 @@ function init() {
     route();
 }
 
-if (isLoggedIn() && getSessionUser() && HOME[currentRole()]) {
+if (isLoggedIn() && getSessionUser() && currentRole() === "Admin") {
+    location.replace("admin.html");
+} else if (isLoggedIn() && getSessionUser() && HOME[currentRole()]) {
     init();
 } else {
     logout();

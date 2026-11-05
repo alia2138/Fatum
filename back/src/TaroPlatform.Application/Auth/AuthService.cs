@@ -61,6 +61,9 @@ public class AuthService : IAuthService
     {
         var user = await _users.GetByEmailAsync(NormalizeEmail(request.Email), cancellationToken);
 
+        if (user is not null && user.IsBlocked)
+            return Result.Failure<AuthResponse>("Акаунт заблоковано. Зверніться до адміністратора.");
+
         if (user is null || !_hasher.Verify(request.Password, user.PasswordHash))
             return Result.Failure<AuthResponse>("Невірний email або пароль.");
 
@@ -86,6 +89,9 @@ public class AuthService : IAuthService
                 await _users.UpdateAsync(user, cancellationToken);
             }
         }
+
+        if (user is not null && user.IsBlocked)
+            return Result.Failure<AuthResponse>("Акаунт заблоковано. Зверніться до адміністратора.");
 
         if (user is null)
         {

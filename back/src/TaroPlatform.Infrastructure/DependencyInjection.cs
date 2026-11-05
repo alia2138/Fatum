@@ -54,6 +54,8 @@ services.AddScoped<IConsultationRepository, ConsultationRepository>();
             client.Timeout = TimeSpan.FromSeconds(settings.TimeoutSeconds);
         });
         services.AddScoped<ITarotInterpreter, FallbackTarotInterpreter>();
+        services.AddHttpClient<AiBalanceProvider>();
+        services.AddScoped<IAiBalanceProvider, AiBalanceProvider>();
 
         return services;
     }

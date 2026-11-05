@@ -1,3 +1,6 @@
+using TaroPlatform.Application.Demo;
+using TaroPlatform.Application.Common.Interfaces;
+using TaroPlatform.Application.Admin;
 using TaroPlatform.Application.Favorites;
 using TaroPlatform.Application.Reminders;
 using TaroPlatform.Api.Workers;
@@ -7,7 +10,6 @@ using TaroPlatform.Application.Chat;
 using TaroPlatform.Application.Consultations;
 using TaroPlatform.Application.Notifications;
 using TaroPlatform.Application.Catalog;
-using TaroPlatform.Application.Common.Interfaces;
 using TaroPlatform.Application.Profile;
 using TaroPlatform.Infrastructure.Storage;
 using TaroPlatform.Application.Tarot;
@@ -70,6 +72,9 @@ builder.Services.AddScoped<IMatrixService, MatrixService>();
 builder.Services.AddScoped<ISavedMatrixService, SavedMatrixService>();
 builder.Services.AddScoped<IFavoriteService, FavoriteService>();
 builder.Services.AddScoped<IReminderService, ReminderService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<AdminBootstrap>();
+builder.Services.AddScoped<DemoDataSeeder>();
 builder.Services.AddHostedService<ReminderWorker>();
 builder.Services.AddSingleton<IPhotoStorage>(new LocalPhotoStorage(
     Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "uploads", "avatars")));
@@ -82,6 +87,21 @@ var auth = builder.Services
     .AddJwtBearer(options =>
     {
         options.MapInboundClaims = false;
+        // Миттєве блокування: на кожен запит перевіряємо, що користувач існує і не заблокований
+        options.Events = new JwtBearerEvents
+        {
+            OnTokenValidated = async context =>
+            {
+                var users = context.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
+                var userId = context.Principal?.FindFirst("sub")?.Value;
+                var user = userId is null
+                    ? null
+                    : await users.GetByIdAsync(userId, context.HttpContext.RequestAborted);
+
+                if (user is null || user.IsBlocked)
+                    context.Fail("Акаунт заблоковано або не існує.");
+            }
+        };
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -136,6 +156,13 @@ builder.Services.AddCors(o => o.AddPolicy("Frontend", p =>
     p.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod()));
 
 var app = builder.Build();
+
+// Адміністратор з конфігурації (Admin:Email, Admin:Password), якщо його ще немає
+using (var scope = app.Services.CreateScope())
+{
+    await scope.ServiceProvider.GetRequiredService<AdminBootstrap>()
+        .EnsureAsync(builder.Configuration["Admin:Email"], builder.Configuration["Admin:Password"]);
+}
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

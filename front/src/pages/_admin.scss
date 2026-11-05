@@ -1,0 +1,53 @@
+@use "../utils/variables" as *;
+
+/* Адмін-панель: вкладки в шапці, стиль кабінетів */
+.admin-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 6px;
+
+  button {
+    padding: 8px 14px;
+    border: 1px solid transparent;
+    border-radius: $radius-sm;
+    background: transparent;
+    color: $color-text-muted;
+    font-size: 14px;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover {
+      background: rgba(101, 202, 255, 0.14);
+    }
+
+    &.active {
+      border-color: transparent;
+      background: linear-gradient(120deg, $color-primary, $color-secondary);
+      color: #fff;
+    }
+  }
+}
+
+.admin-filters {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+
+  select,
+  input {
+    flex: 1;
+    min-width: 160px;
+    width: auto;
+  }
+}
+
+.cabinet .cab-card .cab-row:first-child {
+  padding-top: 0;
+}

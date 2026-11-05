@@ -25,6 +25,7 @@ public static class MongoMappings
             });
             BsonClassMap.RegisterClassMap<Client>(cm => cm.AutoMap());
             BsonClassMap.RegisterClassMap<Consultant>(cm => cm.AutoMap());
+            BsonClassMap.RegisterClassMap<Administrator>(cm => cm.AutoMap());
 
             _registered = true;
         }

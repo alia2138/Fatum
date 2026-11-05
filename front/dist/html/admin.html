@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адмін | TaroPlatform</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="app-page">
+<div id="app">
+    <header id="topbar">
+        <div class="brand">TaroPlatform · Адмін</div>
+        <nav id="admin-tabs" class="admin-tabs">
+            <button type="button" data-tab="stats">Статистика</button>
+            <button type="button" data-tab="users">Користувачі</button>
+            <button type="button" data-tab="moderation">Модерація</button>
+        </nav>
+        <button type="button" id="logout" class="ghost">Вийти</button>
+    </header>
+
+    <main class="admin-content">
+        <div id="admin-view"></div>
+    </main>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/admin.js"></script>
+</body>
+</html>

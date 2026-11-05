@@ -28,6 +28,13 @@ public abstract class User : Entity
     public string? PhotoUrl { get; private set; }
     public string? Bio { get; private set; }
 
+    /// <summary>Заблокований користувач не може увійти.</summary>
+    public bool IsBlocked { get; private set; }
+
+    public void Block() => IsBlocked = true;
+
+    public void Unblock() => IsBlocked = false;
+
     public bool HasExternalLogin(string provider, string providerUserId) =>
         ExternalLogins.Any(e => e.Provider == provider && e.ProviderUserId == providerUserId);
 
