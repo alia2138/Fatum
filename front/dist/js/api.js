@@ -1,5 +1,5 @@
 // Адреса бекенду (профіль http з launchSettings.json)
-const API_BASE = "https://YOUR-BACKEND.onrender.com/api";
+const API_BASE = "https://fatumback.onrender.com/api";
 const API_ORIGIN = API_BASE.slice(0, -4);
 
 const TOKEN_KEY = "taro_token";
