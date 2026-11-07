@@ -78,7 +78,7 @@ function renderCatalogList(container) {
         if (maxPrice.value) filters.maxPrice = maxPrice.value;
         if (minExp.value) filters.minExperience = minExp.value;
 
-        grid.replaceChildren(muted("Завантаження..."));
+        grid.replaceChildren(loader());
         try {
             cache = await fetchAllConsultants(filters);
             render();
@@ -99,10 +99,11 @@ function renderCatalogList(container) {
 }
 
 async function renderConsultant(container, id) {
-    const [c, reviews, favorites] = await Promise.all([
+    const [c, reviews, favorites, schedule] = await Promise.all([
         api(`/consultants/${id}`),
         api(`/reviews/consultant/${id}?page=1&pageSize=5`),
-        api("/favorites?type=Consultant")
+        api("/favorites?type=Consultant"),
+        safe(api(`/consultants/${id}/schedule`), { intervals: [] })
     ]);
 
     let favorite = favorites.find((f) => f.targetId === id) || null;
@@ -120,7 +121,20 @@ async function renderConsultant(container, id) {
         }
     } }, favorite ? "★ В обраному" : "☆ До обраного");
 
-    const dateInput = el("input", { type: "date", value: todayIso(), min: todayIso(), onchange: () => loadSlots() });
+    const workingDays = new Set((schedule.intervals || []).map((i) => i.day));
+    const isWorkDay = (d) => workingDays.has(WEEK_DAYS[(d.getDay() + 6) % 7]);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Перший робочий день, щоб календар одразу показав слоти
+    let selectedDate = null;
+    for (let i = 0; i < 90 && !selectedDate; i++) {
+        const d = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
+        if (isWorkDay(d)) selectedDate = ymd(d);
+    }
+
+    let viewMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const calendarBox = el("div", { class: "cal" });
     const slotsBox = el("div", { class: "slots" });
     const topicSelect = el("select", {}, el("option", { value: "" }, "Тема (необов'язково)"),
         ...Object.entries(TOPIC_TITLES).map(([key, label]) => el("option", { value: key }, label)));
@@ -129,12 +143,50 @@ async function renderConsultant(container, id) {
     const bookBtn = el("button", { type: "submit", class: "primary", disabled: true }, "Забронювати");
     let chosen = null;
 
+    function paintCalendar() {
+        const first = viewMonth;
+        const monthName = first.toLocaleString("uk-UA", { month: "long", year: "numeric" });
+        const offset = (first.getDay() + 6) % 7;
+        const daysInMonth = new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate();
+        const cells = [];
+        for (let i = 0; i < offset; i++) cells.push(el("span", { class: "cal-empty" }));
+        for (let day = 1; day <= daysInMonth; day++) {
+            const d = new Date(first.getFullYear(), first.getMonth(), day);
+            const key = ymd(d);
+            const work = isWorkDay(d) && d >= today;
+            cells.push(el("button", {
+                type: "button",
+                class: "cal-day" + (work ? " work" : "") + (key === selectedDate ? " selected" : ""),
+                disabled: !work,
+                onclick: () => {
+                    selectedDate = key;
+                    paintCalendar();
+                    loadSlots();
+                }
+            }, String(day)));
+        }
+        calendarBox.replaceChildren(
+            el("div", { class: "cal-head" },
+                el("button", { type: "button", class: "ghost", "aria-label": "Попередній місяць",
+                    onclick: () => { viewMonth = new Date(first.getFullYear(), first.getMonth() - 1, 1); paintCalendar(); } }, "‹"),
+                el("strong", {}, monthName),
+                el("button", { type: "button", class: "ghost", "aria-label": "Наступний місяць",
+                    onclick: () => { viewMonth = new Date(first.getFullYear(), first.getMonth() + 1, 1); paintCalendar(); } }, "›")),
+            el("div", { class: "cal-grid" },
+                ...["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"].map((w) => el("span", { class: "cal-wd" }, w)),
+                ...cells));
+    }
+
     async function loadSlots() {
         chosen = null;
         bookBtn.disabled = true;
-        slotsBox.replaceChildren(muted("Завантаження..."));
+        if (!selectedDate) {
+            slotsBox.replaceChildren(muted("Консультант зараз не має робочих днів у найближчий час."));
+            return;
+        }
+        slotsBox.replaceChildren(loader());
         try {
-            const data = await api(`/consultants/${id}/slots?date=${dateInput.value}`);
+            const data = await api(`/consultants/${id}/slots?date=${selectedDate}`);
             if (!data.slots.length) {
                 slotsBox.replaceChildren(muted("Вільних слотів на цей день немає."));
                 return;
@@ -175,8 +227,8 @@ async function renderConsultant(container, id) {
     const bookingSection = c.isAcceptingClients
         ? el("section", { class: "card-block" },
             el("h3", {}, "Запис на консультацію"),
-            el("label", {}, "Дата", dateInput),
-            el("p", { class: "hint" }, `Час у таймзоні консультанта: ${c.timezone}`),
+            calendarBox,
+            el("p", { class: "hint" }, `Робочі дні підсвічені. Час у таймзоні консультанта: ${c.timezone}`),
             slotsBox,
             bookForm)
         : el("section", { class: "card-block" }, el("h3", {}, "Запис"), muted("Консультант зараз не приймає нових клієнтів."));
@@ -197,7 +249,10 @@ async function renderConsultant(container, id) {
             el("h3", {}, "Відгуки"),
             ...(reviews.items.length ? reviews.items.map(reviewItem) : [muted("Відгуків поки немає.")]))));
 
-    if (c.isAcceptingClients) loadSlots();
+    if (c.isAcceptingClients) {
+        paintCalendar();
+        loadSlots();
+    }
 }
 
 function reviewItem(r) {

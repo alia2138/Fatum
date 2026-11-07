@@ -659,3 +659,75 @@ input[type="checkbox"] {
     align-items: center;
   }
 }
+
+/* Календар бронювання */
+.cal {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  button {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    font-size: 18px;
+  }
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.cal-wd {
+  color: $color-text-muted;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.cal-empty {
+  display: block;
+}
+
+.cal-day {
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: $radius-sm;
+  background: rgba(255, 255, 255, 0.4);
+  color: $color-text-muted;
+  font-size: 14px;
+  cursor: default;
+  transition: $transition;
+
+  &.work {
+    border-color: rgba(101, 202, 255, 0.6);
+    background: rgba(101, 202, 255, 0.22);
+    color: $color-text;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(101, 202, 255, 0.4);
+    }
+  }
+
+  &.selected {
+    border-color: transparent;
+    background: linear-gradient(120deg, $color-primary, $color-secondary);
+    color: #fff;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+  }
+}

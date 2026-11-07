@@ -34,7 +34,7 @@ function historyItem(item, pinned) {
     const active = location.hash === `#tarot/${item.id}`;
     return el("div", { class: "chat-item" + (active ? " active" : "") },
         el("button", { type: "button", class: "chat-title", title: item.question, onclick: () => go("tarot", item.id) }, item.question),
-        el("button", { type: "button", class: "chat-action", onclick: () => togglePin(item.id) }, pinned ? "Відкріпити" : "Закріпити"),
+        el("button", { type: "button", class: "chat-action pin" + (pinned ? " on" : ""), title: pinned ? "Відкріпити" : "Закріпити", "aria-label": pinned ? "Відкріпити" : "Закріпити", onclick: () => togglePin(item.id) }, icon(pinned ? "pinFilled" : "pin")),
         el("button", { type: "button", class: "chat-action", onclick: () => deleteReading(item.id) }, "×"));
 }
 
@@ -175,7 +175,7 @@ function ask(log, bar, placeholder, min, max) {
     return new Promise((resolve) => {
         const input = el("textarea", { rows: "2", maxlength: String(max), placeholder: placeholder });
         const errorEl = el("p", { class: "error" });
-        const send = el("button", { type: "submit", class: "primary" }, "Надіслати");
+        const send = el("button", { type: "submit", class: "send-btn", "aria-label": "Надіслати", title: "Надіслати" }, icon("send"));
         const form = el("form", { class: "chat-input", onsubmit: (e) => {
             e.preventDefault();
             const text = input.value.trim();

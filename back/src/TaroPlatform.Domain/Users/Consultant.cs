@@ -48,6 +48,23 @@ public class Consultant : User
     public void SetAcceptingClients(bool accepting) => IsAcceptingClients = accepting;
     public void SetTimezone(string? timezone) =>
         Timezone = string.IsNullOrWhiteSpace(timezone) ? null : timezone;
+    /// <summary>Коли поточний графік вступив у силу (UTC).</summary>
+    public DateTime ScheduleChangedAt { get; private set; }
+
+    /// <summary>Попередні графіки. Кожна зміна графіка зберігає старий.</summary>
+    public List<ScheduleSnapshot> ScheduleHistory { get; private set; } = new();
+
+    /// <summary>Замінює графік і зберігає попередній у історію.</summary>
+    public void ReplaceSchedule(string? timezone, IEnumerable<WorkingInterval> intervals, DateTime now)
+    {
+        if (Schedule.Count > 0)
+            ScheduleHistory.Add(new ScheduleSnapshot(ScheduleChangedAt, now, Timezone, Schedule.ToList()));
+
+        Timezone = string.IsNullOrWhiteSpace(timezone) ? null : timezone;
+        Schedule = intervals.ToList();
+        ScheduleChangedAt = now;
+    }
+
     public void SetSchedule(IEnumerable<WorkingInterval> intervals) => Schedule = intervals.ToList();
     public void SetRating(double average, int count)
     {

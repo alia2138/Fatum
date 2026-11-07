@@ -1,5 +1,5 @@
 // Адреса бекенду (профіль http з launchSettings.json)
-const API_BASE = "https://fatumback.onrender.com/api";
+const API_BASE = "http://localhost:52639/api";
 const API_ORIGIN = API_BASE.slice(0, -4);
 
 const TOKEN_KEY = "taro_token";
@@ -192,6 +192,9 @@ const ICONS = {
     heart: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.8 1-1.1a5.5 5.5 0 0 0 0-7.5z"/>',
     user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
     home: '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',
+    pin: '<path d="M9 3h6l-1 6 3 3v2H7v-2l3-3z"/><path d="M12 17v5"/>',
+    pinFilled: '<path d="M9 3h6l-1 6 3 3v2H7v-2l3-3z" fill="currentColor"/><path d="M12 17v5"/>',
+    send: '<path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/>',
     edit: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
     logout: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/>'
 };
@@ -201,4 +204,17 @@ function icon(name) {
     span.className = "icon";
     span.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name] || ""}</svg>`;
     return span;
+}
+
+
+// Анімація завантаження в стилі застосунку
+function loader() {
+    return el("div", { class: "loader", role: "status", "aria-label": "Завантаження" },
+        el("span"), el("span"), el("span"));
+}
+
+// Розділяє дату на рядок yyyy-MM-dd за локальним часом
+function ymd(d) {
+    const pad = (n) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }

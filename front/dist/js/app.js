@@ -111,7 +111,7 @@ async function route() {
     updateSidebar(target);
 
     const container = document.getElementById("view");
-    container.replaceChildren(muted("Завантаження..."));
+    container.replaceChildren(loader());
     try {
         await ROUTES[target].render(container, param);
     } catch (err) {

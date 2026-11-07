@@ -211,9 +211,9 @@ function questionSection(data) {
     const log = el("div", { class: "chat-messages mx-log" });
     const input = el("textarea", { rows: "3", maxlength: "500", placeholder: "Поставте питання до своєї матриці..." });
     const errorEl = el("p", { class: "error" });
-    const send = el("button", { type: "submit", class: "primary" }, "Запитати");
+    const send = el("button", { type: "submit", class: "send-btn", "aria-label": "Надіслати", title: "Надіслати" }, icon("send"));
 
-    const form = el("form", { class: "mx-question", onsubmit: async (e) => {
+    const form = el("form", { class: "chat-input mx-question-bar", onsubmit: async (e) => {
         e.preventDefault();
         const question = input.value.trim();
         if (question.length < 3) {
@@ -222,7 +222,6 @@ function questionSection(data) {
         }
         errorEl.textContent = "";
         send.disabled = true;
-        send.textContent = "Думаємо...";
         try {
             if (!savedId) {
                 const saved = await api("/matrix/saved", {
@@ -241,7 +240,6 @@ function questionSection(data) {
             errorEl.textContent = err.message;
         } finally {
             send.disabled = false;
-            send.textContent = "Запитати";
         }
     } }, input, errorEl, send);
 
@@ -276,7 +274,7 @@ function showSingle(page) {
         el("form", { class: "mx-calc", onsubmit: async (e) => {
             e.preventDefault();
             errorEl.textContent = "";
-            out.replaceChildren(muted("Рахуємо..."));
+            out.replaceChildren(loader());
             try {
                 const data = await api("/matrix/calculate", { method: "POST", body: { birthDate: dateInput.value, method: method.value } });
                 out.replaceChildren(
@@ -301,9 +299,9 @@ function compatQuestionSection(getDates) {
     const log = el("div", { class: "chat-messages mx-log" });
     const input = el("textarea", { rows: "3", maxlength: "500", placeholder: "Поставте питання про стосунки двох людей..." });
     const errorEl = el("p", { class: "error" });
-    const send = el("button", { type: "submit", class: "primary" }, "Запитати");
+    const send = el("button", { type: "submit", class: "send-btn", "aria-label": "Надіслати", title: "Надіслати" }, icon("send"));
 
-    const form = el("form", { class: "mx-question", onsubmit: async (e) => {
+    const form = el("form", { class: "chat-input mx-question-bar", onsubmit: async (e) => {
         e.preventDefault();
         const question = input.value.trim();
         if (question.length < 3) {
@@ -312,7 +310,6 @@ function compatQuestionSection(getDates) {
         }
         errorEl.textContent = "";
         send.disabled = true;
-        send.textContent = "Думаємо...";
         try {
             const dates = getDates();
             const res = await api("/matrix/compatibility/questions", {
@@ -326,7 +323,6 @@ function compatQuestionSection(getDates) {
             errorEl.textContent = err.message;
         } finally {
             send.disabled = false;
-            send.textContent = "Запитати";
         }
     } }, input, errorEl, send);
 
@@ -348,7 +344,7 @@ function showCompat(page) {
         el("form", { class: "mx-calc", onsubmit: async (e) => {
             e.preventDefault();
             errorEl.textContent = "";
-            out.replaceChildren(muted("Рахуємо..."));
+            out.replaceChildren(loader());
             try {
                 const d = await api("/matrix/compatibility", {
                     method: "POST",
@@ -421,7 +417,7 @@ function questionBlock(container, detail, zones) {
         ...zones.map((z) => el("option", { value: z.zoneKey }, z.title)));
     const input = el("textarea", { rows: "3", maxlength: "500", placeholder: "Ваше питання до матриці..." });
     const errorEl = el("p", { class: "error" });
-    const send = el("button", { type: "submit", class: "primary" }, "Запитати");
+    const send = el("button", { type: "submit", class: "send-btn", "aria-label": "Надіслати", title: "Надіслати" }, icon("send"));
     const log = el("div", { class: "chat-messages" },
         ...detail.messages.map((m) => messageBubble(
             m.role === "User" ? "user" : "assistant",
@@ -439,7 +435,7 @@ function questionBlock(container, detail, zones) {
                 return;
             }
             send.disabled = true;
-            send.textContent = "Думаємо...";
+            send.disabled = true;
             try {
                 await api(`/matrix/saved/${detail.id}/questions`, {
                     method: "POST",
@@ -449,8 +445,7 @@ function questionBlock(container, detail, zones) {
             } catch (err) {
                 errorEl.textContent = err.message;
                 send.disabled = false;
-                send.textContent = "Запитати";
-            }
+                }
         } }, zoneSelect, input, errorEl, send));
 }
 

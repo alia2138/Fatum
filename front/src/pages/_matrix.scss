@@ -361,3 +361,72 @@
     flex: 1;
   }
 }
+
+/* Поле питання як у гаданні */
+.mx-question-bar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 6px 6px 6px 16px;
+  border: 1px solid $input-border;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 16px rgba(57, 141, 224, 0.08);
+  box-sizing: border-box;
+
+  textarea {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    min-height: 36px;
+    max-height: 120px;
+    padding: 8px 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .send-btn {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(120deg, $color-primary, $color-secondary);
+    color: #fff;
+    cursor: pointer;
+    transition: $transition;
+
+    .icon svg {
+      display: block;
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  .error {
+    flex-basis: 100%;
+    margin: 0 0 0 4px;
+    font-size: 13px;
+  }
+}

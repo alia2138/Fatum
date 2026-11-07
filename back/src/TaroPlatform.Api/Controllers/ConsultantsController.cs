@@ -68,6 +68,17 @@ public class ConsultantsController : ControllerBase
         return Ok(result.Value);
     }
 
+    /// <summary>Публічний графік таролога: показує клієнтам, у які дні він працює.</summary>
+    [HttpGet("{id}/schedule")]
+    public async Task<IActionResult> PublicSchedule(string id, CancellationToken cancellationToken)
+    {
+        var result = await _consultants.GetScheduleAsync(id, cancellationToken);
+        if (result.IsFailure)
+            return NotFound(new { error = result.Error });
+
+        return Ok(result.Value);
+    }
+
     [HttpGet("me/schedule")]
     [Authorize(Roles = "Consultant")]
     public async Task<IActionResult> GetMySchedule(CancellationToken cancellationToken)

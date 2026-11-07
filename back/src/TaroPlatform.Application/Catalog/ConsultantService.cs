@@ -120,8 +120,7 @@ public class ConsultantService : IConsultantService
             }
         }
 
-        consultant.SetTimezone(request.Timezone.Trim());
-        consultant.SetSchedule(intervals);
+        consultant.ReplaceSchedule(request.Timezone.Trim(), intervals, DateTime.UtcNow);
 
         await _users.UpdateAsync(consultant, cancellationToken);
         return Result.Success(ToSchedule(consultant));

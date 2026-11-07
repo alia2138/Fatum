@@ -74,7 +74,7 @@ async function renderUsers(host) {
     const detail = el("div", { class: "admin-detail" });
 
     async function openUser(id) {
-        detail.replaceChildren(muted("Завантаження..."));
+        detail.replaceChildren(loader());
         try {
             const u = await api(`/admin/users/${id}`);
             const blockBtn = el("button", { type: "button", class: "cab-btn " + (u.isBlocked ? "cab-btn-ghost" : "cab-btn-dark"),
@@ -107,7 +107,7 @@ async function renderUsers(host) {
     }
 
     async function load() {
-        list.replaceChildren(muted("Завантаження..."));
+        list.replaceChildren(loader());
         const params = new URLSearchParams({ page: state.page, pageSize: PAGE_USERS });
         if (state.role) params.set("role", state.role);
         if (state.search) params.set("search", state.search);
@@ -149,7 +149,7 @@ async function renderModeration(host) {
     const reviewList = el("div", { class: "cab-list" }, muted("Оберіть таролога, щоб побачити відгуки."));
 
     async function loadReviews(consultant) {
-        reviewList.replaceChildren(muted("Завантаження..."));
+        reviewList.replaceChildren(loader());
         try {
             const data = await api(`/reviews/consultant/${consultant.id}?page=1&pageSize=50`);
             reviewList.replaceChildren(...(data.items.length
@@ -198,7 +198,7 @@ async function route() {
     document.querySelectorAll("#admin-tabs button").forEach((b) => b.classList.toggle("active", b.dataset.tab === name));
 
     const view = document.getElementById("admin-view");
-    const host = el("div", { class: "cabinet" }, muted("Завантаження..."));
+    const host = el("div", { class: "cabinet" }, loader());
     view.replaceChildren(host);
     try {
         await ADMIN_TABS[name](host);
