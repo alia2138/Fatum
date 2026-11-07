@@ -1,5 +1,8 @@
 // Адреса бекенду (профіль http з launchSettings.json)
-const API_BASE = "http://localhost:52639/api";
+// Локально — свій бекенд, на хостингу — Render
+const API_BASE = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+    ? "http://localhost:52639/api"
+    : "https://fatumback.onrender.com/api";
 const API_ORIGIN = API_BASE.slice(0, -4);
 
 const TOKEN_KEY = "taro_token";
