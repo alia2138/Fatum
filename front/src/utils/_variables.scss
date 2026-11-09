@@ -1,22 +1,23 @@
-$color-bg: #eaf8ff;
-$color-bg-light: #d5efff;
+// Кольори беруться з CSS-змінних (:root), щоб перемикати світлу і темну тему
+$color-bg: var(--bg);
+$color-bg-light: var(--bg-2);
 
-$color-primary: #65caff;
-$color-primary-hover: #36b8f5;
-$color-secondary: #398de0;
+$color-primary: var(--accent);
+$color-primary-hover: var(--accent-hover);
+$color-secondary: var(--accent-2);
 
 $color-white: #ffffff;
-$color-text: #24445f;
-$color-text-muted: #7694aa;
+$color-text: var(--text);
+$color-text-muted: var(--text-muted);
 
 $color-error: #e45d73;
 
-$glass-bg: rgba(255, 255, 255, 0.58);
-$glass-border: rgba(255, 255, 255, 0.85);
+$glass-bg: rgba(var(--rgb-surface), 0.58);
+$glass-border: var(--glass-border);
 $glass-blur: 18px;
 
-$input-bg: rgba(255, 255, 255, 0.65);
-$input-border: rgba(101, 202, 255, 0.35);
+$input-bg: rgba(var(--rgb-surface), 0.65);
+$input-border: var(--input-border);
 
 $radius-sm: 10px;
 $radius-md: 14px;

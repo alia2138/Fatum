@@ -77,14 +77,14 @@
   padding: 9px 14px;
   border: 1px solid $input-border;
   border-radius: $radius-sm;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(var(--rgb-surface), 0.7);
   color: $color-text;
   font-size: 13px;
   cursor: pointer;
   transition: $transition;
 
   &:hover:not(:disabled) {
-    background: #fff;
+    background: var(--surface-solid);
     border-color: $color-primary;
   }
 
@@ -107,7 +107,7 @@
   cursor: pointer;
 
   &:hover {
-    background: rgba(101, 202, 255, 0.17);
+    background: rgba(var(--rgb-accent), 0.17);
     color: $color-text;
   }
 }
@@ -153,7 +153,7 @@ input[type="checkbox"] {
   background: $glass-bg;
   border: 1px solid $glass-border;
   border-radius: $radius-lg;
-  box-shadow: 0 8px 30px rgba(57, 141, 224, 0.08);
+  box-shadow: 0 8px 30px rgba(var(--rgb-accent2), 0.08);
   backdrop-filter: blur($glass-blur);
 
   summary {
@@ -190,13 +190,13 @@ input[type="checkbox"] {
   font-size: 15px;
   font-weight: 700;
   text-align: left;
-  box-shadow: 0 6px 20px rgba(57, 141, 224, 0.07);
+  box-shadow: 0 6px 20px rgba(var(--rgb-accent2), 0.07);
   backdrop-filter: blur($glass-blur);
   transition: $transition;
 
   &:hover {
     transform: translateY(-2px);
-    border-color: rgba(101, 202, 255, 0.6);
+    border-color: rgba(var(--rgb-accent), 0.6);
   }
 }
 
@@ -228,7 +228,7 @@ input[type="checkbox"] {
 
   &.user {
     align-self: flex-end;
-    background: linear-gradient(120deg, #65caff, #398de0);
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
     color: #fff;
 
     a {
@@ -239,7 +239,7 @@ input[type="checkbox"] {
 
   &.assistant {
     align-self: flex-start;
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(var(--rgb-surface), 0.85);
     border: 1px solid $glass-border;
     color: $color-text;
   }
@@ -309,13 +309,13 @@ input[type="checkbox"] {
   padding: 8px 16px;
   border: 1px solid $input-border;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(var(--rgb-surface), 0.6);
   color: $color-text;
   cursor: pointer;
 
   &.active {
     border-color: transparent;
-    background: linear-gradient(120deg, #65caff, #398de0);
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
     color: #fff;
   }
 }
@@ -324,8 +324,8 @@ input[type="checkbox"] {
   display: inline-block;
   padding: 3px 10px;
   border-radius: 999px;
-  background: rgba(101, 202, 255, 0.2);
-  color: #278fce;
+  background: rgba(var(--rgb-accent), 0.2);
+  color: var(--accent-text);
   font-size: 12px;
   font-weight: 700;
   white-space: nowrap;
@@ -341,7 +341,7 @@ input[type="checkbox"] {
   }
 
   &.status-completed {
-    background: rgba(101, 202, 255, 0.25);
+    background: rgba(var(--rgb-accent), 0.25);
     color: #2b6cb0;
   }
 
@@ -366,7 +366,7 @@ input[type="checkbox"] {
   padding: 10px 12px;
   border-left: 3px solid $color-primary;
   border-radius: 8px;
-  background: rgba(101, 202, 255, 0.08);
+  background: rgba(var(--rgb-accent), 0.08);
 }
 
 /* Каталог консультантів */
@@ -397,7 +397,7 @@ input[type="checkbox"] {
 
   &:hover {
     transform: translateY(-2px);
-    border-color: rgba(101, 202, 255, 0.6);
+    border-color: rgba(var(--rgb-accent), 0.6);
   }
 }
 
@@ -418,7 +418,7 @@ input[type="checkbox"] {
 }
 
 .price {
-  color: #278fce;
+  color: var(--accent-text);
   font-weight: 700;
 }
 
@@ -431,7 +431,7 @@ input[type="checkbox"] {
   height: 64px;
   overflow: hidden;
   border-radius: 50%;
-  background: linear-gradient(120deg, #65caff, #398de0);
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
   color: #fff;
   font-size: 24px;
   font-weight: 700;
@@ -486,7 +486,7 @@ input[type="checkbox"] {
   padding: 8px 12px;
   border: 1px solid $input-border;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(var(--rgb-surface), 0.8);
   color: $color-text;
   font-size: 13px;
   cursor: pointer;
@@ -497,7 +497,7 @@ input[type="checkbox"] {
 
   &.selected {
     border-color: transparent;
-    background: linear-gradient(120deg, #65caff, #398de0);
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
     color: #fff;
   }
 }
@@ -516,7 +516,7 @@ input[type="checkbox"] {
   padding: 12px 14px;
   border: 1px solid $glass-border;
   border-radius: $radius-md;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(var(--rgb-surface), 0.6);
 
   p {
     margin: 0;
@@ -617,7 +617,7 @@ input[type="checkbox"] {
   padding: 14px 10px;
   border: 1px solid $glass-border;
   border-radius: $radius-md;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(var(--rgb-surface), 0.6);
 
   strong {
     color: $color-text;
@@ -639,8 +639,8 @@ input[type="checkbox"] {
 .chip {
   padding: 5px 12px;
   border-radius: 999px;
-  background: rgba(101, 202, 255, 0.18);
-  color: #278fce;
+  background: rgba(var(--rgb-accent), 0.18);
+  color: var(--accent-text);
   font-size: 13px;
 }
 
@@ -703,21 +703,21 @@ input[type="checkbox"] {
   padding: 0;
   border: 1px solid transparent;
   border-radius: $radius-sm;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(var(--rgb-surface), 0.4);
   color: $color-text-muted;
   font-size: 14px;
   cursor: default;
   transition: $transition;
 
   &.work {
-    border-color: rgba(101, 202, 255, 0.6);
-    background: rgba(101, 202, 255, 0.22);
+    border-color: rgba(var(--rgb-accent), 0.6);
+    background: rgba(var(--rgb-accent), 0.22);
     color: $color-text;
     font-weight: 700;
     cursor: pointer;
 
     &:hover {
-      background: rgba(101, 202, 255, 0.4);
+      background: rgba(var(--rgb-accent), 0.4);
     }
   }
 
@@ -730,4 +730,87 @@ input[type="checkbox"] {
   &:disabled {
     opacity: 0.45;
   }
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: $color-text;
+  font-size: 14px;
+  cursor: pointer;
+
+  input[type="checkbox"] {
+    accent-color: $color-primary;
+  }
+}
+
+/* Вибір теми: список з квадратиками кольорів */
+.theme-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  max-width: 320px;
+}
+
+.theme-title {
+  color: $color-text;
+  font-size: 14px;
+}
+
+.theme-select {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border: 1px solid $input-border;
+  border-radius: $radius-sm;
+  background: $glass-bg;
+  color: $color-text;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.theme-caret {
+  margin-left: auto;
+  color: $color-text-muted;
+}
+
+.theme-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+  border: 1px solid $input-border;
+  border-radius: $radius-sm;
+  background: var(--surface-solid);
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: $color-text;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover,
+  &.active {
+    background: rgba(var(--rgb-accent), 0.18);
+  }
+}
+
+.theme-swatch {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
 }

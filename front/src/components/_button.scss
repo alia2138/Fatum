@@ -9,8 +9,8 @@ button.primary {
   color: #fff;
   background: linear-gradient(
           120deg,
-          #65caff,
-          #398de0
+          var(--accent),
+          var(--accent-2)
   );
 
   border-radius: $radius-sm;
@@ -18,7 +18,7 @@ button.primary {
   font-size: 13px;
   font-weight: 700;
 
-  box-shadow: 0 4px 12px rgba(65, 166, 220, 0.18);
+  box-shadow: 0 4px 12px rgba(var(--rgb-accent2), 0.18);
 
   transition:
           transform $transition,
@@ -26,7 +26,7 @@ button.primary {
 
   &:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(65, 166, 220, 0.28);
+    box-shadow: 0 6px 18px rgba(var(--rgb-accent2), 0.28);
   }
 
   &:active {

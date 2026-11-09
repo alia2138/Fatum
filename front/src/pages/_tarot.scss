@@ -27,8 +27,8 @@
     padding: 6px 6px 6px 16px;
     border: 1px solid $input-border;
     border-radius: 22px;
-    background: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 4px 16px rgba(57, 141, 224, 0.08);
+    background: rgba(var(--rgb-surface), 0.8);
+    box-shadow: 0 4px 16px rgba(var(--rgb-accent2), 0.08);
     box-sizing: border-box;
   }
 
@@ -145,7 +145,7 @@
   border: 2px solid #fff;
   border-radius: 12px;
   background: linear-gradient(135deg, $color-primary, $color-secondary);
-  box-shadow: 0 6px 18px rgba(57, 141, 224, 0.3);
+  box-shadow: 0 6px 18px rgba(var(--rgb-accent2), 0.3);
   animation: tarot-shuffle 1.2s ease-in-out infinite;
   animation-delay: calc(var(--i) * 0.07s);
 }
@@ -205,7 +205,7 @@
 .tarot-back {
   border: 2px solid #fff;
   background: linear-gradient(135deg, $color-primary, $color-secondary);
-  box-shadow: 0 6px 18px rgba(57, 141, 224, 0.3);
+  box-shadow: 0 6px 18px rgba(var(--rgb-accent2), 0.3);
 }
 
 .tarot-front {
@@ -213,7 +213,7 @@
   align-items: center;
   justify-content: center;
   border: 2px solid $color-primary;
-  background: linear-gradient(160deg, #ffffff, #d8f0ff);
+  background: linear-gradient(160deg, var(--surface-solid), var(--bg-2));
   transform: rotateY(180deg);
 
   &.reversed {

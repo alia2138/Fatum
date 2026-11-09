@@ -22,7 +22,7 @@
     transition: $transition;
 
     &:hover {
-      background: rgba(101, 202, 255, 0.14);
+      background: rgba(var(--rgb-accent), 0.14);
     }
 
     &.active {

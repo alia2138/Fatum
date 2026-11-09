@@ -56,6 +56,35 @@ function cabRow(main, right, onclick) {
         right || null);
 }
 
+// Вибір теми: список з квадратиками основного кольору
+function themeRow() {
+    const toggle = el("button", { type: "button", class: "theme-select" });
+    const menu = el("div", { class: "theme-menu", hidden: true });
+
+    const paint = () => {
+        const current = THEMES.find((t) => t.key === currentThemeKey()) || THEMES[0];
+        toggle.replaceChildren(
+            el("span", { class: "theme-swatch", style: `background:${current.color}` }),
+            el("span", {}, current.label),
+            el("span", { class: "theme-caret" }, "▾"));
+        menu.replaceChildren(...THEMES.map((t) => el("button", {
+            type: "button",
+            class: "theme-option" + (t.key === current.key ? " active" : ""),
+            onclick: () => {
+                applyTheme(t.key);
+                menu.hidden = true;
+                paint();
+            }
+        },
+            el("span", { class: "theme-swatch", style: `background:${t.color}` }),
+            el("span", {}, t.label))));
+    };
+
+    toggle.addEventListener("click", () => { menu.hidden = !menu.hidden; });
+    paint();
+    return el("div", { class: "theme-picker" }, el("span", { class: "theme-title" }, "Тема оформлення"), toggle, menu);
+}
+
 async function renderCabinet(container) {
     if (profileEditing) {
         const p = await api("/profile/me");
@@ -159,6 +188,7 @@ async function renderConsultantCabinet(container) {
         chips(k.specializations, (t) => TOPIC_TITLES[t] || t),
         el("div", { class: "cab-kv" }, el("span", {}, "Тривалість сесії"), el("strong", {}, `${k.sessionMinutes} хв`)),
         el("div", { class: "cab-kv" }, el("span", {}, "Ціна"), el("strong", {}, `${k.priceUah} ₴`)));
+    profileCard.append(themeRow());
 
     const counts = [5, 4, 3, 2, 1].map((n) => reviews.items.filter((r) => r.rating === n).length);
     const maxCount = Math.max(1, ...counts);
@@ -273,6 +303,7 @@ async function renderClientCabinet(container) {
             el("strong", {}, c && c.birthDate ? formatDateOnly(c.birthDate) : "—")),
         el("p", { class: "cab-muted" }, "Цікавлять теми"),
         chips(c ? c.interests : [], (t) => TOPIC_TITLES[t] || t));
+    profileCard.append(themeRow());
 
     const notesCard = cabCard("Сповіщення", cabButton("Усі", () => go("notifications"), "cab-btn-ghost"),
         notes.length

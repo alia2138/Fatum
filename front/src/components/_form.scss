@@ -31,7 +31,7 @@ form {
     content: "";
     flex: 1;
     height: 1px;
-    background: rgba(70, 155, 205, 0.2);
+    background: rgba(var(--rgb-accent2), 0.2);
   }
 
   span {
@@ -59,8 +59,8 @@ form {
     height: 44px;
     padding: 9px;
 
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(101, 202, 255, 0.25);
+    background: rgba(var(--rgb-surface), 0.7);
+    border: 1px solid rgba(var(--rgb-accent), 0.25);
     border-radius: 13px;
 
     transition:
@@ -70,8 +70,8 @@ form {
 
     &:hover {
       transform: translateY(-3px);
-      background: #fff;
-      box-shadow: 0 5px 15px rgba(65, 166, 220, 0.15);
+      background: var(--surface-solid);
+      box-shadow: 0 5px 15px rgba(var(--rgb-accent2), 0.15);
     }
 
     img {

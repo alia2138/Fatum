@@ -1,0 +1,84 @@
+// Теми оформлення. Вибрана тема стоїть атрибутом data-theme на <html>.
+:root,
+:root[data-theme="light"] {
+  --rgb-surface: 255, 255, 255;
+  --rgb-accent: 101, 202, 255;
+  --rgb-accent2: 57, 141, 224;
+  --accent: #65caff;
+  --accent-2: #398de0;
+  --accent-hover: #36b8f5;
+  --accent-text: #278fce;
+  --text: #24445f;
+  --text-muted: #7694aa;
+  --bg: #eaf8ff;
+  --bg-2: #d5efff;
+  --surface-solid: #ffffff;
+  --surface-hover: #dff4ff;
+  --glass-border: rgba(255, 255, 255, 0.85);
+  --input-border: rgba(101, 202, 255, 0.35);
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --rgb-surface: 20, 20, 20;
+  --rgb-accent: 255, 122, 26;
+  --rgb-accent2: 230, 90, 0;
+  --accent: #ff7a1a;
+  --accent-2: #e65a00;
+  --accent-hover: #ff9a4d;
+  --accent-text: #ff9a4d;
+  --text: #f5f1ea;
+  --text-muted: #a89f94;
+  --bg: #000000;
+  --bg-2: #000000;
+  --surface-solid: #141414;
+  --surface-hover: #0d0d0d;
+  --glass-border: rgba(255, 122, 26, 0.28);
+  --input-border: rgba(255, 122, 26, 0.35);
+  color-scheme: dark;
+}
+
+:root[data-theme="violet"] {
+  --rgb-surface: 255, 255, 255;
+  --rgb-accent: 123, 97, 255;
+  --rgb-accent2: 255, 79, 163;
+  --accent: #8b6bff;
+  --accent-2: #ff4fa3;
+  --accent-hover: #a08bff;
+  --accent-text: #6a4ee6;
+  --text: #2b1657;
+  --text-muted: #7a62a8;
+  --bg: #f3ecff;
+  --bg-2: #ffe3f1;
+  --surface-solid: #ffffff;
+  --surface-hover: #f6eeff;
+  --glass-border: rgba(255, 79, 163, 0.45);
+  --input-border: rgba(139, 107, 255, 0.5);
+  color-scheme: light;
+}
+
+:root[data-theme="fire"] {
+  --rgb-surface: 255, 255, 255;
+  --rgb-accent: 255, 196, 0;
+  --rgb-accent2: 232, 20, 28;
+  --accent: #ffc400;
+  --accent-2: #e8141c;
+  --accent-hover: #ffd540;
+  --accent-text: #d11016;
+  --text: #3a0a06;
+  --text-muted: #8a4a40;
+  --bg: #fff6d6;
+  --bg-2: #ffe0d6;
+  --surface-solid: #ffffff;
+  --surface-hover: #fff1c2;
+  --glass-border: rgba(232, 20, 28, 0.35);
+  --input-border: rgba(232, 20, 28, 0.45);
+  color-scheme: light;
+}
+
+// Суцільний фон у темних темах
+:root[data-theme="dark"] body,
+:root[data-theme="violet"] body,
+:root[data-theme="fire"] body {
+  background: var(--bg);
+}

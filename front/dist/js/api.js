@@ -5,6 +5,28 @@ const API_BASE = (location.hostname === "localhost" || location.hostname === "12
     : "https://fatumback.onrender.com/api";
 const API_ORIGIN = API_BASE.slice(0, -4);
 
+// Теми оформлення: ключ, назва і колір для квадратика у списку
+const THEMES = [
+    { key: "light", label: "Блакитна (світла)", color: "#65caff" },
+    { key: "dark", label: "Чорно-помаранчева", color: "#ff7a1a" },
+    { key: "violet", label: "Синьо-фіолетово-рожева", color: "#7b61ff" },
+    { key: "fire", label: "Червоно-жовта", color: "#ffd000" }
+];
+const THEME_KEY = "taro_theme";
+
+function currentThemeKey() {
+    const saved = localStorage.getItem(THEME_KEY);
+    return THEMES.some((t) => t.key === saved) ? saved : "light";
+}
+
+function applyTheme(key) {
+    const name = THEMES.some((t) => t.key === key) ? key : "light";
+    localStorage.setItem(THEME_KEY, name);
+    document.documentElement.dataset.theme = name;
+}
+
+document.documentElement.dataset.theme = currentThemeKey();
+
 const TOKEN_KEY = "taro_token";
 const USER_KEY = "taro_user";
 

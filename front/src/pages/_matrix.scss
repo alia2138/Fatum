@@ -35,7 +35,7 @@
   display: flex;
   gap: 18px;
   margin-bottom: 18px;
-  border-bottom: 1px solid rgba(101, 202, 255, 0.25);
+  border-bottom: 1px solid rgba(var(--rgb-accent), 0.25);
 
   button {
     padding: 8px 0 10px;
@@ -95,7 +95,7 @@
   background: $glass-bg;
   border: 1px solid $glass-border;
   border-radius: $radius-lg;
-  box-shadow: 0 8px 30px rgba(57, 141, 224, 0.08);
+  box-shadow: 0 8px 30px rgba(var(--rgb-accent2), 0.08);
   backdrop-filter: blur($glass-blur);
 
   h3 {
@@ -115,8 +115,8 @@
 .mx-pill {
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(101, 202, 255, 0.18);
-  color: #278fce;
+  background: rgba(var(--rgb-accent), 0.18);
+  color: var(--accent-text);
   font-size: 12px;
   white-space: nowrap;
 }
@@ -125,8 +125,8 @@
   align-self: flex-start;
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(101, 202, 255, 0.18);
-  color: #278fce;
+  background: rgba(var(--rgb-accent), 0.18);
+  color: var(--accent-text);
   font-size: 12px;
 }
 
@@ -157,35 +157,35 @@
 
   .mx-ring {
     fill: none;
-    stroke: rgba(101, 202, 255, 0.7);
+    stroke: rgba(var(--rgb-accent), 0.7);
     stroke-width: 1.5;
   }
 
   .mx-frame {
     fill: none;
-    stroke: rgba(57, 141, 224, 0.55);
+    stroke: rgba(var(--rgb-accent2), 0.55);
     stroke-width: 1.5;
   }
 
   .mx-spoke {
-    stroke: rgba(101, 202, 255, 0.45);
+    stroke: rgba(var(--rgb-accent), 0.45);
     stroke-width: 1;
   }
 
   .mx-channel {
-    stroke: #398de0;
+    stroke: var(--accent-2);
     stroke-width: 1.5;
     stroke-dasharray: 5 4;
   }
 
   .mx-line {
-    stroke: rgba(101, 202, 255, 0.5);
+    stroke: rgba(var(--rgb-accent), 0.5);
     stroke-width: 1.5;
   }
 
   .mx-node {
     circle {
-      fill: rgba(255, 255, 255, 0.92);
+      fill: rgba(var(--rgb-surface), 0.92);
       stroke: $color-primary;
       stroke-width: 1.5;
     }
@@ -197,8 +197,8 @@
     }
 
     &.empty circle {
-      fill: rgba(255, 255, 255, 0.5);
-      stroke: rgba(101, 202, 255, 0.7);
+      fill: rgba(var(--rgb-surface), 0.5);
+      stroke: rgba(var(--rgb-accent), 0.7);
       stroke-dasharray: 3 3;
     }
 
@@ -259,8 +259,8 @@
 .mx-chip {
   padding: 5px 11px;
   border-radius: 999px;
-  background: rgba(101, 202, 255, 0.18);
-  color: #278fce;
+  background: rgba(var(--rgb-accent), 0.18);
+  color: var(--accent-text);
   font-size: 12px;
 }
 
@@ -279,7 +279,7 @@
   border: 1px solid $glass-border;
   border-radius: $radius-lg;
   background: $glass-bg;
-  box-shadow: 0 8px 30px rgba(57, 141, 224, 0.08);
+  box-shadow: 0 8px 30px rgba(var(--rgb-accent2), 0.08);
   backdrop-filter: blur($glass-blur);
   color: $color-text;
   text-align: left;
@@ -292,7 +292,7 @@
 
   &:hover {
     transform: translateY(-2px);
-    border-color: rgba(101, 202, 255, 0.6);
+    border-color: rgba(var(--rgb-accent), 0.6);
   }
 }
 
@@ -372,8 +372,8 @@
   padding: 6px 6px 6px 16px;
   border: 1px solid $input-border;
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 4px 16px rgba(57, 141, 224, 0.08);
+  background: rgba(var(--rgb-surface), 0.8);
+  box-shadow: 0 4px 16px rgba(var(--rgb-accent2), 0.08);
   box-sizing: border-box;
 
   textarea {
