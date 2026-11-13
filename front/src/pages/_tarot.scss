@@ -185,7 +185,7 @@
 .tarot-flip {
   position: relative;
   width: 120px;
-  height: 200px; // пропорція карт 262x437
+  height: 180px;
   transform-style: preserve-3d;
   transition: transform 0.6s;
 
@@ -212,7 +212,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   border: 2px solid $color-primary;
   background: var(--surface-solid);
   transform: rotateY(180deg);
@@ -225,37 +224,6 @@
 .tarot-sym {
   color: $color-secondary;
   font-size: 42px;
-}
-
-/* Зображення карти поверх символу-запасного варіанта */
-.tarot-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  user-select: none;
-  pointer-events: none;
-}
-
-/* Мініатюри в списку карт історії */
-.points-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-}
-
-.points-thumb {
-  flex-shrink: 0;
-  width: 52px;
-  height: 87px;
-  border: 1px solid $color-primary;
-  border-radius: 6px;
-  object-fit: cover;
-
-  &.reversed {
-    transform: rotate(180deg);
-  }
 }
 
 .tarot-caption {

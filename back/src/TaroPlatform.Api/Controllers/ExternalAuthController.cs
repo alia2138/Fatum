@@ -134,7 +134,7 @@ public class ExternalAuthController : ControllerBase
               $"&email={Uri.EscapeDataString(email ?? string.Empty)}" +
               $"&role={Uri.EscapeDataString(role ?? string.Empty)}";
 
-        return Redirect($"{returnUrl ?? _frontendCallbackUrl}#{fragment}");
+        return Redirect($"{returnUrl ?? _frontendCallbackUrl}?{fragment}");
     }
 
     /// <summary>

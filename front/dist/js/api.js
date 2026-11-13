@@ -158,10 +158,6 @@ function logout() {
 function oauthLoginUrl(provider, role, birthDate) {
     const params = new URLSearchParams({ role: role });
     if (birthDate) params.set("birthDate", birthDate);
-    // Куди повернути користувача після входу: external.html поруч із поточною сторінкою.
-    // Так редирект працює з будь-якого хоста й шляху (IntelliJ, Live Server, хостинг),
-    // а не залежить від жорстко заданого Frontend:CallbackUrl на бекенді.
-    params.set("returnUrl", new URL("external.html", window.location.href).href);
     return `${API_BASE}/auth/external/login/${provider}?${params.toString()}`;
 }
 

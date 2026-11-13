@@ -221,9 +221,7 @@ async function renderConsultantCabinet(container) {
             [cabButton("Редагувати профіль", () => { profileEditing = true; go("profile"); }, "cab-btn-ghost"), cabButton("Змінити акаунт", () => logout(), "cab-btn-ghost")]),
         el("div", { class: "cab-hero" }, profileCard),
         statRow,
-        el("div", { class: "cab-grid" },
-            el("div", { class: "cab-col" }, scheduleCard, pendingCard, nearestCard, completedCard),
-            el("div", { class: "cab-col" }, reviewsCard))));
+        el("div", { class: "cab-flow" }, scheduleCard, pendingCard, nearestCard, completedCard, reviewsCard)));
 }
 
 function requestRow(c, reload) {
@@ -322,7 +320,5 @@ async function renderClientCabinet(container) {
             ]),
         el("div", { class: "cab-hero" }, profileCard),
         statRow,
-        el("div", { class: "cab-grid" },
-            el("div", { class: "cab-col" }, upcomingCard, readingsCard, savedCard),
-            el("div", { class: "cab-col" }, notesCard))));
+        el("div", { class: "cab-flow" }, upcomingCard, readingsCard, savedCard, notesCard)));
 }

@@ -497,3 +497,21 @@
   color: #fff;
   box-shadow: 0 0 0 3px rgba(var(--rgb-surface), 0.95), 0 8px 20px rgba(var(--rgb-accent), 0.35);
 }
+
+/* Картки течуть потоком у дві колонки: без жорсткої сітки */
+.cabinet .cab-flow {
+  columns: 2;
+  column-gap: 16px;
+}
+
+.cabinet .cab-flow > * {
+  display: flex;
+  break-inside: avoid;
+  margin: 0 0 16px;
+}
+
+@media (max-width: 900px) {
+  .cabinet .cab-flow {
+    columns: 1;
+  }
+}
