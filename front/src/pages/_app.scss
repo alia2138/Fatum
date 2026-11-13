@@ -228,7 +228,7 @@ input[type="checkbox"] {
 
   &.user {
     align-self: flex-end;
-    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    background: var(--accent);
     color: #fff;
 
     a {
@@ -315,7 +315,7 @@ input[type="checkbox"] {
 
   &.active {
     border-color: transparent;
-    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    background: var(--accent);
     color: #fff;
   }
 }
@@ -431,7 +431,7 @@ input[type="checkbox"] {
   height: 64px;
   overflow: hidden;
   border-radius: 50%;
-  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  background: var(--accent);
   color: #fff;
   font-size: 24px;
   font-weight: 700;
@@ -497,7 +497,7 @@ input[type="checkbox"] {
 
   &.selected {
     border-color: transparent;
-    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    background: var(--accent);
     color: #fff;
   }
 }
@@ -723,7 +723,7 @@ input[type="checkbox"] {
 
   &.selected {
     border-color: transparent;
-    background: linear-gradient(120deg, $color-primary, $color-secondary);
+    background: $color-primary;
     color: #fff;
   }
 
@@ -813,4 +813,133 @@ input[type="checkbox"] {
   width: 16px;
   height: 16px;
   border-radius: 4px;
+}
+
+/* Вхід через соцмережі */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 14px;
+  color: $color-text-muted;
+  font-size: 13px;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: $input-border;
+  }
+}
+
+.social {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+}
+
+.btn-social {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid $input-border;
+  border-radius: $radius-sm;
+  background: $glass-bg;
+  color: $color-text;
+  font-size: 15px;
+  cursor: pointer;
+  transition: $transition;
+
+  &:hover {
+    background: var(--surface-solid);
+    border-color: $color-primary;
+  }
+}
+
+/* Соцвхід: три значки в ряд */
+.social {
+  flex-direction: row;
+  justify-content: center;
+  gap: 14px;
+}
+
+.btn-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  padding: 0;
+  border-radius: 50%;
+  color: $color-text;
+
+  .icon svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Робочий графік: підсвітка некоректного інтервалу */
+.schedule-row input:invalid,
+.schedule-row input.bad {
+  border-color: $color-error;
+}
+
+/* Іконки за замовчуванням */
+.icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Відповідь на відгук */
+.reply-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+
+  textarea {
+    min-height: 72px;
+    padding: 12px 14px;
+    border: 1px solid $input-border;
+    border-radius: 16px;
+    background: var(--surface-solid);
+    resize: vertical;
+  }
+
+  button {
+    align-self: flex-end;
+    width: auto;
+    padding: 10px 22px;
+    border-radius: 999px;
+  }
+}
+
+/* Аватари: акцентний колір, білий ободок і м'яка тінь */
+.avatar {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 0 0 3px rgba(var(--rgb-surface), 0.95), 0 8px 20px rgba(var(--rgb-accent), 0.35);
+}
+
+/* Роздільник «або»: тонкі акцентні лінії */
+.divider {
+  color: var(--accent-text);
+  font-size: 13px;
+  font-weight: 600;
+
+  &::before,
+  &::after {
+    height: 2px;
+    border-radius: 2px;
+    background: rgba(var(--rgb-accent), 0.35);
+  }
+
+  span {
+    padding: 0 4px;
+  }
 }

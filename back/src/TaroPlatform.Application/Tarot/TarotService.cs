@@ -193,7 +193,8 @@ public class TarotService : ITarotService
                     card.ArcanaType,
                     c.IsReversed,
                     card.GetMeaning(c.IsReversed),
-                    c.Round);
+                    c.Round,
+                    $"/api/tarot/cards/{card.Id}/image");
             })
             .ToList();
 

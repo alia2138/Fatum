@@ -163,18 +163,45 @@ function interpretationCard(text) {
         el("p", { class: "mx-note" }, "Трактування допомагає для самоусвідомлення і не є точним прогнозом."));
 }
 
+// Вікно з назвою замість системного prompt
+function askName() {
+    return new Promise((resolve) => {
+        const input = el("input", { type: "text", maxlength: "60", placeholder: "Назва матриці" });
+        let overlay;
+        const close = (value) => { overlay.remove(); resolve(value); };
+        overlay = el("div", { class: "mx-modal-overlay", onclick: (e) => { if (e.target === overlay) close(null); } },
+            el("div", { class: "mx-modal" },
+                el("h3", {}, "Зберегти матрицю"),
+                el("p", { class: "hint" }, "Назва з'явиться в історії (необов'язково)."),
+                input,
+                el("div", { class: "mx-modal-actions" },
+                    el("button", { type: "button", class: "ghost", onclick: () => close(null) }, "Скасувати"),
+                    el("button", { type: "button", class: "primary", onclick: () => close(input.value.trim()) }, "Зберегти"))));
+        document.body.append(overlay);
+        input.focus();
+    });
+}
+
+// Зберігає матрицю з тим самим способом (відео/документ), в якому її зроблено
 async function saveMatrix(data) {
-    const label = prompt("Назва матриці (необов'язково)");
-    if (label === null) return;
-    try {
-        const saved = await api("/matrix/saved", {
-            method: "POST",
-            body: { birthDate: String(data.birthDate).slice(0, 10), method: data.method, label: label.trim() || null }
-        });
-        go("matrix", saved.id);
-    } catch (err) {
-        alert(err.message);
-    }
+    const name = await askName();
+    if (name === null) return null;
+    return api("/matrix/saved", {
+        method: "POST",
+        body: { birthDate: String(data.birthDate).slice(0, 10), method: data.method, label: name || null }
+    });
+}
+
+function saveRow(data) {
+    return el("div", { class: "mx-actions" },
+        el("button", { type: "button", class: "ghost", onclick: async () => {
+            try {
+                const saved = await saveMatrix(data);
+                if (saved) go("matrix", saved.id);
+            } catch (err) {
+                alert(err.message);
+            }
+        } }, "Зберегти матрицю"));
 }
 
 function mxHeader(title, subtitle, back) {
@@ -206,9 +233,13 @@ function arcanaSection(points) {
 }
 
 // Питання до матриці: матриця зберігається при першому питанні
-function questionSection(data) {
-    let savedId = null;
-    const log = el("div", { class: "chat-messages mx-log" });
+function mxBubble(m) {
+    return messageBubble(m.role === "User" ? "user" : "assistant", m.role === "User" ? "Ви" : "Аналітик", m.text);
+}
+
+function questionSection(data, saved = null) {
+    let savedId = saved ? saved.id : null;
+    const log = el("div", { class: "chat-messages mx-log" }, ...(saved ? saved.messages.map(mxBubble) : []));
     const input = el("textarea", { rows: "3", maxlength: "500", placeholder: "Поставте питання до своєї матриці..." });
     const errorEl = el("p", { class: "error" });
     const send = el("button", { type: "submit", class: "send-btn", "aria-label": "Надіслати", title: "Надіслати" }, icon("send"));
@@ -265,7 +296,7 @@ function showChoice(page) {
 
 function showSingle(page) {
     const dateInput = el("input", { type: "date", required: true });
-    const method = methodSelect();
+    const method = { value: "Video" };
     const errorEl = el("p", { class: "error" });
     const out = el("div", { class: "mx-out" });
 
@@ -277,18 +308,23 @@ function showSingle(page) {
             out.replaceChildren(loader());
             try {
                 const data = await api("/matrix/calculate", { method: "POST", body: { birthDate: dateInput.value, method: method.value } });
+                // Кожна матриця одразу зберігається в історію (з тим самим способом)
+                const saved = await api("/matrix/saved", {
+                    method: "POST",
+                    body: { birthDate: String(data.birthDate).slice(0, 10), method: data.method, label: null }
+                });
+                refreshMatrixSidebar();
                 out.replaceChildren(
                     matrixCard(data.points, "Ваша матриця"),
                     interpretationCard(data.interpretation),
                     arcanaSection(data.points),
-                    questionSection(data));
+                    questionSection(data, { id: saved.id, messages: saved.messages || [] }));
             } catch (err) {
                 out.replaceChildren();
                 errorEl.textContent = err.message;
             }
         } },
             el("label", {}, "Дата народження", dateInput),
-            el("label", {}, "Спосіб", method),
             el("button", { type: "submit", class: "primary" }, "Розрахувати")),
         errorEl,
         out);
@@ -335,7 +371,7 @@ function compatQuestionSection(getDates) {
 function showCompat(page) {
     const first = el("input", { type: "date", required: true });
     const second = el("input", { type: "date", required: true });
-    const method = methodSelect();
+    const method = { value: "Video" };
     const errorEl = el("p", { class: "error" });
     const out = el("div", { class: "mx-out" });
 
@@ -362,7 +398,6 @@ function showCompat(page) {
         } },
             el("label", {}, "Перша дата", first),
             el("label", {}, "Друга дата", second),
-            el("label", {}, "Спосіб", method),
             el("button", { type: "submit", class: "primary" }, "Порівняти")),
         errorEl,
         out);
@@ -391,80 +426,73 @@ function savedRow(item, container) {
 }
 
 async function renderSavedMatrix(container, id) {
-    const [detail, zones] = await Promise.all([
-        api(`/matrix/saved/${id}`),
-        api(`/matrix/saved/${id}/zones`)
-    ]);
-
-    container.replaceChildren(el("div", { class: "page" },
-        el("button", { type: "button", class: "ghost", onclick: () => go("matrix") }, "← До матриць"),
-        el("h2", {}, detail.label || `Матриця ${formatDateOnly(detail.birthDate)}`),
-        el("p", { class: "hint" }, `${METHOD_LABELS[detail.method] || detail.method} · створено ${formatDateTime(detail.createdAt)}`),
-        pointsBlock(detail.points),
-        timelineBlock(detail.timeline, detail.current),
-        el("section", { class: "card-block" },
-            el("h3", {}, "Зони"),
-            ...zones.map((z) => el("div", { class: "zone" },
-                el("strong", {}, z.title),
-                el("span", { class: "muted" }, z.description),
-                el("p", {}, z.text)))),
-        questionBlock(container, detail, zones)));
+    const detail = await api(`/matrix/saved/${id}`);
+    const title = detail.label || `Матриця ${formatDateOnly(detail.birthDate)}`;
+    container.replaceChildren(el("div", { class: "page mx-page" },
+        el("div", { class: "mx-head" },
+            el("div", {},
+                el("span", { class: "mx-eyebrow" }, `${METHOD_LABELS[detail.method] || detail.method} · збережено ${formatDateTime(detail.createdAt)}`),
+                el("h2", {}, title)),
+            el("button", { type: "button", class: "ghost", onclick: () => go("matrix") }, "← До матриць")),
+        el("div", { class: "mx-out" },
+            matrixCard(detail.points, "Ваша матриця"),
+            arcanaSection(detail.points),
+            questionSection(detail, detail))));
 }
 
-function questionBlock(container, detail, zones) {
-    const zoneSelect = el("select", {},
-        el("option", { value: "" }, "Загальне питання"),
-        ...zones.map((z) => el("option", { value: z.zoneKey }, z.title)));
-    const input = el("textarea", { rows: "3", maxlength: "500", placeholder: "Ваше питання до матриці..." });
-    const errorEl = el("p", { class: "error" });
-    const send = el("button", { type: "submit", class: "send-btn", "aria-label": "Надіслати", title: "Надіслати" }, icon("send"));
-    const log = el("div", { class: "chat-messages" },
-        ...detail.messages.map((m) => messageBubble(
-            m.role === "User" ? "user" : "assistant",
-            m.role === "User" ? "Ви" : "Аналітик",
-            m.text)));
-
-    return el("section", { class: "card-block" },
-        el("h3", {}, "Питання до матриці"),
-        log,
-        el("form", { onsubmit: async (e) => {
-            e.preventDefault();
-            const question = input.value.trim();
-            if (question.length < 3) {
-                errorEl.textContent = "Питання має бути щонайменше 3 символи.";
-                return;
-            }
-            send.disabled = true;
-            send.disabled = true;
-            try {
-                await api(`/matrix/saved/${detail.id}/questions`, {
-                    method: "POST",
-                    body: { question: question, zoneKey: zoneSelect.value || null }
-                });
-                renderSavedMatrix(container, detail.id);
-            } catch (err) {
-                errorEl.textContent = err.message;
-                send.disabled = false;
-                }
-        } }, zoneSelect, input, errorEl, send));
+// Сайдбар: збережені матриці, закріплення і видалення
+function matrixPinKey() {
+    const user = getSessionUser();
+    return "taro_matrix_pins_" + (user ? user.userId : "anon");
 }
 
-// Сайдбар: список збережених матриць
+function getMatrixPins() {
+    try { return JSON.parse(localStorage.getItem(matrixPinKey())) || []; }
+    catch (e) { return []; }
+}
+
+function toggleMatrixPin(id) {
+    const ids = getMatrixPins();
+    localStorage.setItem(matrixPinKey(), JSON.stringify(ids.includes(id) ? ids.filter((x) => x !== id) : [...ids, id]));
+    refreshMatrixSidebar();
+}
+
+async function deleteMatrix(m) {
+    if (!confirm("Видалити матрицю з історії?")) return;
+    try {
+        await api(`/matrix/saved/${m.id}`, { method: "DELETE" });
+        localStorage.setItem(matrixPinKey(), JSON.stringify(getMatrixPins().filter((x) => x !== m.id)));
+        if (parseHash().key === "matrix" && parseHash().param === m.id) go("matrix");
+        else refreshMatrixSidebar();
+    } catch (err) {
+        alert(err.message);
+    }
+}
+
 async function refreshMatrixSidebar() {
     const list = document.getElementById("recent-list");
-    document.getElementById("pinned-section").hidden = true;
+    const pinnedList = document.getElementById("pinned-list");
+    const pinnedSection = document.getElementById("pinned-section");
     try {
         const saved = await api("/matrix/saved");
+        const pins = getMatrixPins();
         const active = parseHash().key === "matrix" ? parseHash().param : null;
-        list.replaceChildren(...(saved.length
-            ? saved.map((item) => el("button", {
-                type: "button",
-                class: "chat-title-row" + (active === item.id ? " active" : ""),
-                onclick: () => go("matrix", item.id)
-            },
-                el("strong", {}, item.label || `Матриця ${formatDateOnly(item.birthDate)}`),
-                el("span", {}, `${METHOD_LABELS[item.method] || item.method} · ${formatDateOnly(item.birthDate)}`)))
-            : [el("p", { class: "muted" }, "Поки що немає збережених матриць.")]));
+        const row = (m, pinned) => el("div", { class: "chat-item" + (active === m.id ? " active" : "") },
+            el("button", { type: "button", class: "chat-title", title: m.label || "", onclick: () => go("matrix", m.id) },
+                m.label || `Матриця ${formatDateOnly(m.birthDate)}`),
+            el("button", { type: "button", class: "chat-action pin" + (pinned ? " on" : ""),
+                title: pinned ? "Відкріпити" : "Закріпити", "aria-label": pinned ? "Відкріпити" : "Закріпити",
+                onclick: () => toggleMatrixPin(m.id) }, icon(pinned ? "pinFilled" : "pin")),
+            el("button", { type: "button", class: "chat-action", title: "Видалити", "aria-label": "Видалити",
+                onclick: () => deleteMatrix(m) }, "×"));
+
+        const pinned = saved.filter((m) => pins.includes(m.id));
+        const others = saved.filter((m) => !pins.includes(m.id));
+        pinnedSection.hidden = pinned.length === 0;
+        pinnedList.replaceChildren(...pinned.map((m) => row(m, true)));
+        list.replaceChildren(...(others.length
+            ? others.map((m) => row(m, false))
+            : [el("p", { class: "muted" }, saved.length ? "Усі матриці закріплені." : "Поки що немає збережених матриць.")]));
     } catch (err) {
         list.replaceChildren(notice(err.message));
     }

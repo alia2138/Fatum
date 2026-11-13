@@ -5,6 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5d899522-33d1-447d-a753-dc1c8e7f6f8e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../back/src/TaroPlatform.Api/Controllers/ConsultantsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/TaroPlatform.Api/Controllers/ConsultantsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/TaroPlatform.Api/Controllers/TarotController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/TaroPlatform.Api/Controllers/TarotController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/TaroPlatform.Application/Tarot/TarotDtos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/TaroPlatform.Application/Tarot/TarotDtos.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/TaroPlatform.Application/Tarot/TarotService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/TaroPlatform.Application/Tarot/TarotService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/dist/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/css/style.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/css/style.css.map" afterDir="false" />
@@ -14,23 +18,25 @@
       <change beforePath="$PROJECT_DIR$/dist/html/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/html/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/register.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/html/success.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/success.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/js/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/js/social.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/social.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/js/views/cabinet.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/views/cabinet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/js/views/chats.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/views/chats.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/js/views/matrix.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/views/matrix.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/js/views/reviews.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/views/reviews.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/js/views/schedule.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/views/schedule.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/js/views/tarot.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/views/tarot.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/base/_base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/base/_base.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/_button.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_button.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_card.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_card.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_form.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_form.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_input.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_input.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layout/_auth.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/_auth.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/_admin.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_admin.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/_app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_app.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/_cabinet.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_cabinet.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/_home.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_home.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/_matrix.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_matrix.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/_tarot.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_tarot.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scss/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/scss/style.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/_variables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../записка онищук.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/_theme.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/_theme.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,23 +64,23 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.6070974421975235" />
-      <entry key="MS500" value="1.9050067625782483" />
-      <entry key="S2" value="1.9987529907569719" />
-      <entry key="S5" value="2.2127415537984474" />
-      <entry key="S10" value="2.466904412122836" />
-      <entry key="S30" value="2.776872575710005" />
-      <entry key="S60" value="2.8815147291789787" />
-      <entry key="M2" value="2.9389170252067616" />
-      <entry key="M5" value="2.9751102489927126" />
-      <entry key="M10" value="2.9874777558062586" />
-      <entry key="M15" value="2.991634548419391" />
-      <entry key="M30" value="2.995808605756654" />
-      <entry key="H1" value="2.9979021312419203" />
-      <entry key="H2" value="2.9989505221454325" />
-      <entry key="H4" value="2.9994751251329665" />
-      <entry key="D1" value="2.9999125019689554" />
-      <entry key="W1" value="2.9999874998186735" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0000000304309926" />
+      <entry key="S2" value="1.0303099997001945" />
+      <entry key="S5" value="1.51117482522965" />
+      <entry key="S10" value="2.3826438014245563" />
+      <entry key="S30" value="3.779895220016223" />
+      <entry key="S60" value="4.3300079983895845" />
+      <entry key="M2" value="4.64836094823673" />
+      <entry key="M5" value="4.855114713605496" />
+      <entry key="M10" value="4.926831745471841" />
+      <entry key="M15" value="4.95105834634791" />
+      <entry key="M30" value="4.975447368057308" />
+      <entry key="H1" value="4.987703158044667" />
+      <entry key="H2" value="4.993846438155944" />
+      <entry key="H4" value="4.996921932688051" />
+      <entry key="D1" value="4.999486810016393" />
+      <entry key="W1" value="4.999926682765981" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
@@ -96,23 +102,23 @@
       <entry key="W1" value="0.0" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.7981087836062036" />
-      <entry key="MS500" value="1.5713681415160068" />
-      <entry key="S2" value="1.8913685122951582" />
-      <entry key="S5" value="2.132096573922031" />
-      <entry key="S10" value="2.40187527456778" />
-      <entry key="S30" value="2.744699731453291" />
-      <entry key="S60" value="2.8636190095428056" />
-      <entry key="M2" value="2.9294696311597352" />
-      <entry key="M5" value="2.971204859523414" />
-      <entry key="M10" value="2.98550342157126" />
-      <entry key="M15" value="2.9903134739617094" />
-      <entry key="M30" value="2.995145631916666" />
-      <entry key="H1" value="2.9975700331377375" />
-      <entry key="H2" value="2.998784320042708" />
-      <entry key="H4" value="2.9993919857870814" />
-      <entry key="D1" value="2.9998986400899175" />
-      <entry key="W1" value="2.999985519419884" />
+      <entry key="MS100" value="0.8950250709279725" />
+      <entry key="MS500" value="0.9780634989378616" />
+      <entry key="S2" value="1.0233209159138994" />
+      <entry key="S5" value="1.4937557393995313" />
+      <entry key="S10" value="2.3526124059238267" />
+      <entry key="S30" value="3.7539895742817233" />
+      <entry key="S60" value="4.313384658090883" />
+      <entry key="M2" value="4.638930834610689" />
+      <entry key="M5" value="4.851043992583166" />
+      <entry key="M10" value="4.92474386910787" />
+      <entry key="M15" value="4.949654547658294" />
+      <entry key="M30" value="4.974739474608674" />
+      <entry key="H1" value="4.987347702676842" />
+      <entry key="H2" value="4.993668332039636" />
+      <entry key="H4" value="4.9968327848624305" />
+      <entry key="D1" value="4.999471938869762" />
+      <entry key="W1" value="4.999924557993616" />
     </decayedShown>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="$USER_HOME$/scoop/shims/php.exe" />
@@ -200,6 +206,9 @@
       <workItem from="1793984616232" duration="9339000" />
       <workItem from="1794073527575" duration="585000" />
       <workItem from="1794155442277" duration="2544000" />
+      <workItem from="1794296571458" duration="3110000" />
+      <workItem from="1794385913027" duration="1954000" />
+      <workItem from="1794432400101" duration="12096000" />
     </task>
     <servers />
   </component>

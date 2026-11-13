@@ -16,6 +16,7 @@ using TaroPlatform.Infrastructure.Storage;
 using TaroPlatform.Application.Tarot;
 using System.Text;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.HttpOverrides;
 using AspNet.Security.OAuth.GitHub;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -157,6 +158,18 @@ var allowedOrigins = builder.Configuration.GetSection("Frontend:AllowedOrigins")
 builder.Services.AddCors(o => o.AddPolicy("Frontend", p =>
     p.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod()));
 
+// Render (як і інші PaaS) віддає застосунку запити через reverse proxy по http.
+// Без цього бекенд вважає, що працює на http://, і OAuth redirect_uri для Google/GitHub
+// формується як http://.../signin-google замість https://, тому провайдер його відхиляє.
+builder.Services.Configure<ForwardedHeadersOptions>(o =>
+{
+    o.ForwardedHeaders = ForwardedHeaders.XForwardedFor
+                         | ForwardedHeaders.XForwardedProto
+                         | ForwardedHeaders.XForwardedHost;
+    o.KnownNetworks.Clear();
+    o.KnownProxies.Clear();
+});
+
 var app = builder.Build();
 
 // Адміністратор з конфігурації (Admin:Email, Admin:Password), якщо його ще немає
@@ -166,6 +179,7 @@ using (var scope = app.Services.CreateScope())
         .EnsureAsync(builder.Configuration["Admin:Email"], builder.Configuration["Admin:Password"]);
 }
 
+app.UseForwardedHeaders();   // має бути першим, до автентифікації та формування redirect_uri
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())

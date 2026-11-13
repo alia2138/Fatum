@@ -68,7 +68,10 @@ public class ConsultantsController : ControllerBase
         return Ok(result.Value);
     }
 
-    /// <summary>Публічний графік таролога: показує клієнтам, у які дні він працює.</summary>
+    /// <summary>
+    /// Робочий тиждень таролога (дні й інтервали). Потрібен клієнту, щоб у календарі
+    /// запису підсвітити робочі дні. Літерал "me" має пріоритет над {id}, тож me/schedule не зачіпається.
+    /// </summary>
     [HttpGet("{id}/schedule")]
     public async Task<IActionResult> PublicSchedule(string id, CancellationToken cancellationToken)
     {

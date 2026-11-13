@@ -2,20 +2,20 @@
 :root,
 :root[data-theme="light"] {
   --rgb-surface: 255, 255, 255;
-  --rgb-accent: 101, 202, 255;
-  --rgb-accent2: 57, 141, 224;
-  --accent: #65caff;
-  --accent-2: #398de0;
-  --accent-hover: #36b8f5;
-  --accent-text: #278fce;
-  --text: #24445f;
-  --text-muted: #7694aa;
-  --bg: #eaf8ff;
-  --bg-2: #d5efff;
+  --rgb-accent: 37, 99, 235;
+  --rgb-accent2: 30, 64, 175;
+  --accent: #2563eb;
+  --accent-2: #1e40af;
+  --accent-hover: #1d4ed8;
+  --accent-text: #1e40af;
+  --text: #172554;
+  --text-muted: #4b5f8a;
+  --bg: #dce6ff;
+  --bg-2: #c7d7ff;
   --surface-solid: #ffffff;
-  --surface-hover: #dff4ff;
-  --glass-border: rgba(255, 255, 255, 0.85);
-  --input-border: rgba(101, 202, 255, 0.35);
+  --surface-hover: #d2e0ff;
+  --glass-border: rgba(255, 255, 255, 0.9);
+  --input-border: rgba(30, 64, 175, 0.4);
   color-scheme: light;
 }
 
@@ -40,18 +40,18 @@
 
 :root[data-theme="violet"] {
   --rgb-surface: 255, 255, 255;
-  --rgb-accent: 123, 97, 255;
+  --rgb-accent: 92, 58, 255;
   --rgb-accent2: 255, 79, 163;
-  --accent: #8b6bff;
+  --accent: #5c3aff;
   --accent-2: #ff4fa3;
   --accent-hover: #a08bff;
-  --accent-text: #6a4ee6;
+  --accent-text: #4a25d9;
   --text: #2b1657;
   --text-muted: #7a62a8;
-  --bg: #f3ecff;
-  --bg-2: #ffe3f1;
+  --bg: #e3dcff;
+  --bg-2: #f8d7ec;
   --surface-solid: #ffffff;
-  --surface-hover: #f6eeff;
+  --surface-hover: #ebe3ff;
   --glass-border: rgba(255, 79, 163, 0.45);
   --input-border: rgba(139, 107, 255, 0.5);
   color-scheme: light;
@@ -80,5 +80,10 @@
 :root[data-theme="dark"] body,
 :root[data-theme="violet"] body,
 :root[data-theme="fire"] body {
+  background: var(--bg);
+}
+
+// Без градієнта на фоні: суцільний колір теми, скляні картки поверх
+:root body {
   background: var(--bg);
 }

@@ -25,7 +25,8 @@ public record DrawnCardDto(
     string ArcanaType,
     bool IsReversed,
     string Meaning,
-    int Round);
+    int Round,
+    string ImageUrl);
 
 public record MessageDto(string Role, string Text, string Provider, DateTime CreatedAt);
 

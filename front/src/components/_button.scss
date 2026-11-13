@@ -7,11 +7,7 @@ button.primary {
   padding: 10px 14px;
 
   color: #fff;
-  background: linear-gradient(
-          120deg,
-          var(--accent),
-          var(--accent-2)
-  );
+  background: var(--accent);
 
   border-radius: $radius-sm;
 

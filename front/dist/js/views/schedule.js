@@ -1,4 +1,14 @@
 // Робочий кабінет таролога: тижневий графік, звіт за період, історія графіків, консультації
+// Авто-формат часу: «9» → 09:00, «930» → 09:30, «9:5» → 09:05
+function normalizeTime(raw) {
+    const v = String(raw || "").trim().replace(/\s+/g, "");
+    let m;
+    if ((m = v.match(/^(\d{1,2})$/))) return `${m[1].padStart(2, "0")}:00`;
+    if ((m = v.match(/^(\d{3,4})$/))) return `${m[1].slice(0, -2).padStart(2, "0")}:${m[1].slice(-2)}`;
+    if ((m = v.match(/^(\d{1,2}):(\d{1,2})$/))) return `${m[1].padStart(2, "0")}:${m[2].padStart(2, "0")}`;
+    return v;
+}
+
 const DAYS = Object.keys(DAY_LABELS);
 const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$|^24:00$/;
 
@@ -43,8 +53,8 @@ function editorCard(schedule) {
         const row = interval || { day: "Monday", start: "10:00", end: "18:00" };
         const day = el("select", {}, ...DAYS.map((d) => el("option", { value: d }, DAY_LABELS[d])));
         day.value = row.day;
-        const start = el("input", { type: "text", value: row.start, placeholder: "09:00" });
-        const end = el("input", { type: "text", value: row.end, placeholder: "18:00 (24:00 = кінець доби)" });
+        const start = el("input", { type: "text", value: row.start, placeholder: "09:00", onblur: (e) => { e.target.value = normalizeTime(e.target.value); } });
+        const end = el("input", { type: "text", value: row.end, placeholder: "18:00 (24:00 = кінець доби)", onblur: (e) => { e.target.value = normalizeTime(e.target.value); } });
         const line = el("div", { class: "schedule-row" }, day, start, end,
             el("button", { type: "button", class: "icon-btn", onclick: () => line.remove(), "aria-label": "Прибрати" }, "×"));
         rows.append(line);
@@ -60,10 +70,14 @@ function editorCard(schedule) {
             okEl.textContent = "";
             const intervals = [...rows.children].map((line) => {
                 const [day, start, end] = line.querySelectorAll("select, input");
-                return { day: day.value, start: start.value.trim(), end: end.value.trim() };
+                return { day: day.value, start: normalizeTime(start.value), end: normalizeTime(end.value) };
             });
             if (intervals.some((i) => !TIME_RE.test(i.start) || !TIME_RE.test(i.end))) {
                 errorEl.textContent = "Час має бути у форматі ГГ:ХХ, наприклад 09:00.";
+                return;
+            }
+            if (intervals.some((i) => i.end !== "24:00" && i.start >= i.end)) {
+                errorEl.textContent = "Кінець інтервалу має бути пізніше за початок.";
                 return;
             }
             try {

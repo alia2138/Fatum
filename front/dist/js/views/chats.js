@@ -45,6 +45,22 @@ async function renderChat(container, id) {
         } }, input, send)));
 
     log.scrollTop = log.scrollHeight;
+
+    // Нові повідомлення з'являються самі, без оновлення сторінки
+    stopPolling();
+    let lastCount = messages.length;
+    startPolling(async () => {
+        try {
+            const fresh = await api(`/chats/${id}/messages`);
+            if (fresh.length !== lastCount) {
+                lastCount = fresh.length;
+                log.replaceChildren(...fresh.map((m) => chatMessage(m, me)));
+                log.scrollTop = log.scrollHeight;
+            }
+        } catch (err) {
+            // тимчасова помилка мережі: спробуємо наступним разом
+        }
+    }, 4000);
 }
 
 function chatMessage(m, me) {

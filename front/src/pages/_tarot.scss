@@ -60,7 +60,7 @@
     padding: 0;
     border: none;
     border-radius: 50%;
-    background: linear-gradient(120deg, $color-primary, $color-secondary);
+    background: $color-primary;
     color: #fff;
     cursor: pointer;
     transition: $transition;
@@ -97,7 +97,7 @@
     width: 9px;
     height: 9px;
     border-radius: 50%;
-    background: linear-gradient(120deg, $color-primary, $color-secondary);
+    background: $color-primary;
     animation: loader-bounce 1s infinite ease-in-out;
 
     &:nth-child(2) { animation-delay: 0.15s; }
@@ -144,7 +144,7 @@
   height: 150px;
   border: 2px solid #fff;
   border-radius: 12px;
-  background: linear-gradient(135deg, $color-primary, $color-secondary);
+  background: $color-primary;
   box-shadow: 0 6px 18px rgba(var(--rgb-accent2), 0.3);
   animation: tarot-shuffle 1.2s ease-in-out infinite;
   animation-delay: calc(var(--i) * 0.07s);
@@ -185,7 +185,7 @@
 .tarot-flip {
   position: relative;
   width: 120px;
-  height: 180px;
+  height: 200px; // пропорція карт 262x437
   transform-style: preserve-3d;
   transition: transform 0.6s;
 
@@ -204,7 +204,7 @@
 
 .tarot-back {
   border: 2px solid #fff;
-  background: linear-gradient(135deg, $color-primary, $color-secondary);
+  background: $color-primary;
   box-shadow: 0 6px 18px rgba(var(--rgb-accent2), 0.3);
 }
 
@@ -212,8 +212,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   border: 2px solid $color-primary;
-  background: linear-gradient(160deg, var(--surface-solid), var(--bg-2));
+  background: var(--surface-solid);
   transform: rotateY(180deg);
 
   &.reversed {
@@ -224,6 +225,37 @@
 .tarot-sym {
   color: $color-secondary;
   font-size: 42px;
+}
+
+/* Зображення карти поверх символу-запасного варіанта */
+.tarot-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Мініатюри в списку карт історії */
+.points-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.points-thumb {
+  flex-shrink: 0;
+  width: 52px;
+  height: 87px;
+  border: 1px solid $color-primary;
+  border-radius: 6px;
+  object-fit: cover;
+
+  &.reversed {
+    transform: rotate(180deg);
+  }
 }
 
 .tarot-caption {
@@ -248,4 +280,60 @@
   span {
     font-size: 11px;
   }
+}
+
+/* Поле введення висить у повітрі: без фону і рамки навколо */
+.tarot-chat,
+.tarot-bar {
+  background: transparent;
+}
+
+.tarot-bar {
+  padding: 0 20px 18px;
+}
+
+.tarot-bar .chat-input {
+  max-width: 820px;
+  margin: 0 auto;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
+}
+
+/* Поле питання: пігулка з «+» і кнопкою надсилання */
+.tarot-bar .chat-input {
+  min-height: 62px;
+  padding: 8px 8px 8px 10px;
+  border-radius: 30px;
+  align-items: center;
+}
+
+.tarot-bar textarea {
+  padding: 10px 6px;
+}
+
+.tarot-bar .plus-btn-off {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid $input-border;
+  border-radius: 50%;
+  background: var(--surface-solid);
+  color: $color-text;
+  font-size: 22px;
+  line-height: 1;
+  cursor: default;
+  opacity: 0.8;
+}
+
+/* Без світлих смуг навколо поля гадань */
+.tarot-chat,
+.tarot-log,
+.tarot-bar,
+#view,
+#content {
+  background: transparent !important;
 }

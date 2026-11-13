@@ -10,18 +10,7 @@ body {
 
   color: $color-text;
 
-  background:
-          radial-gradient(
-                  circle at 15% 15%,
-                  rgba(var(--rgb-accent), 0.4),
-                  transparent 38%
-          ),
-          radial-gradient(
-                  circle at 85% 85%,
-                  rgba(var(--rgb-accent2), 0.18),
-                  transparent 35%
-          ),
-          linear-gradient(135deg, var(--bg), var(--surface-hover));
+  background: var(--bg);
 
   font-family: "Segoe UI", Arial, sans-serif;
   line-height: 1.5;

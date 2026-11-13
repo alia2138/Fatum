@@ -24,7 +24,7 @@ function reviewRow(r, reload) {
         body.push(el("p", { class: "reply" }, "Ваша відповідь: " + r.consultantReply));
     } else {
         const replyText = el("textarea", { rows: "2", maxlength: "1000", placeholder: "Ваша відповідь..." });
-        body.push(el("form", { onsubmit: async (e) => {
+        body.push(el("form", { class: "reply-form", onsubmit: async (e) => {
             e.preventDefault();
             const text = replyText.value.trim();
             if (!text) return;

@@ -177,8 +177,7 @@ async function renderConsultantCabinet(container) {
             ], el("span", { class: "cab-price" }, `${k.priceUah} ₴`))))
             : muted("Ще немає завершених консультацій."));
 
-    const profileCard = cabCard("Мій профіль",
-        cabButton("Редагувати", () => { profileEditing = true; go("profile"); }, "cab-btn-ghost"),
+    const profileCard = cabCard("Мій профіль", null,
         el("div", { class: "cab-profile" },
             avatarNode(profile, "cab-avatar"),
             el("div", {},
@@ -220,10 +219,11 @@ async function renderConsultantCabinet(container) {
             `Вітаємо, ${firstName(profile.displayName) || "колего"}`,
             "Ваш графік, запити та відгуки у спокійному робочому ритмі.",
             [cabButton("Редагувати профіль", () => { profileEditing = true; go("profile"); }, "cab-btn-ghost"), cabButton("Змінити акаунт", () => logout(), "cab-btn-ghost")]),
+        el("div", { class: "cab-hero" }, profileCard),
         statRow,
         el("div", { class: "cab-grid" },
             el("div", { class: "cab-col" }, scheduleCard, pendingCard, nearestCard, completedCard),
-            el("div", { class: "cab-col" }, profileCard, reviewsCard))));
+            el("div", { class: "cab-col" }, reviewsCard))));
 }
 
 function requestRow(c, reload) {
@@ -292,8 +292,7 @@ async function renderClientCabinet(container) {
             ], null, () => go("matrix", m.id))))
             : muted("Ще немає збережених матриць."));
 
-    const profileCard = cabCard("Мій профіль",
-        cabButton("Редагувати", () => { profileEditing = true; go("profile"); }, "cab-btn-ghost"),
+    const profileCard = cabCard("Мій профіль", null,
         el("div", { class: "cab-profile" },
             avatarNode(profile, "cab-avatar"),
             el("div", {},
@@ -318,13 +317,12 @@ async function renderClientCabinet(container) {
             `Вітаємо, ${firstName(profile.displayName) || "друже"}`,
             "Ваші гадання, матриці та консультації в одному місці.",
             [
-                cabButton("Нове гадання", () => go("tarot"), "cab-btn-dark"),
-                cabButton("Розрахувати матрицю", () => go("matrix"), "cab-btn-ghost"),
-                cabButton("Консультанти", () => go("catalog"), "cab-btn-ghost"),
+                cabButton("Редагувати акаунт", () => { profileEditing = true; go("profile"); }, "cab-btn-dark"),
                 cabButton("Змінити акаунт", () => logout(), "cab-btn-ghost")
             ]),
+        el("div", { class: "cab-hero" }, profileCard),
         statRow,
         el("div", { class: "cab-grid" },
             el("div", { class: "cab-col" }, upcomingCard, readingsCard, savedCard),
-            el("div", { class: "cab-col" }, profileCard, notesCard))));
+            el("div", { class: "cab-col" }, notesCard))));
 }

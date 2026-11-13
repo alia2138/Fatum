@@ -11,7 +11,7 @@ namespace TaroPlatform.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/tarot")]
-[Authorize(Roles = "Client,Consultant")]
+[Authorize]
 public class TarotController : ControllerBase
 {
     private readonly ITarotService _tarot;

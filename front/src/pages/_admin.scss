@@ -27,7 +27,7 @@
 
     &.active {
       border-color: transparent;
-      background: linear-gradient(120deg, $color-primary, $color-secondary);
+      background: $color-primary;
       color: #fff;
     }
   }

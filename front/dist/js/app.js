@@ -45,7 +45,7 @@ const TOP = {
     ]
 };
 
-const HOME = { Client: "cabinet", Consultant: "cabinet" };
+const HOME = { Client: "tarot", Consultant: "tarot" };
 
 function go(key, param) {
     location.hash = param ? `${key}/${param}` : key;
@@ -97,6 +97,7 @@ async function refreshBadge() {
 }
 
 async function route() {
+    stopPolling();
     const { key, param } = parseHash();
     const role = currentRole();
     const target = ROUTES[key] && ROUTES[key].roles.includes(role) ? key : HOME[role];

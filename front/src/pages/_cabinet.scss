@@ -137,11 +137,11 @@
 
   .cab-btn-dark {
     border-color: transparent;
-    background: linear-gradient(120deg, $color-primary, $color-secondary);
+    background: $color-primary;
     color: #fff;
 
     &:hover {
-      background: linear-gradient(120deg, $color-primary-hover, $color-secondary);
+      background: $color-primary-hover;
     }
   }
 
@@ -188,7 +188,7 @@
 
     &.selected {
       border-color: transparent;
-      background: linear-gradient(120deg, $color-primary, $color-secondary);
+      background: $color-primary;
       color: #fff;
 
       .dow {
@@ -321,7 +321,7 @@
     height: 58px;
     overflow: hidden;
     border-radius: 50%;
-    background: linear-gradient(120deg, $color-primary, $color-secondary);
+    background: $color-primary;
     color: #fff;
     font-size: 20px;
     font-weight: 700;
@@ -398,7 +398,7 @@
       display: block;
       height: 100%;
       border-radius: 4px;
-      background: linear-gradient(120deg, $color-primary, $color-secondary);
+      background: $color-primary;
     }
   }
 
@@ -455,4 +455,45 @@
       width: 100%;
     }
   }
+}
+
+/* Профіль угорі кабінету: великий блок */
+.cabinet .cab-hero {
+  margin-bottom: 18px;
+
+  .cab-card {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px;
+    padding: 28px 32px;
+  }
+
+  .cab-card-head {
+    width: 100%;
+  }
+
+  .cab-profile {
+    gap: 22px;
+  }
+
+  .cab-avatar {
+    width: 120px;
+    height: 120px;
+    font-size: 44px;
+  }
+
+  .cab-profile strong {
+    font-size: 26px;
+  }
+
+  .cab-kv {
+    min-width: 180px;
+  }
+}
+
+.cabinet .cab-avatar {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(var(--rgb-surface), 0.95), 0 8px 20px rgba(var(--rgb-accent), 0.35);
 }
