@@ -5,7 +5,9 @@
 
     const errorEl = document.getElementById("error");
     const showError = (msg) => { if (errorEl) errorEl.textContent = msg; };
-    const telegramReady = !!cfg.botName && cfg.botName !== "YOUR_BOT_USERNAME";
+    const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+    // Telegram приймає тільки публічний домен із /setdomain, на localhost віджет не працює
+    const telegramReady = !!cfg.botName && cfg.botName !== "YOUR_BOT_USERNAME" && !isLocal;
 
     const providers = [
         { key: "google", label: "Увійти через Google" },
@@ -23,7 +25,7 @@
             onclick: () => {
                 showError("");
                 if (p.key === "telegram") {
-                    showError("Вхід через Telegram ще не налаштовано.");
+                    showError(isLocal ? "Вхід через Telegram працює тільки на публічному сайті, не на localhost." : "Вхід через Telegram ще не налаштовано.");
                     return;
                 }
                 window.location.href = oauthLoginUrl(p.key, cfg.getRole(), cfg.getBirthDate());

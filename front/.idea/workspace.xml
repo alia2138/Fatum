@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5d899522-33d1-447d-a753-dc1c8e7f6f8e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/dist/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/css/style.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/css/style.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/html/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/html/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/js/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/js/views/cabinet.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/views/cabinet.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/js/views/tarot.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/views/tarot.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/_cabinet.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_cabinet.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/_tarot.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_tarot.scss" afterDir="false" />
-    </list>
+    <list default="true" id="5d899522-33d1-447d-a753-dc1c8e7f6f8e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -186,7 +175,7 @@
       <workItem from="1794155442277" duration="2544000" />
       <workItem from="1794296571458" duration="3110000" />
       <workItem from="1794385913027" duration="1954000" />
-      <workItem from="1794432400101" duration="15584000" />
+      <workItem from="1794432400101" duration="16209000" />
     </task>
     <servers />
   </component>
