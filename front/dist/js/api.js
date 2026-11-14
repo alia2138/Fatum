@@ -255,6 +255,11 @@ function readOAuthParams() {
 // На external.html цим займається external.js.
 (function consumeOAuthFragment() {
     if (location.pathname.endsWith("external.html")) return;
+    const tg = new URLSearchParams(location.search);
+    if (tg.has("hash") && tg.has("auth_date") && tg.has("id")) {
+        completeTelegramLogin(tg);
+        return;
+    }
     const params = readOAuthParams();
     if (!params.has("token") && !params.has("error")) return;
 
@@ -295,4 +300,30 @@ function startPolling(fn, ms) {
 }
 function stopPolling() {
     while (POLLERS.length) clearInterval(POLLERS.pop());
+}
+
+// Вхід через Telegram: Telegram повертає дані користувача з підписом, бекенд перевіряє його
+async function completeTelegramLogin(tg) {
+    history.replaceState(null, "", location.pathname);
+    const body = {
+        id: Number(tg.get("id")),
+        first_name: tg.get("first_name") || "",
+        last_name: tg.get("last_name") || null,
+        username: tg.get("username") || null,
+        photo_url: tg.get("photo_url") || null,
+        auth_date: Number(tg.get("auth_date")),
+        hash: tg.get("hash"),
+        role: sessionStorage.getItem("taro_tg_role") || "Client",
+        birthDate: sessionStorage.getItem("taro_tg_birth") || null
+    };
+    sessionStorage.removeItem("taro_tg_role");
+    sessionStorage.removeItem("taro_tg_birth");
+    try {
+        const data = await postJson("/auth/telegram", body);
+        saveSession(data);
+        window.location.replace("home.html");
+    } catch (err) {
+        alert(err.message);
+        window.location.replace("login.html");
+    }
 }

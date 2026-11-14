@@ -943,3 +943,11 @@ input[type="checkbox"] {
     padding: 0 4px;
   }
 }
+
+/* Віджет Telegram: окремий рядок по центру під значками */
+.tg-login {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 14px;
+}
