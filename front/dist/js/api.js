@@ -244,10 +244,18 @@ function ymd(d) {
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 
-// Після входу через Google/GitHub бекенд перенаправляє на home.html з токеном у фрагменті (#token=...).
-// Зберігаємо сесію і прибираємо токен з адреси.
+// Параметри входу можуть прийти у фрагменті (#token=...) або в запиті (?token=...)
+function readOAuthParams() {
+    const fromHash = new URLSearchParams(location.hash.slice(1));
+    if (fromHash.has("token") || fromHash.has("error")) return fromHash;
+    return new URLSearchParams(location.search);
+}
+
+// Після входу через Google/GitHub зберігаємо сесію і прибираємо параметри з адреси.
+// На external.html цим займається external.js.
 (function consumeOAuthFragment() {
-    const params = new URLSearchParams(location.hash.slice(1));
+    if (location.pathname.endsWith("external.html")) return;
+    const params = readOAuthParams();
     if (!params.has("token") && !params.has("error")) return;
 
     if (params.get("error")) {
@@ -265,27 +273,3 @@ function ymd(d) {
     });
     history.replaceState(null, "", location.pathname);
 })();
-
-
-// Фірмові іконки для входу (заливка, без обводки)
-const BRAND_ICONS = {
-    google: '<path d="M21.35 11.1H12v2.98h5.35c-.23 1.4-1.6 4.1-5.35 4.1-3.22 0-5.85-2.67-5.85-5.95S8.78 6.28 12 6.28c1.84 0 3.07.78 3.78 1.46l2.57-2.48C16.7 3.7 14.56 2.8 12 2.8 6.92 2.8 2.8 6.92 2.8 12s4.12 9.2 9.2 9.2c5.3 0 8.8-3.72 8.8-8.97 0-.6-.07-1.06-.15-1.53z"/>',
-    github: '<path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.02 1.75 2.68 1.24 3.34.95.1-.74.4-1.24.73-1.52-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/>',
-    telegram: '<path d="M9.78 15.27l-.4 4.05c.57 0 .82-.25 1.12-.55l2.7-2.58 5.6 4.1c1.03.57 1.76.27 2.03-.95l3.67-17.2c.33-1.52-.55-2.12-1.56-1.74L1.67 9.1c-1.48.58-1.46 1.41-.25 1.79l5.6 1.75L19.4 5.6c.6-.4 1.15-.18.7.22z"/>'
-};
-
-function brandIcon(name) {
-    const span = document.createElement("span");
-    span.className = "icon brand";
-    span.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${BRAND_ICONS[name] || ""}</svg>`;
-    return span;
-}
-
-// Опитування сервера (оновлення чату). Зупиняється при зміні сторінки.
-const POLLERS = [];
-function startPolling(fn, ms) {
-    POLLERS.push(setInterval(fn, ms));
-}
-function stopPolling() {
-    while (POLLERS.length) clearInterval(POLLERS.pop());
-}
