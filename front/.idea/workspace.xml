@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5d899522-33d1-447d-a753-dc1c8e7f6f8e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/dist/html/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/admin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/html/external.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/external.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/html/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/html/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/html/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/html/success.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/html/success.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/js/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/api.js" afterDir="false" />
-    </list>
+    <list default="true" id="5d899522-33d1-447d-a753-dc1c8e7f6f8e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -183,7 +175,7 @@
       <workItem from="1794155442277" duration="2544000" />
       <workItem from="1794296571458" duration="3110000" />
       <workItem from="1794385913027" duration="1954000" />
-      <workItem from="1794432400101" duration="18303000" />
+      <workItem from="1794432400101" duration="18869000" />
     </task>
     <servers />
   </component>
