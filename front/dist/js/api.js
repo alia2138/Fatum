@@ -323,7 +323,10 @@ async function completeTelegramLogin(tg) {
         saveSession(data);
         window.location.replace("home.html");
     } catch (err) {
-        alert(err.message);
-        window.location.replace("login.html");
+        // Залишаємось на сторінці входу і показуємо причину
+        console.error("Telegram login:", err);
+        const errEl = document.getElementById("error");
+        if (errEl) errEl.textContent = "Вхід через Telegram не вдався: " + err.message;
+        else alert("Вхід через Telegram не вдався: " + err.message);
     }
 }
