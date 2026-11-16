@@ -42,7 +42,19 @@ public class OpenAiTarotInterpreter : ITarotInterpreter
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _settings.ApiKey);
 
         using var response = await _http.SendAsync(request, cancellationToken);
-        response.EnsureSuccessStatusCode();
+        if (!response.IsSuccessStatusCode)
+        {
+            // EnsureSuccessStatusCode() губить тіло відповіді, а саме в ньому причина
+            // (недійсний ключ, немає кредитів, ліміт запитів, невідома модель).
+            var details = await response.Content.ReadAsStringAsync(cancellationToken);
+            if (details.Length > 500)
+                details = details[..500];
+
+            throw new HttpRequestException(
+                $"AI-сервіс відповів {(int)response.StatusCode} {response.ReasonPhrase}: {details}",
+                null,
+                response.StatusCode);
+        }
 
         await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
         using var json = await JsonDocument.ParseAsync(stream, cancellationToken: cancellationToken);

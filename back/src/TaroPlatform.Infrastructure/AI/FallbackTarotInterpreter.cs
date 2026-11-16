@@ -31,7 +31,13 @@ public class FallbackTarotInterpreter : ITarotInterpreter
     public async Task<InterpretationResult> InterpretAsync(InterpretationContext context, CancellationToken cancellationToken = default)
     {
         if (!_settings.IsConfigured)
+        {
+            _logger.LogWarning(
+                "AI не налаштовано, використано заглушку (Ai:Enabled={Enabled}, ключ заданий={KeySet}). Перевірте розділ Ai в appsettings.Local.json або змінні Ai__* на хостингу.",
+                _settings.Enabled,
+                !string.IsNullOrWhiteSpace(_settings.ApiKey));
             return await _stub.InterpretAsync(context, cancellationToken);
+        }
 
         try
         {
@@ -39,7 +45,7 @@ public class FallbackTarotInterpreter : ITarotInterpreter
         }
         catch (Exception ex) when (!cancellationToken.IsCancellationRequested)
         {
-            _logger.LogWarning(ex, "AI-трактування недоступне, використано заглушку");
+            _logger.LogWarning(ex, "AI-трактування недоступне, використано заглушку. Причина: {Reason}", ex.Message);
             return await _stub.InterpretAsync(context, cancellationToken);
         }
     }

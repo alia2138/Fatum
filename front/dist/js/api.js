@@ -251,12 +251,40 @@ function readOAuthParams() {
     return new URLSearchParams(location.search);
 }
 
+// Telegram (oauth.telegram.org з return_to) повертає дані користувача у фрагменті:
+//   login.html#tgAuthResult=<base64(JSON)>
+// а віджет із data-auth-url віддає їх у query: ?id=...&hash=...&auth_date=...
+// Підтримуємо обидва варіанти і повертаємо URLSearchParams або null.
+function readTelegramParams() {
+    const q = new URLSearchParams(location.search);
+    if (q.has("hash") && q.has("auth_date") && q.has("id")) return q;
+
+    const m = location.hash.match(/tgAuthResult=([^&]+)/);
+    if (!m) return null;
+    try {
+        let b64 = decodeURIComponent(m[1]).replace(/-/g, "+").replace(/_/g, "/");
+        while (b64.length % 4) b64 += "=";
+        const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+        const data = JSON.parse(new TextDecoder().decode(bytes));   // TextDecoder: імена кирилицею
+        if (!data || !data.id || !data.hash || !data.auth_date) return null;
+
+        const params = new URLSearchParams();
+        Object.entries(data).forEach(([k, v]) => {
+            if (v !== null && v !== undefined) params.set(k, String(v));
+        });
+        return params;
+    } catch (err) {
+        console.error("Не вдалося прочитати відповідь Telegram:", err);
+        return null;
+    }
+}
+
 // Після входу через Google/GitHub зберігаємо сесію і прибираємо параметри з адреси.
 // На external.html цим займається external.js.
 (function consumeOAuthFragment() {
     if (location.pathname.endsWith("external.html")) return;
-    const tg = new URLSearchParams(location.search);
-    if (tg.has("hash") && tg.has("auth_date") && tg.has("id")) {
+    const tg = readTelegramParams();
+    if (tg) {
         completeTelegramLogin(tg);
         return;
     }

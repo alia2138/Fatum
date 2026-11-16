@@ -121,8 +121,10 @@ function showReading(container, detail) {
         el("details", { class: "card-block" },
             el("summary", {}, `Карти (${detail.cards.length})`),
             el("ul", { class: "points" }, ...detail.cards.map((c) =>
-                el("li", {}, el("strong", {}, `${c.positionName}: ${c.cardName}${c.isReversed ? " (перевернута)" : ""}`),
-                    el("span", { class: "muted" }, ` ${c.meaning}`))))),
+                el("li", { class: "points-card" },
+                    c.imageUrl ? el("img", { class: "points-thumb" + (c.isReversed ? " reversed" : ""), src: assetUrl(c.imageUrl), alt: c.cardName }) : null,
+                    el("div", {}, el("strong", {}, `${c.positionName}: ${c.cardName}${c.isReversed ? " (перевернута)" : ""}`),
+                        el("span", { class: "muted" }, ` ${c.meaning}`)))))),
         log,
         errorEl,
         el("form", { class: "chat-input", onsubmit: async (e) => {
@@ -210,11 +212,29 @@ function spreadRow(log) {
     return row;
 }
 
+// Лицьова сторона карти: зображення з бекенду (/api/tarot/cards/{id}/image).
+// Якщо картинка не завантажилась, лишається символ ✦.
+function cardFace(c) {
+    const sym = el("span", { class: "tarot-sym" }, "✦");
+    const front = el("div", { class: "tarot-front" + (c.isReversed ? " reversed" : "") }, sym);
+    if (c.imageUrl) {
+        const img = el("img", {
+            class: "tarot-img",
+            src: assetUrl(c.imageUrl),
+            alt: c.cardName,
+            loading: "eager",
+            draggable: "false"
+        });
+        img.addEventListener("error", () => img.remove());
+        front.append(img);
+    }
+    return front;
+}
+
 function cardSlot(c) {
     const flip = el("div", { class: "tarot-flip" },
         el("div", { class: "tarot-back" }),
-        el("div", { class: "tarot-front" + (c.isReversed ? " reversed" : "") },
-            el("span", { class: "tarot-sym" }, "✦")));
+        cardFace(c));
     return { slot: el("div", { class: "tarot-slot" }, flip), flip: flip, c: c };
 }
 
